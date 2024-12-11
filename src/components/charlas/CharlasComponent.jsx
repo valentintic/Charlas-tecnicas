@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { getCharlas } from '../../services/CharlasApi'
 export default class CharlasComponent extends Component {
     state = {
-      coches: null,
+      charlas: null,
     }
 
     componentDidMount() {
