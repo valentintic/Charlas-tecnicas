@@ -12,12 +12,21 @@ export default class MenuComponent extends Component {
                 <div className="collapse navbar-collapse" id="navbarsExample03">
                   <ul className="navbar-nav me-auto mb-2 mb-sm-0">
                     <li className="nav-item">
-                      <NavLink to={"/"} className="nav-link active" aria-current="page">Home</NavLink>
+                      <NavLink to={"/"} className="nav-link active link-info" aria-current="page">Home</NavLink>
+                    </li>
+                    <li className="nav-item">
+                      <NavLink to={"/charlas"} className="nav-link active link-info" aria-current="page">Charlas</NavLink>
                     </li>
 
-                    <li>
+                    {/* {localStorage.getItem("token")  == "" ? <div> */}
+                      <li>
                       <NavLink to={"/register"} className={"nav-link"} >Register</NavLink>
                     </li>
+                    <li>
+                      <NavLink to={"/login"} className={"nav-link"} >Login</NavLink>
+                    </li>
+                    {/* </div> : console.log("Logged in")} */}
+                    
                   </ul>
                 </div>
               </div>
