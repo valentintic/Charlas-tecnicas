@@ -1,15 +1,10 @@
-import axios  from "axios";
-import Global from "../Global";
+import axiosApi from "./Axios"
 
-
-export default class ServiceUsuarios {
-    insertDepartamento(usuario){
-        return new Promise(function(resolve){
-            let request = "api/usuarios"
-            let url = Global.urlApiCharlas + request
-            axios.post(url,usuario).then(response => {
-                resolve(response)
-            })
-        })
+export const postRegister = async (usuario) => {
+    try {
+        const response = await axiosApi.post("/api/usuarios", usuario)
+        return response.data
+    } catch (error) {
+        console.log(error)
     }
 }

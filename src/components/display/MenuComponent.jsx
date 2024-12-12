@@ -17,6 +17,9 @@ export default class MenuComponent extends Component {
                     <li className="nav-item">
                       <NavLink to={"/charlas"} className="nav-link active link-info" aria-current="page">Charlas</NavLink>
                     </li>
+                    <li className="nav-item">
+                      <NavLink to={"/create/charla"} className="nav-link active link-info" aria-current="page">Create Charla</NavLink>
+                    </li>
 
                     {/* {localStorage.getItem("token")  == "" ? <div> */}
                       <li>

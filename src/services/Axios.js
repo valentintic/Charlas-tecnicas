@@ -1,10 +1,10 @@
 import axios from "axios";
 
-const userApi = axios.create({
+const axiosApi = axios.create({
     baseURL: "https://apicharlasalumnostajamar.azurewebsites.net/", // Tu URL base
 });
 
-userApi.interceptors.request.use(config => {
+axiosApi.interceptors.request.use(config => {
     const token = localStorage.getItem("token");
     if (token) {
         config.headers['Authorization'] = `Bearer ${token}`;
@@ -14,4 +14,4 @@ userApi.interceptors.request.use(config => {
     return Promise.reject(error);
 });
 
-export default userApi;
+export default axiosApi;
