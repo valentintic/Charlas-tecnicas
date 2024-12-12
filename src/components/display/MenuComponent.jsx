@@ -23,10 +23,17 @@ export default class MenuComponent extends Component {
 
                     {/* {localStorage.getItem("token")  == "" ? <div> */}
                       <li>
-                      <NavLink to={"/register"} className={"nav-link"} >Register</NavLink>
+                      <NavLink
+                        to="/login"
+                        className="nav-link"
+                          state={{ isActive: true}}
+                      >
+                        Register
+                      </NavLink>
+
                     </li>
                     <li>
-                      <NavLink to={"/login"} className={"nav-link"} >Login</NavLink>
+                      <NavLink to={"/login"} className={"nav-link"} state={{isActive: false}} >Login</NavLink>
                     </li>
                     {/* </div> : console.log("Logged in")} */}
                     
