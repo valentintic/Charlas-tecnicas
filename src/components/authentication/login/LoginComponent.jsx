@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { postLogin } from '../../../services/Login';
 import { Navigate } from 'react-router-dom';
-import styles from "./Login.module.css";
+import styles from './Login.module.css';  // Importas el archivo como un objeto
 import { postRegister } from '../../../services/UsuariosService';
 import { Usuario } from '../../../models/usuario';
+import { withLocation } from '../login/WithLocation.jsx'; // Asegúrate de que la ruta sea correcta
 
-export default class LoginComponent extends Component {
+
+class LoginComponent extends Component {
   state = {
     user: {
       userName: "",
@@ -78,13 +80,29 @@ export default class LoginComponent extends Component {
       });
   }
 
+  componentDidMount() {
+    const { state } = this.props.location || {};
+    if (state?.isActive) {
+      this.setState({ isActive: state.isActive });
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    const { state } = this.props.location || {};
+    if (state?.isActive !== prevProps.location?.state?.isActive) {
+      this.setState({ isActive: state.isActive });
+    }
+  }
+  
+
   render() {
     if (this.state.status) {
       return <Navigate to="/charlas" />;
     }
 
     return (
-      <div className={`${styles.container} ${this.state.isActive ? styles.active : ''}`}>
+      <div className={`${styles["login-page-container"]}`}>
+        <div className={`${styles.container} ${this.state.isActive ? styles.active : ''}`}>
         {/* Formulario de registro */}
         <div className={`${styles["form-container"]} ${styles["sign-up"]} ${this.state.isActive ? '' : styles.active}`}>
           <form onSubmit={this.register}>
@@ -124,6 +142,10 @@ export default class LoginComponent extends Component {
           </div>
         </div>
       </div>
+        </div>        
+      
     );
   }
 }
+
+export default withLocation(LoginComponent);
