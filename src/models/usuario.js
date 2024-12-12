@@ -1,9 +1,9 @@
 export class Usuario {
     constructor(
-        idUsuario,nombre,  apellidos, email, estadoUsuario, imagen, password, idRole
+        idUsuario, nombre, apellidos, email, estadoUsuario, imagen, password, idRole
     ){
         this.idUsuario = idUsuario,
-        this.nombre = nombre;
+        this.nombre = nombre,
         this.apellidos = apellidos,
         this.email = email,
         this.estadoUsuario = estadoUsuario,

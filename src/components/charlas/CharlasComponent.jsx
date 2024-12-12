@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { useState } from 'react'
 import { getCharlas } from '../../services/CharlasApi'
+import { Charla } from '../../models/Charlas'
 export default class CharlasComponent extends Component {
     state = {
       charlas: null,
