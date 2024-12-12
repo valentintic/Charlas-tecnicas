@@ -1,47 +1,67 @@
-import React, { Component } from 'react'
-import { useState } from 'react'
-import { getCharlas } from '../../services/CharlasApi'
-import { Charla } from '../../models/Charlas'
+import React, { Component } from 'react';
+import { getCharlas } from '../../services/CharlasApi';
+import DefaultImage from '../../assets/Default_imaget.webp';
+import styles from './Charlas.module.css';
+
 export default class CharlasComponent extends Component {
-    state = {
-      charlas: null,
-    }
+  state = {
+    charlas: null,
+    clickedId: null,
+  };
 
-    componentDidMount() {
-      getCharlas().then((response) => {
-        console.error("Charlas", response)
-        this.setState({ charlas: response })
-      })
-    }
+  componentDidMount() {
+    getCharlas().then((response) => {
+      console.log("Charlas", response);
+      this.setState({ charlas: response });
+    });
+  }
 
-
+  handleCardClick = (id) => {
+    this.setState((prevState) => ({
+      clickedId: prevState.clickedId === id ? null : id,
+    }));
+  };
 
   render() {
     return (
-      <>
-        <div>
-          <h1>Charlas</h1>
-          <div className="row">
-              {this.state.charlas ? this.state.charlas.map((charla) => {
-                  return (
-                      <div key={charla.idCharla} className="col-md-4 mb-4">
-                          <div className="card h-100">
-                              <div className="card-body">
-                                  <h5 className="card-title">{charla.titulo}</h5>
-                                  <p className="card-text">{charla.descripcion}</p>
-                                  <p><strong>Tiempo:</strong> {charla.tiempo}</p>
-                                  <p><strong>Fecha Propuesta:</strong> {charla.fechaPropuesta}</p>
-                                  <p><strong>Estado:</strong> {charla.idEstadoCharla}</p>
-                                  <p><strong>Ronda:</strong> {charla.idRonda}</p>
-                              </div>
-                          </div>
+      <div className={styles.container}>
+        <h1>Charlas</h1>
+        <div className="row">
+          {this.state.charlas
+            ? this.state.charlas.map((charla) => {
+                const imageUrl = charla.imagenUrl || DefaultImage;
+                return (
+                  <div key={charla.idCharla} className={`col-md-4 mb-4 ${styles.colMd4}`}>
+                    <div
+                      className={`${styles.card} ${this.state.clickedId === charla.idCharla ? styles.clicked : ''}`}
+                      onClick={() => this.handleCardClick(charla.idCharla)}
+                    >
+                      <div
+                        className={styles.cardImgTop}
+                        style={{ backgroundImage: `url(${imageUrl})` }}
+                      />
+                      <div className={styles.cardBody}>
+                        <h5 className={styles.cardTitle}>{charla.titulo}</h5>
                       </div>
-                  )
-              }) : null}
-          </div>
+                      <div className={`${styles.cardInfo} ${this.state.clickedId === charla.idCharla ? styles.show : ''}`}>
+                        <p><strong>Tiempo:</strong> {charla.tiempo}</p>
+                        <p><strong>Fecha Propuesta:</strong> {charla.fechaPropuesta}</p>
+                        <p><strong>Estado:</strong> {charla.idEstadoCharla}</p>
+                        <p><strong>Ronda:</strong> {charla.idRonda}</p>
+                        {this.state.clickedId === charla.idCharla && (
+                          <div className={styles.cardButtons}>
+                            <button className="btn btn-primary">Ver más</button>
+                            <button className="btn btn-secondary">Inscribirse</button>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })
+            : null}
         </div>
-
-      </>
-    )
+      </div>
+    );
   }
 }

@@ -1,0 +1,79 @@
+.navbar {
+  background-color: rgba(0, 0, 0, 0); /* Fondo completamente transparente */
+  backdrop-filter: blur(15px); /* Efecto de desenfoque */
+  -webkit-backdrop-filter: blur(15px); /* Para compatibilidad con Safari */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Borde sutil para separar */
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  transition: background-color 0.3s ease;
+}
+
+.navbar.scrolled {
+  background-color: rgba(0, 0, 0, 0.6); /* Fondo oscuro al hacer scroll */
+}
+
+.navbar-nav {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.nav-item {
+  list-style-type: none;
+}
+
+.navLink {
+  color: #333333 !important; /* Gris oscuro para los enlaces */
+  font-weight: 500;
+  font-size: 1rem;
+  padding: 10px 15px;
+  border-radius: 5px;
+  transition: color 0.3s ease, transform 0.3s ease, background-color 0.3s ease;
+  text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2); /* Sombra sutil para mejorar la legibilidad */
+}
+
+.navLink:hover {
+  color: #4d4d4d !important; /* Gris más claro al pasar el mouse */
+  background-color: rgba(56, 56, 56, 0.2); /* Fondo sutil al hacer hover */
+  transform: scale(1.05); /* Efecto de escala */
+}
+
+.navLinkLogout:hover {
+  color: #ff4d4d !important; /* Rojo más claro al pasar el mouse en "Cerrar sesión" */
+  background-color: rgba(255, 77, 77, 0.2); /* Fondo más rojizo */
+}
+
+.navbar-icon {
+  margin-right: 8px;
+  font-size: 1.2rem;
+  color: #333333; /* Gris oscuro para los iconos */
+}
+
+.navbar-right {
+  margin-left: auto;
+}
+
+.navbar-left {
+  margin-right: auto;
+  display: flex;
+}
+
+.navbar-left .nav-item {
+  margin-right: 20px; /* Espaciado entre los enlaces */
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    background-color: rgba(0, 0, 0, 0.7); /* Fondo ligeramente oscuro en móviles */
+  }
+
+  .navLink {
+    font-size: 1rem;
+    padding: 8px 12px;
+  }
+
+  .navbar-right {
+    margin-left: 0;
+  }
+}
