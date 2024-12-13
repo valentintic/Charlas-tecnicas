@@ -1,11 +1,9 @@
 /* CharlasComponent.module.css */
 
-/* Contenedor principal */
 .container {
     margin-top: 30px;
   }
   
-  /* Título */
   h1 {
     font-size: 3rem;
     font-weight: 700;
@@ -13,86 +11,61 @@
     margin-bottom: 30px;
   }
   
-  /* Estilo general de la tarjeta */
   .card {
+    position: relative;
+    width: 100%;
+    height: 300px;
     border-radius: 12px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border: 1px solid rgba(0, 0, 0, 0.1);
+    overflow: hidden;
     background-color: #fff;
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
     cursor: pointer;
-  }
-  
-  .card:hover {
-    transform: scale(1.05); /* Efecto de agrandado */
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-  }
-  
-  /* Imagen de la tarjeta */
-  .cardImgTop {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    border-radius: 12px 12px 0 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
     transition: transform 0.3s ease;
   }
   
-  /* Expandir la imagen en hover */
-  .card:hover .cardImgTop {
-    transform: scale(1.1);
+  .cardImgTop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
   }
   
-  /* Contenido de la tarjeta */
   .cardBody {
-    padding: 20px;
+    position: relative;
+    z-index: 2;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    text-align: center;
   }
   
   .cardTitle {
-    font-size: 1.75rem;
+    font-size: 1.25rem;
     font-weight: 600;
   }
   
-  .cardText {
+  .cardDescription {
     font-size: 1rem;
-    color: #555;
+    color: #333;
   }
   
-  /* Información adicional de la charla */
   .cardInfo {
-    display: none;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-  
-  .cardInfo.show {
-    display: block;
-    opacity: 1;
-  }
-  
-  /* Botones de acción */
-  .cardButtons {
     margin-top: 20px;
+  }
+  
+  .cardButtons {
+    margin-top: 10px;
   }
   
   .cardButtons .btn {
     margin-right: 10px;
     padding: 10px 20px;
     border-radius: 5px;
-  }
-  
-  /* Estilos responsivos */
-  @media (max-width: 768px) {
-    .colMd4 {
-      flex: 0 0 100%;
-      max-width: 100%;
-    }
-  
-    .cardTitle {
-      font-size: 1.5rem;
-    }
-  
-    .cardInfo {
-      font-size: 0.9rem;
-    }
   }
   

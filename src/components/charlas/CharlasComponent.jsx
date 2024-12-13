@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { motion } from 'framer-motion';
 import { getCharlas } from '../../services/CharlasApi';
 import DefaultImage from '../../assets/Default_imaget.webp';
 import styles from './Charlas.module.css';
@@ -11,7 +12,6 @@ export default class CharlasComponent extends Component {
 
   componentDidMount() {
     getCharlas().then((response) => {
-      console.log("Charlas", response);
       this.setState({ charlas: response });
     });
   }
@@ -30,32 +30,67 @@ export default class CharlasComponent extends Component {
           {this.state.charlas
             ? this.state.charlas.map((charla) => {
                 const imageUrl = charla.imagenUrl || DefaultImage;
+                const isOpen = this.state.clickedId === charla.idCharla;
+
                 return (
-                  <div key={charla.idCharla} className={`col-md-4 mb-4 ${styles.colMd4}`}>
-                    <div
-                      className={`${styles.card} ${this.state.clickedId === charla.idCharla ? styles.clicked : ''}`}
+                  <div
+                    key={charla.idCharla}
+                    className={`col-md-4 mb-4 ${styles.colMd4}`}
+                  >
+                    <motion.div
+                      className={`${styles.card} ${
+                        isOpen ? styles.clicked : ''
+                      }`}
                       onClick={() => this.handleCardClick(charla.idCharla)}
+                      initial={{ scale: 1 }}
+                      animate={{
+                        scale: isOpen ? 2.5 : 1,
+                        x: isOpen ? '50vw' : 0,
+                        y: isOpen ? '50vh' : 0,
+                      }}
+                      transition={{ duration: 0.5 }}
                     >
-                      <div
+                      <motion.div
                         className={styles.cardImgTop}
                         style={{ backgroundImage: `url(${imageUrl})` }}
+                        whileHover={{ scale: 1.1 }}
+                        transition={{ duration: 0.3 }}
                       />
                       <div className={styles.cardBody}>
                         <h5 className={styles.cardTitle}>{charla.titulo}</h5>
                       </div>
-                      <div className={`${styles.cardInfo} ${this.state.clickedId === charla.idCharla ? styles.show : ''}`}>
-                        <p><strong>Tiempo:</strong> {charla.tiempo}</p>
-                        <p><strong>Fecha Propuesta:</strong> {charla.fechaPropuesta}</p>
-                        <p><strong>Estado:</strong> {charla.idEstadoCharla}</p>
-                        <p><strong>Ronda:</strong> {charla.idRonda}</p>
-                        {this.state.clickedId === charla.idCharla && (
+
+                      <motion.div
+                        className={`${styles.cardInfo} ${
+                          isOpen ? styles.show : ''
+                        }`}
+                        initial={{ opacity: 0 }}
+                        animate={{
+                          opacity: isOpen ? 1 : 0,
+                          y: isOpen ? 0 : 20,
+                        }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        <p>
+                          <strong>Tiempo:</strong> {charla.tiempo}
+                        </p>
+                        <p>
+                          <strong>Fecha Propuesta:</strong> {charla.fechaPropuesta}
+                        </p>
+                        <p>
+                          <strong>Estado:</strong> {charla.idEstadoCharla}
+                        </p>
+                        <p>
+                          <strong>Ronda:</strong> {charla.idRonda}
+                        </p>
+                        {isOpen && (
                           <div className={styles.cardButtons}>
                             <button className="btn btn-primary">Ver más</button>
                             <button className="btn btn-secondary">Inscribirse</button>
                           </div>
                         )}
-                      </div>
-                    </div>
+                      </motion.div>
+                    </motion.div>
                   </div>
                 );
               })
