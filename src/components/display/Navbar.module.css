@@ -1,3 +1,4 @@
+/* Estilos generales de la navbar */
 .navbar {
   background-color: rgba(0, 0, 0, 0); /* Fondo completamente transparente */
   backdrop-filter: blur(15px); /* Efecto de desenfoque */
@@ -77,3 +78,27 @@
     margin-left: 0;
   }
 }
+
+/* Estilo para el dropdown-menu */
+.dropdown-menu {
+  background-color: rgba(0, 0, 0, 0); /* Fondo completamente transparente */
+  backdrop-filter: blur(8px); /* Efecto de difuminado */
+  border: none; /* Eliminar bordes */
+  box-shadow: none; /* Eliminar sombra predeterminada */
+}
+
+/* Estilo para los items dentro del dropdown */
+.dropdown-item {
+  background-color: rgba(0, 0, 0, 0); /* Fondo transparente para los items */
+  backdrop-filter: blur(5px); /* Efecto de difuminado para los items */
+  transition: background-color 0.3s ease, backdrop-filter 0.3s ease;
+}
+
+/* Efecto hover para los items */
+.dropdown-item:hover {
+  background-color: rgba(56, 56, 56, 0.3); /* Fondo sutil al hacer hover */
+  backdrop-filter: blur(8px); /* Efecto de difuminado más fuerte al pasar el mouse */
+}
+
+
+

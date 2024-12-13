@@ -9,7 +9,7 @@ export default class FormCharlas extends Component {
       titulo: '',
       descripcion: '',
       tiempo: '',
-      fechaPropuesta: new Date(),
+      fechaPropuesta: this.formatDate(new Date()), // Formatea la fecha actual
       idUsuario: '',
       idEstadoCharla: '',
       idRonda: '',
@@ -40,6 +40,14 @@ export default class FormCharlas extends Component {
 
   componentDidMount() {
     this.getAllRondas();
+  }
+
+  // Función para formatear la fecha en el formato adecuado (YYYY-MM-DD)
+  formatDate(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Asegura que el mes tenga dos dígitos
+    const day = String(date.getDate()).padStart(2, '0'); // Asegura que el día tenga dos dígitos
+    return `${year}-${month}-${day}`;
   }
 
   render() {

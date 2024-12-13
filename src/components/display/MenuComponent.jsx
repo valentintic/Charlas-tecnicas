@@ -63,15 +63,23 @@ export default class MenuComponent extends Component {
 
                   {this.state.isAuthenticated && (
                     <>
-                      <li className="nav-item">
-                        <NavLink to={"/charlas"} className={`nav-link ${styles.navLink}`} aria-current="page">
+                      {/* Dropdown */}
+                      <li className="nav-item dropdown">
+                        <a className={`nav-link dropdown-toggle ${styles.navLink}`} href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                           Charlas
-                        </NavLink>
-                      </li>
-                      <li className="nav-item">
-                        <NavLink to={"/create/charla"} className={`nav-link ${styles.navLink}`} aria-current="page">
-                          Create Charla
-                        </NavLink>
+                        </a>
+                        <ul className={`dropdown-menu ${styles.dropdownMenu}`} aria-labelledby="navbarDropdown">
+                          <li>
+                            <NavLink to="/charlas" className={`dropdown-item ${styles.dropdownItem}`}>
+                              Ver Charlas
+                            </NavLink>
+                          </li>
+                          <li>
+                            <NavLink to="/create/charla" className={`dropdown-item ${styles.dropdownItem}`}>
+                              Create Charla
+                            </NavLink>
+                          </li>
+                        </ul>
                       </li>
                       <li className="nav-item">
                         <NavLink to={"/login"} className={`nav-link ${styles.navLink} ${styles.navLinkLogout}`} aria-current="page" onClick={this.logoff}>
@@ -85,7 +93,6 @@ export default class MenuComponent extends Component {
             </div>
           </nav>
         </div>
-
       </>
     );
   }

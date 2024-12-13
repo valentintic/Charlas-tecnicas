@@ -1,0 +1,73 @@
+/* HomeComponent.module.css */
+
+/* Contenedor principal */
+.homeContainer {
+    font-family: 'Arial', sans-serif;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+  
+  /* Estilos para el encabezado */
+  .header {
+    background-color: #007bff;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    width: 100%;
+    max-width: 600px;
+  }
+  
+  /* Título */
+  .title {
+    font-size: 2.5rem;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  
+  /* Sección de bienvenida */
+  .welcomeSection {
+    text-align: center;
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
+  }
+  
+  /* Texto de bienvenida */
+  .welcomeText {
+    font-size: 1.25rem;
+    color: #333;
+    margin-bottom: 20px;
+    line-height: 1.6;
+  }
+  
+  /* Botón estilizado */
+  .primaryButton {
+    padding: 12px 25px;
+    font-size: 1.2rem;
+    color: white;
+    background-color: #28a745;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+  
+  .primaryButton:hover {
+    background-color: #218838;
+    transform: scale(1.05);
+  }
+  
+  /* Agregar un pequeño margen en la parte inferior del contenedor */
+  .homeContainer > * {
+    margin-bottom: 20px;
+  }
+  
