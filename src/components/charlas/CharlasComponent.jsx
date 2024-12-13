@@ -1,101 +1,108 @@
 import React, { Component } from 'react';
-import { motion } from 'framer-motion';
 import { getCharlas } from '../../services/CharlasApi';
 import DefaultImage from '../../assets/Default_imaget.webp';
 import styles from './Charlas.module.css';
+import Slider from 'react-slick'; // Importar Slider de React Slick
 
 export default class CharlasComponent extends Component {
   state = {
     charlas: null,
-    clickedId: null,
+    clickedId: null, // ID de la charla seleccionada
+    isOpen: false, // Controla la animación de apertura
   };
 
   componentDidMount() {
-    getCharlas().then((response) => {
-      this.setState({ charlas: response });
+    const token = localStorage.getItem('token');
+    getCharlas(3213).then((response) => {
+      this.setState({ charlas: response }, () => {
+        // Al cargar las charlas, activar la animación de apertura
+        this.setState({ isOpen: true });
+      });
     });
   }
 
   handleCardClick = (id) => {
+    // Cambiar el estado para mostrar los detalles de la charla seleccionada
     this.setState((prevState) => ({
       clickedId: prevState.clickedId === id ? null : id,
     }));
   };
 
   render() {
+    const settings = {
+      dots: true, // Muestra los puntos de navegación
+      infinite: true, // Hacer que el carrusel sea infinito
+      speed: 500, // Velocidad de transición
+      slidesToShow: 3, // Mostrar tres slides a la vez
+      slidesToScroll: 1, // Desplazar un solo slide a la vez
+      centerMode: true, // Centrar el slide activo
+      focusOnSelect: true, // Permitir seleccionar un slide al hacer clic
+      centerPadding: '0', // Sin espacio adicional a los lados
+      className: 'center-slide', // Clase personalizada para el carrusel
+      customPaging: (i) => (
+        <button>{i + 1}</button> // Cambiar los puntos por números
+      ),
+    };
+
     return (
       <div className={styles.container}>
         <h1>Charlas</h1>
-        <div className="row">
-          {this.state.charlas
-            ? this.state.charlas.map((charla) => {
+        <div
+          className={`${styles.slickSlider} ${this.state.isOpen ? styles.open : ''}`}
+        >
+          <Slider {...settings}>
+            {this.state.charlas &&
+              this.state.charlas.map((charla) => {
                 const imageUrl = charla.imagenUrl || DefaultImage;
                 const isOpen = this.state.clickedId === charla.idCharla;
 
                 return (
                   <div
                     key={charla.idCharla}
-                    className={`col-md-4 mb-4 ${styles.colMd4}`}
+                    className={`mb-4 ${styles.cardWrapper}`}
                   >
-                    <motion.div
-                      className={`${styles.card} ${
-                        isOpen ? styles.clicked : ''
-                      }`}
+                    <div
+                      className={`${styles.card}`}
                       onClick={() => this.handleCardClick(charla.idCharla)}
-                      initial={{ scale: 1 }}
-                      animate={{
-                        scale: isOpen ? 2.5 : 1,
-                        x: isOpen ? '50vw' : 0,
-                        y: isOpen ? '50vh' : 0,
+                      style={{
+                        backgroundImage: `url(${imageUrl})`,
                       }}
-                      transition={{ duration: 0.5 }}
                     >
-                      <motion.div
-                        className={styles.cardImgTop}
-                        style={{ backgroundImage: `url(${imageUrl})` }}
-                        whileHover={{ scale: 1.1 }}
-                        transition={{ duration: 0.3 }}
-                      />
                       <div className={styles.cardBody}>
                         <h5 className={styles.cardTitle}>{charla.titulo}</h5>
                       </div>
-
-                      <motion.div
-                        className={`${styles.cardInfo} ${
-                          isOpen ? styles.show : ''
-                        }`}
-                        initial={{ opacity: 0 }}
-                        animate={{
-                          opacity: isOpen ? 1 : 0,
-                          y: isOpen ? 0 : 20,
-                        }}
-                        transition={{ duration: 0.3 }}
-                      >
-                        <p>
-                          <strong>Tiempo:</strong> {charla.tiempo}
-                        </p>
-                        <p>
-                          <strong>Fecha Propuesta:</strong> {charla.fechaPropuesta}
-                        </p>
-                        <p>
-                          <strong>Estado:</strong> {charla.idEstadoCharla}
-                        </p>
-                        <p>
-                          <strong>Ronda:</strong> {charla.idRonda}
-                        </p>
-                        {isOpen && (
-                          <div className={styles.cardButtons}>
-                            <button className="btn btn-primary">Ver más</button>
-                            <button className="btn btn-secondary">Inscribirse</button>
-                          </div>
-                        )}
-                      </motion.div>
-                    </motion.div>
+                    </div>
                   </div>
                 );
-              })
-            : null}
+              })}
+          </Slider>
         </div>
+
+        {/* Mostrar detalles debajo del slider */}
+        {this.state.charlas &&
+          this.state.charlas.map((charla) => {
+            const isOpen = this.state.clickedId === charla.idCharla;
+            return (
+              <div
+                key={charla.idCharla}
+                className={`${styles.cardDetails} ${isOpen ? styles.visible : ''}`}
+              >
+                {isOpen && (
+                  <>
+                    <p><strong>Descripción:</strong> {charla.descripcion}</p>
+                    <p><strong>Tiempo:</strong> {charla.tiempo}</p>
+                    <p><strong>Fecha Propuesta:</strong> {charla.fechaPropuesta}</p>
+                    <p><strong>Estado:</strong> {charla.idEstadoCharla}</p>
+                    <p><strong>Ronda:</strong> {charla.idRonda}</p>
+                    <div className={styles.cardButtons}>
+                      <button className="btn btn-primary">Ver más</button>
+                      <button className="btn btn-secondary">Inscribirse</button>
+                    </div>
+                  </>
+                )}
+              </div>
+            );
+          })}
       </div>
     );
   }

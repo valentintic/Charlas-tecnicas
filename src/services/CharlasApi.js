@@ -1,8 +1,8 @@
 import axiosApi from "./Axios";
 
-export const getCharlas = async () => {
+export const getCharlas = async (idCurso) => {
     try {
-        const response = await axiosApi.get("api/charlas");
+        const response = await axiosApi.get("api/charlas/charlascurso/" + idCurso);
         return response.data;
     } catch (error) {
         console.log("Error getting Charlas", error);

@@ -1,71 +1,214 @@
-/* CharlasComponent.module.css */
-
+/* Contenedor principal */
 .container {
-    margin-top: 30px;
-  }
-  
-  h1 {
-    font-size: 3rem;
-    font-weight: 700;
-    text-align: center;
-    margin-bottom: 30px;
-  }
-  
-  .card {
-    position: relative;
-    width: 100%;
-    height: 300px;
-    border-radius: 12px;
-    overflow: hidden;
-    background-color: #fff;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    transition: transform 0.3s ease;
-  }
-  
-  .cardImgTop {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-size: cover;
-    background-position: center;
-  }
-  
-  .cardBody {
-    position: relative;
-    z-index: 2;
-    padding: 10px;
-    background: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(10px);
-    text-align: center;
-  }
-  
-  .cardTitle {
-    font-size: 1.25rem;
-    font-weight: 600;
-  }
-  
-  .cardDescription {
-    font-size: 1rem;
-    color: #333;
-  }
-  
-  .cardInfo {
-    margin-top: 20px;
-  }
-  
-  .cardButtons {
-    margin-top: 10px;
-  }
-  
-  .cardButtons .btn {
-    margin-right: 10px;
-    padding: 10px 20px;
-    border-radius: 5px;
-  }
-  
+  margin-top: 30px;
+  position: relative; /* Necesario para que las tarjetas se posicionen en relación al contenedor */
+  width: 80%;
+  margin: 0 auto;
+}
+
+/* Título principal */
+h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+/* Estilos generales para las tarjetas */
+.card {
+  position: relative;
+  width: 100%;
+  height: 300px;
+  border-radius: 12px;
+  overflow: hidden;
+  background-color: #fff;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Imagen de la tarjeta */
+.cardImgTop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.3s ease;
+}
+
+/* Cuerpo de la tarjeta */
+.cardBody {
+  position: relative;
+  z-index: 2;
+  padding: 10px;
+  text-align: center;
+  transition: background 0.3s ease;
+}
+
+/* Título de la tarjeta */
+.cardTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: white;
+  position: absolute; /* Coloca el título en la parte inferior */
+  bottom: 10px; /* Lo posiciona en la parte inferior */
+  left: 50%; /* Centra horizontalmente */
+  transform: translateX(-50%); /* Ajusta para centrar */
+  transition: transform 0.3s ease, bottom 0.3s ease, font-size 0.3s ease;
+}
+
+.card:hover {
+  transform: scale(1.075);
+
+}
+/* Al hacer hover, el título sube */
+.card:hover .cardTitle {
+  bottom: 80%; /* Mueve el título a la parte superior */
+  font-size: 1.5rem; /* Aumenta el tamaño del texto */
+}
+
+/* Estilos para los detalles debajo del slider */
+.cardDetails {
+  display: none;
+  margin-top: 60px;
+  padding: 20px;
+  background: rgba(48, 48, 48, 0.1);
+  backdrop-filter: blur(8px);
+  border-radius: 8px;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  color: #333;
+}
+
+.cardDetails.visible {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.cardDetails p {
+  font-size: 1rem;
+  margin: 10px 0;
+}
+
+.cardDetails strong {
+  font-weight: 600;
+}
+
+.cardButtons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.cardButtons .btn {
+  margin-right: 10px;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 1rem;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.cardButtons .btn-primary {
+  background-color: #007bff;
+  color: white;
+}
+
+.cardButtons .btn-secondary {
+  background-color: #28a745;
+  color: white;
+}
+
+.cardButtons .btn:hover {
+  transform: scale(1.05);
+}
+
+.cardButtons .btn-primary:hover {
+  background-color: #0056b3;
+}
+
+.cardButtons .btn-secondary:hover {
+  background-color: #218838;
+}
+
+/* Estilos para los puntos del carrusel como números */
+.slick-dots {
+  bottom: -40px; /* Ajustar la posición de los puntos */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.slick-dots li {
+  margin: 0 5px;
+}
+
+.slick-dots li button {
+  font-size: 16px;
+  color: #007bff; /* Color de los números */
+  background: none;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 50%;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.slick-dots li.slick-active button {
+  color: #0056b3; /* Color para el número activo */
+  background-color: #e9ecef;
+}
+
+.slick-dots li button:hover {
+  background-color: #f1f1f1;
+  transform: scale(1.1);
+}
+
+/* Estilos para el contenedor del carrusel */
+.cardWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+
+/* Estilos para las tarjetas dentro del carrusel */
+.slick-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.3s ease;
+}
+
+/* Estilos para los slides laterales */
+.slick-center .card {
+  transform: scale(1.1); /* Aumenta el tamaño del card central */
+  z-index: 2; /* Coloca el card central sobre los demás */
+}
+
+.slick-slide:not(.slick-center) .card {
+  transform: scale(0.9) rotate(-10deg); /* Reduce el tamaño y rota ligeramente los slides laterales */
+  opacity: 0.7; /* Reduce la opacidad de los slides laterales */
+  z-index: 1; /* Coloca los slides laterales detrás */
+}
+
+.slick-slide:not(.slick-center) .card:hover {
+  transform: scale(0.95) rotate(-5deg); /* Efecto hover para los slides laterales */
+}
+
+.slick-dots {
+  bottom: -30px; /* Ajustar la posición de los puntos */
+}
+
+.slick-dots li button:before {
+  font-size: 12px;
+  color: #007bff; /* Color de los puntos */
+}
+
+.slick-dots li.slick-active button:before {
+  color: #0056b3; /* Color de los puntos activos */
+}

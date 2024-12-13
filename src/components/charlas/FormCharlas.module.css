@@ -1,0 +1,81 @@
+/* Estilos generales para el formulario */
+.formContainer {
+    max-width: 600px;
+    margin: 50px auto; /* Centrado horizontal y margen superior */
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .formLabel {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .formInput,
+  .formSelect {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+    font-size: 1rem;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+    margin-bottom: 20px;
+  }
+  
+  .formInput:focus,
+  .formSelect:focus {
+    border-color: #007bff;
+    background-color: #e9f7ff;
+    outline: none;
+  }
+  
+  button {
+    width: 100%;
+    padding: 14px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+  
+  button:active {
+    background-color: #004080;
+  }
+  
+  .mb-3 {
+    margin-bottom: 20px;
+  }
+  
+  /* Añadir un estilo más limpio a los selects */
+  select {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+    font-size: 1rem;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+    margin-bottom: 20px;
+  }
+  
+  select:focus {
+    border-color: #007bff;
+    background-color: #e9f7ff;
+    outline: none;
+  }
+  
