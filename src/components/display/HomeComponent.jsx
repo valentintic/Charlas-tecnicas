@@ -1,21 +1,27 @@
-import React, { Component } from 'react';
-import styles from './HomeComponent.module.css'; // Asegúrate de tener este archivo CSS
+import React from 'react';
+import styles from './HomeComponent.module.css'; // Archivo CSS modular
 
-export default class HomeComponent extends Component {
-  render() {
-    return (
-      <div className={styles.homeContainer}>
-        <header className={styles.header}>
-          <h1 className={styles.title}>Bienvenido a la Página de Inicio</h1>
-        </header>
+const HomeComponent = () => {
+  return (
+    <div className={styles.homeContainer}>
+      <header className={styles.header}>
+        <h1 className={styles.title}>Bienvenido a la Página de Inicio</h1>
+      </header>
 
-        <section className={styles.welcomeSection}>
-          <p className={styles.welcomeText}>
-            ¡Gracias por visitar nuestra página! Aquí puedes encontrar información relevante y acceder a diferentes funcionalidades.
-          </p>
-          <button className={styles.primaryButton}>Empezar</button>
-        </section>
-      </div>
-    );
-  }
-}
+      <section className={styles.welcomeSection}>
+        <p className={styles.welcomeText}>
+          ¡Gracias por visitar nuestra página! Explora nuestras funcionalidades y encuentra lo que necesitas.
+        </p>
+        <button className={styles.primaryButton} onClick={() => alert('¡Bienvenido!')}>
+          Empezar
+        </button>
+      </section>
+
+      <footer className={styles.footer}>
+        <p>&copy; {new Date().getFullYear()} Mi Aplicación. Todos los derechos reservados.</p>
+      </footer>
+    </div>
+  );
+};
+
+export default HomeComponent;
