@@ -78,6 +78,11 @@ export default class MenuComponent extends Component {
                           Cerrar Sesion
                         </NavLink>
                       </li>
+                      <li className="nav-item">
+                        <NavLink to={"/user/profile"} className={`nav-link ${styles.navLink} `} aria-current="page">
+                          Perfil
+                        </NavLink>
+                      </li>
                     </>
                   )}
                 </ul>

@@ -8,3 +8,13 @@ export const postRegister = async (usuario) => {
         console.log(error)
     }
 }
+
+export const getUserProfile = async () => {
+    try {
+        const response = await axiosApi.get("/api/usuarios/perfil")
+        // console.log(response.data);
+        return response.data
+    } catch (error) {
+        console.log(error)
+    }
+}
