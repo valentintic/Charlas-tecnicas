@@ -5,6 +5,8 @@ import HomeComponent from './components/display/HomeComponent';
 import CharlasComponent from './components/charlas/CharlasComponent';
 import LoginComponent from './components/authentication/login/LoginComponent';
 import FormCharlas from './components/charlas/FormCharlas';
+import UserProfileComponent from './components/user/UserProfileComponent';
+
 
 export default class Router extends Component {
     render() {
@@ -17,6 +19,7 @@ export default class Router extends Component {
                     <Route path={"/charlas"} element={<CharlasComponent/>} />
                     <Route path={"/create/charla"} element={<FormCharlas/>} />
                     <Route path={"/update/charla/:id"} element={<FormCharlas/>} />
+                    <Route path={"/user/profile"} element={<UserProfileComponent/>}/> 
                 </Routes>
             </BrowserRouter>
         )
