@@ -16,6 +16,7 @@ export default class Router extends Component {
                     <Route path={"/login"} element={<LoginComponent/>} />
                     <Route path={"/charlas"} element={<CharlasComponent/>} />
                     <Route path={"/create/charla"} element={<FormCharlas/>} />
+                    <Route path={"/update/charla/:id"} element={<FormCharlas/>} />
                 </Routes>
             </BrowserRouter>
         )
