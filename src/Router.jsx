@@ -6,6 +6,7 @@ import CharlasComponent from './components/charlas/CharlasComponent';
 import LoginComponent from './components/authentication/login/LoginComponent';
 import FormCharlas from './components/charlas/FormCharlas';
 import UserProfileComponent from './components/user/UserProfileComponent';
+import RondasComponent from './components/rondas/RondasComponent';
 
 
 // Función para verificar si el usuario está autenticado
@@ -33,6 +34,7 @@ export default class Router extends Component {
                     <Route path={"/create/charla"} element={<FormCharlas/>} />
                     <Route path={"/update/charla/:id"} element={<FormCharlas/>} />
                     <Route path={"/user/profile"} element={<UserProfileComponent/>}/> 
+                    <Route path={"/rondas"} element={<RondasComponent/>}/>  
                 </Routes>
             </BrowserRouter>
         );

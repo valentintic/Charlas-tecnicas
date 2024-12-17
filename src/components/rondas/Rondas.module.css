@@ -1,0 +1,98 @@
+
+
+/* Contenedor principal */
+.container {
+  margin-top: 30px;
+  margin: 0 auto;
+  border-radius: 15px;
+  padding: 30px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Título principal */
+h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 30px;
+  color: #333;
+  letter-spacing: 1px; /* Espaciado para mayor claridad */
+  text-transform: uppercase; /* Transforma el texto a mayúsculas */
+}
+
+/* Estilo para cada ronda */
+.rondaItem {
+  position: relative;
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 20px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+/* Título de la ronda */
+.rondaItem h2 {
+  font-size: 1.6rem; /* Un poco más grande para destacar */
+  font-weight: 600;
+  color: #007bff;
+  margin-bottom: 10px;
+  transition: color 0.3s ease;
+  text-transform: capitalize; /* Primera letra en mayúscula */
+}
+
+/* Caja con la fecha y flecha */
+.dateBox {
+  padding: 15px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease, border 0.3s ease;
+  border: 2px solid transparent; /* Sin borde por defecto */
+}
+
+.dateBox:hover {
+  background-color: #e2e2e2; /* Color al pasar el mouse */
+}
+
+/* Estilo del texto de la fecha */
+.dateBox .dateText {
+  font-size: 1.2rem;
+  color: #333;
+  font-weight: 600;
+  text-align: center; /* Centrado del texto */
+  flex-grow: 1; /* Asegura que el texto ocupe todo el espacio disponible */
+}
+
+/* Flecha */
+.dateBox .arrow {
+  font-size: 1.8rem; /* Tamaño de la flecha */
+  color: #007bff;
+  transition: transform 0.3s ease; /* Transición para la flecha */
+  margin-left: 10px;
+}
+
+/* Cuando el contenedor de charlas está abierto */
+.rondaItem.open .dateBox {
+  border: 2px solid #007bff; /* Borde azul cuando está abierto */
+}
+
+.rondaItem.open .arrow {
+  transform: rotate(180deg); /* Flecha hacia arriba cuando está abierto */
+}
+
+/* Detalles debajo de la caja de fecha */
+.charlasContainer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.8s ease-in-out, padding 0.8s ease-in-out;
+  padding: 0 15px; /* Mantén el padding horizontal */
+}
+
+.showCharlas {
+  max-height: 1000px; /* Altura máxima para mostrar el contenido */
+  padding-top: 20px;
+  padding-bottom: 20px;
+}

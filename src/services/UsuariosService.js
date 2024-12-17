@@ -1,8 +1,8 @@
 import axiosApi from "./Axios"
 
-export const postRegister = async (usuario) => {
+export const postRegister = async (idcurso, usuario) => {
     try {
-        const response = await axiosApi.post("/api/usuarios", usuario)
+        const response = await axiosApi.post(`/api/usuarios/newalumno/"${idcurso}`,  usuario)
         return response.data
     } catch (error) {
         console.log(error)
