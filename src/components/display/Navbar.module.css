@@ -99,6 +99,23 @@
   background-color: rgba(56, 56, 56, 0.3); /* Fondo sutil al hacer hover */
   backdrop-filter: blur(8px); /* Efecto de difuminado más fuerte al pasar el mouse */
 }
+/* Estilo para la imagen del logo */
+.navLogo {
+  display: block; /* Asegura que la imagen sea visible */
+  max-width: 120px; /* Ajusta el tamaño máximo del logo */
+  max-height: 50px; /* Ajusta el alto máximo del logo */
+  margin: 0 auto; /* Centra la imagen si es necesario */
+  width: 120px;
+  height:40px;
+  transition: transform 0.3s ease, opacity 0.3s ease; /* Animaciones suaves */
+}
+
+/* Efecto hover en el enlace con la imagen */
+.navLink:hover .navLogo {
+  transform: scale(1.1); /* Aumenta ligeramente el tamaño de la imagen */
+  opacity: 0.9; /* Sutil cambio de opacidad */
+}
+
 
 
 

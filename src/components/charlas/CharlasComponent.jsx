@@ -1,28 +1,48 @@
 import React, { Component } from 'react';
 import { getCharlas } from '../../services/CharlasApi';
+import { getCharlasCursoIdRonda } from '../../services/CharlasApi';
 import DefaultImage from '../../assets/Default_imaget.webp';
 import styles from './Charlas.module.css';
 import Slider from 'react-slick'; // Importar Slider de React Slick
 
 export default class CharlasComponent extends Component {
   state = {
-    charlas: null,
-    clickedId: null, // ID de la charla seleccionada
-    isOpen: false, // Controla la animación de apertura
+    charlas: [],
+    clickedId: null,
+    isOpen: false,
   };
 
   componentDidMount() {
-    const token = localStorage.getItem('token');
-    getCharlas(3213).then((response) => {
-      this.setState({ charlas: response }, () => {
-        // Al cargar las charlas, activar la animación de apertura
-        this.setState({ isOpen: true });
+    const { idRonda } = this.props;
+    console.log(this.props);
+
+    if (idRonda) {
+      getCharlasCursoIdRonda(idRonda).then((response) => {
+        this.setState({ charlas: response }, () => {
+          this.setState({ isOpen: true });
+        });
       });
-    });
+    } else {
+      getCharlas().then((response) => {
+        this.setState({ charlas: response }, () => {
+          this.setState({ isOpen: true });
+        });
+      });
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    const { idRonda } = this.props;
+    if (idRonda !== prevProps.idRonda) {
+      getCharlasCursoIdRonda(idRonda).then((response) => {
+        this.setState({ charlas: response }, () => {
+          this.setState({ isOpen: true });
+        });
+      });
+    }
   }
 
   handleCardClick = (id) => {
-    // Cambiar el estado para mostrar los detalles de la charla seleccionada
     this.setState((prevState) => ({
       clickedId: prevState.clickedId === id ? null : id,
     }));
@@ -31,9 +51,9 @@ export default class CharlasComponent extends Component {
   render() {
     const settings = {
       dots: true, // Muestra los puntos de navegación
-      infinite: true, // Hacer que el carrusel sea infinito
+      infinite: this.state.charlas.length > 1, // Hacer que el carrusel sea infinito solo si hay más de una charla
       speed: 500, // Velocidad de transición
-      slidesToShow: 3, // Mostrar tres slides a la vez
+      slidesToShow: this.state.charlas.length < 3 ? this.state.charlas.length : 3, // Mostrar solo el número de slides disponibles
       slidesToScroll: 1, // Desplazar un solo slide a la vez
       centerMode: true, // Centrar el slide activo
       focusOnSelect: true, // Permitir seleccionar un slide al hacer clic
@@ -46,7 +66,7 @@ export default class CharlasComponent extends Component {
 
     return (
       <div className={styles.container}>
-        <h1>Charlas</h1>
+        { this.props.idRonda ? "" : <h1>Charlas</h1> }
         <div
           className={`${styles.slickSlider} ${this.state.isOpen ? styles.open : ''}`}
         >
@@ -78,7 +98,6 @@ export default class CharlasComponent extends Component {
           </Slider>
         </div>
 
-        {/* Mostrar detalles debajo del slider */}
         {this.state.charlas &&
           this.state.charlas.map((charla) => {
             const isOpen = this.state.clickedId === charla.idCharla;

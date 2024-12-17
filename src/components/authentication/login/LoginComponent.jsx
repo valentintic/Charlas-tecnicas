@@ -23,6 +23,7 @@ class LoginComponent extends Component {
       estadoUsuario: true,
       idRole: 2
     },
+    curso: "",
     status: false,
     isActive: false, // Esto controla el toggle entre login y registro
   };
@@ -50,7 +51,9 @@ class LoginComponent extends Component {
       userRegistration: {
         ...this.state.userRegistration,
         [name]: value,
-      }
+      },
+      ...(name === 'curso' && { curso: value }),
+      
     });
   };
 
@@ -69,7 +72,8 @@ class LoginComponent extends Component {
   register = (e) => {
     e.preventDefault();
     const usuarioRegistro = new Usuario(this.state.userRegistration.idUsuario, this.state.userRegistration.nombre, this.state.userRegistration.apellidos, this.state.userRegistration.email, this.state.userRegistration.estadoUsuario, this.state.userRegistration.imagen, this.state.userRegistration.password, this.state.userRegistration.idRole);
-    postRegister(usuarioRegistro)
+    const curso = this.state.curso;
+    postRegister(curso, usuarioRegistro)
       .then((response) => {
         localStorage.setItem("token", response.response);
         this.setState({ isActive: false });
@@ -112,6 +116,7 @@ class LoginComponent extends Component {
             <input type="email" name="email" placeholder="userexample@example.com" onChange={this.handleRegisterChange} />
             <input type="text" name="imagen" placeholder="Image.jpg" onChange={this.handleRegisterChange} />
             <input type="password" name="password" placeholder="Password" onChange={this.handleRegisterChange} />
+            <input type="text" name="curso" placeholder="Curso" onChange={this.handleRegisterChange} />
             <button onClick={this.register}>Sign Up</button>
           </form>
         </div>

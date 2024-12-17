@@ -37,11 +37,17 @@ export default class MenuComponent extends Component {
               </button>
               <div className="collapse navbar-collapse" id="navbarsExample03">
                 <ul className={`navbar-nav me-auto mb-2 mb-sm-0 ${styles.navbarLeft}`}>
-                  <li className="nav-item">
-                    <NavLink to={"/"} className={`nav-link ${styles.navLink}`} aria-current="page">
-                      <FaHome className={styles.navbarIcon} /> Home
-                    </NavLink>
-                  </li>
+                <li className="nav-item">
+                  <NavLink to={"/"} className={`nav-link ${styles.navLink}`} aria-current="page">
+                    <img
+                      src="https://www.tajamar.es/wp-content/uploads/2017/06/logo-tajamar.svg"
+                      alt="Logo Tajamar"
+                      className={styles.navLogo}
+                    />
+                  </NavLink>
+                </li>
+
+
                 </ul>
 
                 {/* Navbar a la derecha */}
@@ -82,13 +88,18 @@ export default class MenuComponent extends Component {
                         </ul>
                       </li>
                       <li className="nav-item">
-                        <NavLink to={"/login"} className={`nav-link ${styles.navLink} ${styles.navLinkLogout}`} aria-current="page" onClick={this.logoff}>
-                          Cerrar Sesion
+                        <NavLink to={"/rondas"} className={`nav-link ${styles.navLink} `} aria-current="page">
+                          Rondas
                         </NavLink>
                       </li>
                       <li className="nav-item">
                         <NavLink to={"/user/profile"} className={`nav-link ${styles.navLink} `} aria-current="page">
                           Perfil
+                        </NavLink>
+                      </li>
+                      <li className="nav-item">
+                        <NavLink to={"/login"} className={`nav-link ${styles.navLink} ${styles.navLinkLogout}`} aria-current="page" onClick={this.logoff}>
+                          Cerrar Sesion
                         </NavLink>
                       </li>
                     </>

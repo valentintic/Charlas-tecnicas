@@ -36,9 +36,9 @@ export const deleteCharla = async (id) => {
     }
 }
 
-export const getCharlasCursoIdRonda = async (id) => {
+export const getCharlasCursoIdRonda = async (idRonda) => {
     try {
-        const response = await axiosApi.get(`api/charlas/charlascurso/${id}`);
+        const response = await axiosApi.get(`api/charlas/charlasronda/${idRonda}`);
         return response.data;
     } catch (error) {
         console.log("Error getting charlas curso id ronda", error);
