@@ -71,7 +71,7 @@ class LoginComponent extends Component {
 
   register = (e) => {
     e.preventDefault();
-    const usuarioRegistro = new Usuario(this.state.userRegistration.idUsuario, this.state.userRegistration.nombre, this.state.userRegistration.apellidos, this.state.userRegistration.email, this.state.userRegistration.estadoUsuario, this.state.userRegistration.imagen, this.state.userRegistration.password, this.state.userRegistration.idRole);
+    const usuarioRegistro = new Usuario(this.state.userRegistration.idUsuario, this.state.userRegistration.nombre, this.state.userRegistration.apellidos, this.state.userRegistration.email + '@tajamar365.com', this.state.userRegistration.estadoUsuario, this.state.userRegistration.imagen, this.state.userRegistration.password, this.state.userRegistration.idRole);
     const curso = this.state.curso;
     postRegister(curso, usuarioRegistro)
       .then((response) => {
@@ -110,10 +110,32 @@ class LoginComponent extends Component {
         {/* Formulario de registro */}
         <div className={`${styles["form-container"]} ${styles["sign-up"]} ${this.state.isActive ? '' : styles.active}`}>
           <form onSubmit={this.register}>
-            <h1>Create Account</h1>
+            <h2>Create Account</h2>
             <input type="text" name="nombre" placeholder="Nombre" onChange={this.handleRegisterChange} />
             <input type="text" name="apellidos" placeholder="Apellidos" onChange={this.handleRegisterChange} />
-            <input type="email" name="email" placeholder="userexample@example.com" onChange={this.handleRegisterChange} />
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <input
+                type="text"
+                name="email"
+                placeholder="user.example"
+                onChange={this.handleRegisterChange}
+                style={{ flex: '0.5', borderRadius: '8px 0 0 8px' }}
+              />
+              <input
+                type="text"
+                value="@tajamar365.com"
+                disabled
+                style={{
+                  backgroundColor: '#ddd',
+                  color: '#333',
+                  border: 'none',
+                  flex: '0.5',
+                  borderRadius: '0 8px 8px 0',
+                  textAlign: 'center',
+                  
+                }}
+              />
+            </div>
             <input type="text" name="imagen" placeholder="Image.jpg" onChange={this.handleRegisterChange} />
             <input type="password" name="password" placeholder="Password" onChange={this.handleRegisterChange} />
             <input type="text" name="curso" placeholder="Curso" onChange={this.handleRegisterChange} />
@@ -125,7 +147,7 @@ class LoginComponent extends Component {
         <div className={`${styles["form-container"]} ${styles["sign-in"]} ${this.state.isActive ? styles.active : ''}`}>
           <form onSubmit={this.login}>
             <h1>Sign In</h1>
-            <input type="email" name="userName" placeholder="userexample@example.com" onChange={this.handleChange} />
+            <input type="email" name="userName" placeholder="userexample@tajamar365.com" onChange={this.handleChange} />
             <input type="password" name="password" placeholder="Password" onChange={this.handleChange} />
               <button type="submit">Log In</button>
           </form>

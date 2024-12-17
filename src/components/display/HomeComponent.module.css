@@ -1,72 +1,139 @@
-/* HomeComponent.module.css */
-
-/* Contenedor principal */
 .homeContainer {
-  font-family: 'Arial', sans-serif;
+  font-family: Arial, sans-serif;
   padding: 20px;
+  width: 86%;
+  margin: 0 auto; /* Centra el contenedor horizontalmente */
+  display: flex; /* Usamos flexbox */
+  flex-direction: column; /* Alineamos los elementos en columna */
+  align-items: center; /* Centra los elementos horizontalmente */
+  justify-content: flex-start; /* Alinea los elementos desde el principio del contenedor */
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.title {
+  font-size: 2rem;
+  color: #333;
+  opacity: 0;
+  transform: translateY(-30px);
+  transition: opacity 1s, transform 1s;
+}
+
+nav {
+  margin-top: 20px;
+}
+
+.navList {
+  list-style: none;
   display: flex;
   justify-content: center;
-  align-items: center;
-  min-height: 100vh;
+  gap: 20px;
+  padding: 0;
 }
 
-/* Estilos para el encabezado */
-.header {
-  background-color: #007bff;
-  color: white;
-  padding: 20px;
-  text-align: center;
-  border-radius: 8px;
-  margin-bottom: 30px;
-  width: 100%;
-  max-width: 600px;
-}
-
-/* Título */
-.title {
-  font-size: 2.5rem;
-  margin: 0;
-  text-transform: uppercase;
+.navButton {
+  font-size: 1rem;
+  color: #512da8;
+  text-decoration: none;
+  font-weight: 600;
   letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 10px 20px;
+  border-radius: 8px;
+  transition: background-color 0.3s, color 0.3s;
 }
 
-/* Sección de bienvenida */
+.navButton:hover {
+  background-color: #512da8;
+  color: #fff;
+}
+
 .welcomeSection {
   text-align: center;
-  background-color: #ffffff;
-  padding: 40px;
-  border-radius: 8px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  max-width: 600px;
+  margin-bottom: 40px;
 }
 
-/* Texto de bienvenida */
 .welcomeText {
-  font-size: 1.25rem;
-  color: #333;
-  margin-bottom: 20px;
-  line-height: 1.6;
-}
-
-/* Botón estilizado */
-.primaryButton {
-  padding: 12px 25px;
   font-size: 1.2rem;
-  color: white;
-  background-color: #28a745;
-  border: none;
-  border-radius: 5px;
+  color: #000;
+  opacity: 1;
+  transform: translateY(-30px); 
+  transition: opacity 1s, transform 1s;
+}
+
+.primaryButton {
+  background-color: #512da8;
+  color: #fff;
+  font-size: 12px;
+  padding: 10px 45px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-top: 10px;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.3s ease;
+  width: 250px;
+  transform: translateY(-30px);
+  transition: opacity 1s, transform 1s;
 }
 
-.primaryButton:hover {
-  background-color: #218838;
-  transform: scale(1.05);
+.charlasSection {
+  margin-top: 40px;
 }
 
-/* Agregar un pequeño margen en la parte inferior del contenedor */
-.homeContainer > * {
-  margin-bottom: 20px;
+.charla {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 1s, transform 1s;
+}
+
+.charla:nth-child(even) {
+  flex-direction: row-reverse;
+}
+
+.charla img {
+  width: 30%;
+  height: 300px;
+  object-fit: contain; /* Asegura que la imagen se ajuste al contenedor sin distorsión */
+  border-radius: 10px;
+  margin: 0 20px;
+}
+
+.charlaText {
+  max-width: 70%;
+}
+
+.charlaText h2 {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.charlaText p {
+  font-size: 1rem;
+  color: #555;
+}
+
+.footer {
+  text-align: center;
+  margin-top: 50px;
+  font-size: 0.9rem;
+  color: #888;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 1s, transform 1s;
+}
+
+/* Clase que se agrega cuando el elemento está en el viewport */
+.visible {
+  opacity: 1;
+  transform: translateY(0);
 }

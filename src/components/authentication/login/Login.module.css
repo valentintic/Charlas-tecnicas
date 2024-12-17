@@ -97,6 +97,12 @@
     outline: none;
 }
 
+.container input.email {
+    background-color: #333 !important;
+    width: 50%;
+    justify-content: flex-start; /* Alinea los elementos a la izquierda */
+}
+
 .form-container{
     position: absolute;
     top: 0;
