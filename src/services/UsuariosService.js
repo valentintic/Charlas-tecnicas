@@ -17,4 +17,16 @@ export const getUserProfile = async () => {
     } catch (error) {
         console.log(error)
     }
+
+}
+
+export const getCharlasUser = async () => {
+    try {
+        const response = await axiosApi.get("/api/charlas/charlasalumno")
+        // console.log(response.data);
+        return response.data
+    } catch (error) {
+        console.log(error)
+    }
+
 }
