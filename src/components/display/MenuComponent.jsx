@@ -91,6 +91,11 @@ export default class MenuComponent extends Component {
                           Perfil
                         </NavLink>
                       </li>
+                      <li className="nav-item">
+                        <NavLink to={"/profesor"} className={`nav-link ${styles.navLink} `} aria-current="page">
+                          Profesor
+                        </NavLink>
+                      </li>
                     </>
                   )}
                 </ul>
