@@ -7,6 +7,7 @@ import LoginComponent from './components/authentication/login/LoginComponent';
 import FormCharlas from './components/charlas/FormCharlas';
 import UserProfileComponent from './components/user/UserProfileComponent';
 import RondasComponent from './components/rondas/RondasComponent';
+import FooterComponent from './components/display/FooterComponent';
 
 
 // Función para verificar si el usuario está autenticado
@@ -36,6 +37,7 @@ export default class Router extends Component {
                     <Route path={"/user/profile"} element={<UserProfileComponent/>}/> 
                     <Route path={"/rondas"} element={<RondasComponent/>}/>  
                 </Routes>
+                <FooterComponent />
             </BrowserRouter>
         );
     }

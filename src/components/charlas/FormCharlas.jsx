@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { getRondas } from '../../services/Rondas'
-import { getCharlaById } from '../../services/CharlasApi';
+import { getRondas } from '../../services/Rondas';
+import { getCharlaById, createCharla } from '../../services/CharlasApi';
 import styles from './FormCharlas.module.css';
 import withParams from '../../withParams';
+import { getUserProfile } from '../../services/UsuariosService';
+import Charlas from '../../models/charlas';
 
 class FormCharlas extends Component {
   state = {
@@ -15,9 +17,10 @@ class FormCharlas extends Component {
       idUsuario: '',
       idEstadoCharla: '',
       idRonda: '',
+      imagenCharla: '', // Asegúrate de que este campo esté en el estado si lo necesitas
     },
     ronda: [],
-    isLoading: true, // Estado para manejar la carga
+    isLoading: true,
   };
 
   handleChange = (e) => {
@@ -58,7 +61,7 @@ class FormCharlas extends Component {
   componentDidMount() {
     this.getAllRondas();
 
-    const { id } = this.props.params
+    const { id } = this.props.params;
     if (id) {
       this.fetchCharlaById(id);
     } else {
@@ -67,7 +70,7 @@ class FormCharlas extends Component {
   }
 
   componentDidUpdate(prevProps, newProps) {
-    const { id } = this.props.params
+    const { id } = this.props.params;
     if (id !== prevProps.params.id) {
       this.fetchCharlaById(id);
     }
@@ -81,12 +84,34 @@ class FormCharlas extends Component {
   }
 
   postFormCharlas = () => {
-    console.log(this.state.charla);
+    // Crear la instancia de Charlas
+    const charla = new Charlas(
+      this.state.charla.idCharla,
+      this.state.charla.titulo,
+      this.state.charla.descripcion,
+      this.state.charla.tiempo,
+      this.state.charla.fechaPropuesta,
+      '', // Se asignará más tarde
+      this.state.charla.idEstadoCharla,
+      this.state.charla.idRonda,
+      this.state.charla.imagenCharla
+    );
+
+    // Obtener el perfil del usuario y asignarlo a la charla
+    getUserProfile().then((response) => {
+      charla.idUsuario = response.idUsuario;
+
+      // Luego de asignar el idUsuario, enviar la charla a la API
+      createCharla(charla).then((response) => {
+        console.log(response);
+        console.log('Charla creada:', charla);
+      });
+    });
   };
 
   putFormCharlas = () => {
     console.log(this.state.charla);
-  }
+  };
 
   render() {
     if (this.state.isLoading) {
@@ -171,14 +196,15 @@ class FormCharlas extends Component {
                 <option key={ronda.idRonda} value={ronda.idRonda}>
                   {ronda.fechaPresentacion}
                 </option>
-              ))}
+              )).reverse()}
             </select>
           </div>
 
-          { this.props.params.id ? 
-          <button className="btn btn-primary" onClick={this.postFormCharlas}>Update</button> 
-            : 
-          <button className="btn btn-primary" onClick={this.postFormCharlas}>Create</button> }
+          {this.props.params.id ? (
+            <button className="btn btn-primary" onClick={this.putFormCharlas}>Update</button>
+          ) : (
+            <button className="btn btn-primary" onClick={this.postFormCharlas}>Create</button>
+          )}
         </form>
       </div>
     );

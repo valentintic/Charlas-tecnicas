@@ -66,7 +66,8 @@
 
 @media (max-width: 768px) {
   .navbar {
-    background-color: rgba(0, 0, 0, 0.7); /* Fondo ligeramente oscuro en móviles */
+    background-color: rgba(0, 0, 0, 0.1); /* Fondo ligeramente oscuro en móviles */
+    display: flex;
   }
 
   .navLink {
