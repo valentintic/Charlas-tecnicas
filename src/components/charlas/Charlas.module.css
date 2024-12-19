@@ -1,10 +1,17 @@
 /* Contenedor principal */
 .container {
   margin-top: 30px;
-  position: relative; /* Necesario para que las tarjetas se posicionen en relación al contenedor */
-  width: 80%;
+  width: 82%;
   margin: 0 auto;
+  margin-bottom: 25px;
+  position: relative;
+  padding: 20px;
+  background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+  border-radius: 15px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+
 
 /* Título principal */
 h1 {
@@ -56,7 +63,7 @@ h1 {
   font-size: 1.25rem;
   font-weight: 600;
   color: white;
-  position: absolute; /* Coloca el título en la parte inferior */
+  position: absolute;
   bottom: 10px; /* Lo posiciona en la parte inferior */
   left: 50%; /* Centra horizontalmente */
   transform: translateX(-50%); /* Ajusta para centrar */
@@ -65,8 +72,9 @@ h1 {
 
 .card:hover {
   transform: scale(1.035);
-
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* Indicador visual al hover */
 }
+
 /* Al hacer hover, el título sube */
 .card:hover .cardTitle {
   bottom: 80%; /* Mueve el título a la parte superior */
@@ -79,42 +87,63 @@ h1 {
   margin-top: 60px;
   padding: 20px;
   background: rgba(48, 48, 48, 0.1);
-  backdrop-filter: blur(8px);
-  border-radius: 8px;
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
   opacity: 0;
-  transform: translateY(20px); /* Inicialmente desplazado hacia abajo */
-  transition: opacity 0.6s ease-out, transform 0.6s ease-in-out; /* Transición suave */
+  transform: translateY(30px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
   color: #333;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
-
 
 .cardDetails.visible {
   display: block;
   opacity: 1;
-  transform: translateY(0); /* Vuelve a la posición original */
+  transform: translateY(0);
+}
+
+.cardDetails.closing {
+  animation: fadeOutDown 0.5s ease forwards;
+}
+
+@keyframes fadeOutDown {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(30px);
+  }
 }
 
 .cardDetails p {
   font-size: 1rem;
   margin: 10px 0;
+  line-height: 1.6;
+  color: #444;
 }
 
 .cardDetails strong {
-  font-weight: 600;
+  font-weight: 700;
+  color: #007bff;
 }
 
 .cardButtons {
   margin-top: 20px;
   display: flex;
   justify-content: flex-start;
+  gap: 15px;
 }
 
 .cardButtons .btn {
-  margin-right: 10px;
-  padding: 10px 20px;
-  border-radius: 5px;
+  padding: 12px 25px;
+  border-radius: 8px;
   font-size: 1rem;
-  transition: background-color 0.3s ease, transform 0.3s ease;
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
 }
 
 .cardButtons .btn-primary {
@@ -128,7 +157,8 @@ h1 {
 }
 
 .cardButtons .btn:hover {
-  transform: scale(1.05);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
 }
 
 .cardButtons .btn-primary:hover {
@@ -141,10 +171,12 @@ h1 {
 
 /* Estilos para los puntos del carrusel como números */
 .slick-dots {
-  bottom: -40px; /* Ajustar la posición de los puntos */
+  bottom: -40px; /* Ajustar la posición de los números */
   display: flex;
   justify-content: center;
   align-items: center;
+  list-style: none;
+  padding: 0;
 }
 
 .slick-dots li {
@@ -158,6 +190,7 @@ h1 {
   border: none;
   padding: 5px 10px;
   border-radius: 50%;
+  cursor: pointer;
   transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
@@ -177,6 +210,12 @@ h1 {
   justify-content: center;
   align-items: center;
   padding: 10px;
+  overflow: hidden; /* Ocultar contenido desbordado */
+  cursor: grab; /* Cursor para scroll */
+}
+
+.cardWrapper:active {
+  cursor: grabbing; /* Cambia el cursor al hacer clic */
 }
 
 /* Estilos para las tarjetas dentro del carrusel */
@@ -187,6 +226,7 @@ h1 {
   transition: transform 0.3s ease;
 }
 
+
 /* Estilos para los slides laterales */
 .slick-center .card {
   transform: scale(1.1); /* Aumenta el tamaño del card central */
@@ -194,24 +234,30 @@ h1 {
 }
 
 .slick-slide:not(.slick-center) .card {
-  transform: scale(0.9) rotate(-10deg); /* Reduce el tamaño y rota ligeramente los slides laterales */
-  opacity: 0.7; /* Reduce la opacidad de los slides laterales */
+  transform: scale(0.95) rotate(-5deg); /* Ajusta la rotación */
+  opacity: 0.8; /* Aumenta la opacidad */
   z-index: 1; /* Coloca los slides laterales detrás */
 }
 
 .slick-slide:not(.slick-center) .card:hover {
-  transform: scale(0.95) rotate(-5deg); /* Efecto hover para los slides laterales */
+  transform: scale(1) rotate(0deg); /* Efecto hover para las tarjetas laterales */
 }
 
-.slick-dots {
-  bottom: -30px; /* Ajustar la posición de los puntos */
-}
+/* Estilos responsivos */
+@media (max-width: 768px) {
+  .card {
+    height: 200px; /* Reduce la altura de las tarjetas */
+  }
 
-.slick-dots li button:before {
-  font-size: 12px;
-  color: #007bff; /* Color de los puntos */
-}
+  .cardTitle {
+    font-size: 1rem; /* Ajusta el tamaño del título */
+  }
 
-.slick-dots li.slick-active button:before {
-  color: #0056b3; /* Color de los puntos activos */
+  .slick-slide {
+    transform: scale(0.95); /* Reduce el tamaño de las tarjetas */
+  }
+
+  .slick-center .card {
+    transform: scale(1.05); /* Ajusta el tamaño del card central */
+  }
 }

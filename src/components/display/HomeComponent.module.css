@@ -22,9 +22,6 @@
   transition: opacity 1s, transform 1s;
 }
 
-nav {
-  margin-top: 20px;
-}
 
 .navList {
   list-style: none;

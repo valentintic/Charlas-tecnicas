@@ -49,8 +49,13 @@ export default class CharlasComponent extends Component {
       focusOnSelect: true,
       centerPadding: '0',
       className: 'center-slide',
-      customPaging: (i) => <button>{i + 1}</button>,
+      draggable: true, // Habilitar arrastre con el ratón
+      swipeToSlide: true, // Habilitar desplazamiento suave
+      customPaging: (i) => <button>{i + 1}</button>, // Cambiar puntos por números
     };
+    
+    
+
 
     return (
       <div className={styles.container}>
@@ -108,8 +113,8 @@ export default class CharlasComponent extends Component {
                         <strong>Ronda:</strong> {charla.idRonda}
                       </p>
                       <div className={styles.cardButtons}>
-                        <button className="btn btn-primary">Ver más</button>
-                        <button className="btn btn-secondary">Inscribirse</button>
+                        <button className="btn btn-primary">Votar</button>
+                        <button className="btn btn-secondary">Detalles</button>
                       </div>
                     </>
                   )}
