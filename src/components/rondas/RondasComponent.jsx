@@ -42,14 +42,14 @@ export default class RondasComponent extends Component {
         <h1>Rondas</h1>
         <div>
           {this.state.rondas.map((ronda) => {
-            const formattedDate = this.formatDate(new Date(ronda.fechaPresentacion));
+            const formattedDatePresentacion = this.formatDate(new Date(ronda.fechaPresentacion));
             return (
               <div key={ronda.idRonda} className={styles.rondaItem}>
                 <div
                   className={styles.dateBox}
                   onClick={() => this.handleRondaClick(ronda.idRonda)}
                 >
-                  <span className={styles.dateText}>{<h3>{formattedDate}</h3>}</span>
+                  <span className={styles.dateText}>{<h3>{formattedDatePresentacion}</h3>}</span>
                   <span
                     className={styles.arrow}
                     style={{

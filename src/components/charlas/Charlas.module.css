@@ -42,8 +42,9 @@ h1 {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
+  width: 50%;
   height: 100%;
+  max-width: 60vh;
   background-size: cover;
   background-position: center;
   transition: transform 0.3s ease;
@@ -72,7 +73,10 @@ h1 {
 
 .card:hover {
   transform: scale(1.035);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* Indicador visual al hover */
+  /*
+  radio shadow
+  */
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
 }
 
 /* Al hacer hover, el título sube */
@@ -100,10 +104,11 @@ h1 {
   display: block;
   opacity: 1;
   transform: translateY(0);
+  margin-bottom: 25px;
 }
 
 .cardDetails.closing {
-  animation: fadeOutDown 0.5s ease forwards;
+  animation: fadeOutDown 1s ease forwards;
 }
 
 @keyframes fadeOutDown {
@@ -114,6 +119,20 @@ h1 {
   to {
     opacity: 0;
     transform: translateY(30px);
+    display: none;
+  }
+}
+
+@keyframes cardOpen {
+  from {
+    opacity: 0;
+    display: none;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    display: block;
+    transform: translateY(0);
   }
 }
 
@@ -169,9 +188,8 @@ h1 {
   background-color: #218838;
 }
 
-/* Estilos para los puntos del carrusel como números */
-.slick-dots {
-  bottom: -40px; /* Ajustar la posición de los números */
+.slickDots {
+  bottom: 0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -179,30 +197,44 @@ h1 {
   padding: 0;
 }
 
-.slick-dots li {
-  margin: 0 5px;
-}
 
-.slick-dots li button {
-  font-size: 16px;
-  color: #007bff; /* Color de los números */
-  background: none;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-}
-
-.slick-dots li.slick-active button {
-  color: #0056b3; /* Color para el número activo */
+.slickDotActive {
+  color: #0056b3;
   background-color: #e9ecef;
 }
 
-.slick-dots li button:hover {
-  background-color: #f1f1f1;
-  transform: scale(1.1);
+.slickDotText {
+  font-size: 14px;
+  color: #333;
+  font-weight: bold;
+  text-align: center;
+  margin: 20px;
+  padding: 0;
+  margin-bottom: 25px;
+  bottom: 0;
 }
+
+.slick-dots {
+  position: absolute;
+  bottom: 0 !important;
+  display: block;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  text-align: center;
+}
+
+.center-slide .slick-dots {
+  bottom: 0 !important;
+}
+
+:global(.slick-active) .slickDotText {
+  color: #0056b3;
+  background: rgba(0, 0, 0, 0.3); /* Negro con 50% de opacidad */
+  border-radius: 11px;
+}
+
 
 /* Estilos para el contenedor del carrusel */
 .cardWrapper {

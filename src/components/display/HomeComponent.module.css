@@ -1,35 +1,111 @@
 .homeContainer {
-  font-family: Arial, sans-serif;
+  font-family: 'Arial', sans-serif;
   padding: 20px;
   width: 86%;
-  margin: 0 auto; /* Centra el contenedor horizontalmente */
-  display: flex; /* Usamos flexbox */
-  flex-direction: column; /* Alineamos los elementos en columna */
-  align-items: center; /* Centra los elementos horizontalmente */
-  justify-content: flex-start; /* Alinea los elementos desde el principio del contenedor */
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
 }
 
 .header {
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 40px;
 }
 
 .title {
-  font-size: 2rem;
-  color: #333;
-  opacity: 0;
+  font-size: 2.5rem;
+  color: #5e35b1; /* Color más suave y armonioso */
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1); /* Sombra más sutil */
+  margin-bottom: 10px;
   transform: translateY(-30px);
-  transition: opacity 1s, transform 1s;
+  transition: opacity 0.5s, transform 0.5s; /* Transición más rápida */
+  margin-top: 1px;
 }
 
+.nav {
+  position: relative;
+  left: 0;
+  right: 0;
+  height: 100%; /* Altura inicial */
+  transition: height 0.7s ease; /* Transición de altura */
+  z-index: 1000;
+}
+
+.nav:not(.visible) {
+  animation: moverNav 0.7s ease forwards;
+  display: flex;
+  position: fixed;
+  height: 40vh;
+}
+
+.nav.visible {
+  animation: volverNav 0.7s ease forwards;
+}
+
+@keyframes moverNav {
+  0% {
+    transform: translate(50%, 0);
+    height: 100vh;
+  }
+  100% {
+    transform: translate(90%, 50%);
+    height: 40vh;
+  }
+}
+
+@keyframes volverNav {
+  0% {
+    transform: translate(90%, 90%);
+    height: 40vh;
+  }
+  100% {
+    transform: translate(0, 0);
+    position: relative;
+  }
+}
 
 .navList {
   list-style: none;
+  padding: 0;
+  margin: 0;
   display: flex;
+  overflow: hidden; /* Para evitar que los elementos salgan de la vista durante la animación */
+}
+
+.navListWrapper {
+  display: flex;
+  transition: transform 0.7s ease; /* Transición suave para el cambio de dirección */
+}
+
+.navList.hidden .navListWrapper {
+  transform: translateY(0); /* Para cuando la lista está en columna */
+}
+
+.navList.visible .navListWrapper {
+  transform: translateX(0); /* Para cuando la lista está en fila */
+}
+
+.navListWrapper .navButton {
+  margin: 0 10px;
+}
+
+.navList.hidden {
+  flex-direction: column;
+  align-items: center;
+  gap: 10px; /* Espacio entre los botones cuando están apilados */
+  padding: 10px 0; /* Añadir un poco de padding para separarlos más */
+}
+
+.navList.visible {
+  flex-direction: row;
   justify-content: center;
-  gap: 20px;
+  gap: 20px; /* Espacio entre los botones cuando están en fila */
   padding: 0;
 }
+
+
 
 .navButton {
   font-size: 1rem;
@@ -40,46 +116,83 @@
   text-transform: uppercase;
   padding: 10px 20px;
   border-radius: 8px;
-  transition: background-color 0.3s, color 0.3s;
+  border: 2px solid #512da8;
+  transition: background-color 0.3s, color 0.3s, transform 0.3s ease-out;
+  position: relative;
 }
 
+.navList.hidden .navButton {
+  font-size: 0.9rem; /* Reducir el tamaño de los botones cuando no son visibles */
+  padding: 8px 16px; /* Reducir el padding de los botones */
+  width: 100%; /* Hacer que los botones ocupen todo el ancho disponible */
+}
+
+
+.navButton.visible {
+  opacity: 1; /* Mostrar el botón cuando es visible */
+  background-color: #5e35b1;
+}
 .navButton:hover {
   background-color: #512da8;
   color: #fff;
+  transform: scale(1.05);
 }
 
+.navList li {
+  flex: 1; /* Hace que cada <li> ocupe el mismo espacio disponible */
+  text-align: start; /* Centra el texto dentro de cada <li> */
+}
+
+/* Sección de bienvenida */
 .welcomeSection {
   text-align: center;
   margin-bottom: 40px;
+  padding: 40px;
+  background-color: #f3e5f5;
+  border-radius: 12px; /* Bordes más suaves */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15); /* Sombra más suave */
 }
 
 .welcomeText {
-  font-size: 1.2rem;
-  color: #000;
-  opacity: 1;
-  transform: translateY(-30px); 
-  transition: opacity 1s, transform 1s;
+  font-size: 1.4rem;
+  color: #5e35b1; /* Color más suave */
+  margin-bottom: 20px;
+  line-height: 1.6;
 }
 
 .primaryButton {
-  background-color: #512da8;
+  background-color: #7b1fa2; /* Color más suave */
   color: #fff;
-  font-size: 12px;
-  padding: 10px 45px;
-  border: 1px solid transparent;
+  font-size: 1rem;
+  padding: 12px 50px;
+  border: none;
   border-radius: 8px;
   font-weight: 600;
-  letter-spacing: 0.5px;
   text-transform: uppercase;
   margin-top: 10px;
   cursor: pointer;
-  width: 250px;
-  transform: translateY(-30px);
-  transition: opacity 1s, transform 1s;
+  transition: background-color 0.3s, transform 0.2s;
 }
 
+.primaryButton:hover {
+  background-color: #6a1b9a; /* Color más suave */
+  transform: scale(1.1);
+}
+
+/* Sección de charlas */
 .charlasSection {
-  margin-top: 40px;
+  width: 100%;
+  background-color: #ede7f6;
+  padding: 40px 20px;
+  border-radius: 12px; /* Bordes más suaves */
+  margin-bottom: 40px;
+}
+
+.charlasSection h2 {
+  font-size: 2rem;
+  color: #512da8; /* Color armonizado */
+  text-align: center;
+  margin-bottom: 30px;
 }
 
 .charla {
@@ -87,6 +200,10 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 40px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 12px; /* Bordes más suaves */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Sombra más suave */
   opacity: 0;
   transform: translateY(30px);
   transition: opacity 1s, transform 1s;
@@ -98,38 +215,103 @@
 
 .charla img {
   width: 30%;
-  height: 300px;
-  object-fit: contain; /* Asegura que la imagen se ajuste al contenedor sin distorsión */
-  border-radius: 10px;
-  margin: 0 20px;
+  height: auto;
+  border-radius: 12px; /* Bordes más suaves */
 }
 
 .charlaText {
-  max-width: 70%;
+  max-width: 65%;
 }
 
-.charlaText h2 {
-  font-size: 1.5rem;
-  color: #333;
+.charlaText h3 {
+  font-size: 1.8rem;
+  color: #512da8;
   margin-bottom: 10px;
 }
 
 .charlaText p {
-  font-size: 1rem;
+  font-size: 1.1rem;
   color: #555;
+  line-height: 1.6;
 }
 
+/* Sección de rondas */
+.rondasSection {
+  width: 100%;
+  background-color: #e8eaf6;
+  padding: 40px 20px;
+  border-radius: 12px; /* Bordes más suaves */
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.rondasSection h2 {
+  font-size: 2rem;
+  color: #1a237e;
+  margin-bottom: 20px;
+}
+
+.rondasSection p {
+  font-size: 1.2rem;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* Sección de información */
+.infoSection {
+  width: 100%;
+  background-color: #f3f4f6;
+  padding: 40px 20px;
+  border-radius: 12px; /* Bordes más suaves */
+  margin-bottom: 40px;
+}
+
+.infoSection h2 {
+  font-size: 2rem;
+  color: #0d47a1;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.infoSection p {
+  font-size: 1.1rem;
+  color: #444;
+  text-align: center;
+  line-height: 1.6;
+}
+
+/* Sección de contacto */
+.contactSection {
+  width: 100%;
+  background-color: #fbe9e7;
+  padding: 40px 20px;
+  border-radius: 12px; /* Bordes más suaves */
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.contactSection h2 {
+  font-size: 2rem;
+  color: #bf360c;
+  margin-bottom: 20px;
+}
+
+.contactSection p {
+  font-size: 1.2rem;
+  color: #4e342e;
+}
+
+/* Footer */
 .footer {
   text-align: center;
-  margin-top: 50px;
+  padding: 20px;
+  background-color: #212121;
+  color: #fff;
   font-size: 0.9rem;
-  color: #888;
-  opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 1s, transform 1s;
+  border-radius: 12px; /* Bordes más suaves */
 }
 
-/* Clase que se agrega cuando el elemento está en el viewport */
+/* Clase visible */
 .visible {
   opacity: 1;
   transform: translateY(0);

@@ -7,15 +7,30 @@ import i18n from '../../assets/i18njs.webp';
 const HomeComponent = () => {
   const sectionRefs = useRef([]);
   const [visibleSections, setVisibleSections] = useState([]);
+  const [navVisible, setNavVisible] = useState(true); // Controlar visibilidad del nav
 
   const handleIntersection = (entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
-        setVisibleSections((prev) => [...prev, entry.target.id]); // Añadimos el ID de la sección visible
+        if (!visibleSections.includes(entry.target.id)) {
+          setVisibleSections((prev) => [...prev, entry.target.id]);
+        }
         entry.target.classList.add(styles.visible);
+        entry.target.classList.remove(styles.hidden);
+
+        if (entry.target.id === 'presentacion') {
+          setNavVisible(true);
+        }
       } else {
-        setVisibleSections((prev) => prev.filter((id) => id !== entry.target.id)); // Removemos el ID de la sección no visible
+        // Cuando la sección no es visible, añadimos la clase 'hidden'
+        setVisibleSections((prev) => prev.filter((id) => id !== entry.target.id));
         entry.target.classList.remove(styles.visible);
+        entry.target.classList.add(styles.hidden);
+
+        // Si la primera sección deja de ser visible, ocultamos el nav
+        if (entry.target.id === 'presentacion') {
+          setNavVisible(false);
+        }
       }
     });
   };
@@ -23,7 +38,7 @@ const HomeComponent = () => {
   // Usamos useLayoutEffect para asegurar que el DOM esté completamente actualizado antes de ejecutar el observer
   useLayoutEffect(() => {
     const observer = new IntersectionObserver(handleIntersection, {
-      threshold: 0.25, // El elemento será visible cuando el 25% esté en el viewport
+      threshold: 0.35, // El elemento será visible cuando el 35% esté en el viewport
     });
 
     // Aseguramos que las referencias no estén vacías antes de observarlas
@@ -41,36 +56,36 @@ const HomeComponent = () => {
         }
       });
     };
-  }, []); // Solo se ejecuta una vez al montar el componente
+  }, [visibleSections]); // Dependemos de visibleSections para evitar referencias duplicadas
 
   return (
     <div className={styles.homeContainer}>
       <header className={styles.header}>
-        <h1 className={styles.title} ref={(el) => sectionRefs.current.push(el)}>
-          Bienvenido a la Página de Inicio
-        </h1>
-
-        {/* Botones de navegación */}
-        <nav>
-          <ul className={styles.navList}>
-            <li><a href="#welcomeSection" className={styles.navButton}>Bienvenida</a></li>
-            <li><a href="#charlasSection" className={styles.navButton}>Charlas</a></li>
-            <li><a href="#footer" className={styles.navButton}>Contacto</a></li>
-          </ul>
-        </nav>
+        <h1 className={styles.title}>Bienvenido a Nuestro Proyecto</h1>
       </header>
 
-      <section id="welcomeSection" className={styles.welcomeSection} ref={(el) => sectionRefs.current.push(el)}>
+      {/* Contenedor del nav con animación */}
+      <nav className={`${styles.nav} ${navVisible ? styles.visible : styles.hidden}`}>
+        <ul className={`${styles.navList} ${navVisible ? styles.visible : styles.hidden}`}>
+          <li><a href="#presentacion" className={styles.navButton}>Presentación</a></li>
+          <li><a href="#charlas" className={styles.navButton}>Charlas</a></li>
+          <li><a href="#rondas" className={styles.navButton}>Rondas</a></li>
+          <li><a href="#info" className={styles.navButton}>Información</a></li>
+          <li><a href="#contact" className={styles.navButton}>Contacto</a></li>
+        </ul>
+      </nav>
+
+      <section id="presentacion" className={styles.welcomeSection} ref={(el) => sectionRefs.current.push(el)}>
         <p className={styles.welcomeText}>
           ¡Gracias por visitar nuestra página! Explora nuestras funcionalidades y encuentra lo que necesitas.
         </p>
-        <button className={styles.primaryButton} onClick={() => alert('¡Bienvenido!')}>
+        <a href='#charlas' className={styles.primaryButton}>
           Empezar
-        </button>
+        </a>
       </section>
 
       {/* Sección de Charlas */}
-      <section id="charlasSection" className={styles.charlasSection}>
+      <section id="charlas" className={styles.charlasSection}>
         <div className={styles.charla} ref={(el) => sectionRefs.current.push(el)} id="charla1">
           <img src={gitBranches} alt="Charla 1" />
           <div className={styles.charlaText}>
@@ -108,6 +123,27 @@ const HomeComponent = () => {
             </p>
           </div>
         </div>
+      </section>
+
+      <section id="rondas" className={styles.rondasSection} ref={(el) => sectionRefs.current.push(el)}>
+        <h2>Rondas de Discusión</h2>
+        <p>
+          Participa en nuestras rondas para discutir temas clave en tecnología.
+        </p>
+      </section>
+
+      <section id="info" className={styles.infoSection} ref={(el) => sectionRefs.current.push(el)}>
+        <h2>Información Adicional</h2>
+        <p>
+          Nuestro equipo está compuesto por expertos en diversas áreas tecnológicas.
+        </p>
+      </section>
+
+      <section id="contact" className={styles.contactSection} ref={(el) => sectionRefs.current.push(el)}>
+        <h2>Contacto</h2>
+        <p>
+          ¿Tienes alguna pregunta? Escríbenos a contacto@nuestroproyecto.com
+        </p>
       </section>
 
       <footer id="footer" className={styles.footer} ref={(el) => sectionRefs.current.push(el)}>

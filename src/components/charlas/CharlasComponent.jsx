@@ -2,14 +2,17 @@ import React, { Component } from 'react';
 import { getCharlas, getCharlasCursoIdRonda } from '../../services/CharlasApi';
 import DefaultImage from '../../assets/Default_imaget.webp';
 import styles from './Charlas.module.css';
-import Slider from 'react-slick'; // Importar Slider de React Slick
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+
 
 export default class CharlasComponent extends Component {
   state = {
     charlas: [],
-    clickedId: null,
-    isOpen: false,
+    centeredIndex: 0, // Índice de la charla centrada
   };
+  sliderRef = React.createRef();
 
   componentDidMount() {
     this.fetchCharlas();
@@ -26,21 +29,41 @@ export default class CharlasComponent extends Component {
 
     const fetchFunction = idRonda ? getCharlasCursoIdRonda(idRonda) : getCharlas();
     fetchFunction.then((response) => {
-      this.setState({ charlas: response, isOpen: true });
+      this.setState({ charlas: response });
     });
   };
 
-  handleCardClick = (id) => {
-    this.setState((prevState) => ({
-      clickedId: prevState.clickedId === id ? null : id,
-    }));
+  handleSlideChange = (currentIndex) => {
+    this.setState({ centeredIndex: currentIndex });
   };
 
+  handlePrevious = () => {
+    if (this.sliderRef.current) {
+      this.sliderRef.current.slickPrev();
+    }
+  };
+
+  handleNext = () => {
+    if (this.sliderRef.current) {
+      this.sliderRef.current.slickNext();
+    }
+  };
+
+  formatedDate = (date) => {
+    const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+    return new Date(date).toLocaleDateString('es-ES', dateOptions);
+  }
+
   render() {
-    const { charlas, clickedId, isOpen } = this.state;
+    const { charlas, centeredIndex } = this.state;
 
     const sliderSettings = {
       dots: true,
+      appendDots: dots => (
+        <ul style={{ bottom: '0' }} className="custom-dots">
+          {dots}
+        </ul>
+      ),
       infinite: charlas.length > 1,
       speed: 500,
       slidesToShow: charlas.length < 3 ? charlas.length : 3,
@@ -49,32 +72,59 @@ export default class CharlasComponent extends Component {
       focusOnSelect: true,
       centerPadding: '0',
       className: 'center-slide',
-      draggable: true, // Habilitar arrastre con el ratón
-      swipeToSlide: true, // Habilitar desplazamiento suave
-      customPaging: (i) => <button>{i + 1}</button>, // Cambiar puntos por números
+      draggable: true,
+      swipeToSlide: true,
+      accessibility: true,
+      customPaging: function(i) {
+        return (
+          <a>
+           <p
+           className={`${styles.slickDotText} `}
+           >{i + 1}</p>
+          </a>
+        );
+      },
+      afterChange: this.handleSlideChange, // Actualiza el índice centrado
+      responsive: [
+        {
+          breakpoint: 600,
+          settings: {
+            slidesToShow: 1,
+          },
+        },
+        {
+          breakpoint: 1024,
+          settings: {
+            slidesToShow: 2,
+          },
+        },
+      ],
     };
     
-    
-
 
     return (
+      
       <div className={styles.container}>
         {!this.props.idRonda && <h1>Charlas</h1>}
         {charlas.length === 0 ? (
           <h2>No hay charlas</h2>
-        ) : (
-          <div>
+        ) :  (
+          <div
+            style={{
+              width: '98%',
+              margin: '0 auto', // Centra horizontalmente
+              textAlign: 'center', // Centra texto u otros elementos inline
+            }}
+          >
             {/* Slider */}
-            <div className={`${styles.slickSlider} ${isOpen ? styles.open : ''}`}>
-              <Slider {...sliderSettings}>
-                {charlas.map((charla) => {
+            <div className={`${styles.slickSlider}`}>
+              <Slider ref={this.sliderRef} {...sliderSettings}>
+                {charlas.map((charla, index) => {
                   const imageUrl = charla.imagenUrl || DefaultImage;
-
                   return (
                     <div key={charla.idCharla} className={`mb-4 ${styles.cardWrapper}`}>
                       <div
                         className={styles.card}
-                        onClick={() => this.handleCardClick(charla.idCharla)}
                         style={{ backgroundImage: `url(${imageUrl})` }}
                       >
                         <div className={styles.cardBody}>
@@ -85,42 +135,36 @@ export default class CharlasComponent extends Component {
                   );
                 })}
               </Slider>
+              <div className="d-flex justify-content-between">
+                <button onClick={this.handlePrevious}>Anterior</button>
+                <button onClick={this.handleNext}>Siguiente</button>
+              </div>
             </div>
 
-            {/* Detalles de la charla seleccionada */}
-            {charlas.map((charla) => {
-              const isOpen = clickedId === charla.idCharla;
-              return (
-                <div
-                  key={charla.idCharla}
-                  className={`${styles.cardDetails} ${isOpen ? styles.visible : ''}`}
-                >
-                  {isOpen && (
-                    <>
-                      <p>
-                        <strong>Descripción:</strong> {charla.descripcion}
-                      </p>
-                      <p>
-                        <strong>Tiempo:</strong> {charla.tiempo}
-                      </p>
-                      <p>
-                        <strong>Fecha Propuesta:</strong> {charla.fechaPropuesta}
-                      </p>
-                      <p>
-                        <strong>Estado:</strong> {charla.idEstadoCharla}
-                      </p>
-                      <p>
-                        <strong>Ronda:</strong> {charla.idRonda}
-                      </p>
-                      <div className={styles.cardButtons}>
-                        <button className="btn btn-primary">Votar</button>
-                        <button className="btn btn-secondary">Detalles</button>
-                      </div>
-                    </>
-                  )}
+            {/* Detalles de la charla centrada */}
+            {charlas[centeredIndex] && (
+              <div className={`${styles.cardDetails} ${styles.visible}`}>
+                <p>
+                  <strong>Descripción:</strong> {charlas[centeredIndex].descripcion}
+                </p>
+                <p>
+                  <strong>Tiempo:</strong> {charlas[centeredIndex].tiempo}
+                </p>
+                <p>
+                  <strong>Fecha Propuesta:</strong> {this.formatedDate(charlas[centeredIndex].fechaPropuesta)}
+                </p>
+                <p>
+                  <strong>Estado:</strong> {charlas[centeredIndex].idEstadoCharla}
+                </p>
+                <p>
+                  <strong>Ronda:</strong> {charlas[centeredIndex].idRonda}
+                </p>
+                <div className={styles.cardButtons}>
+                  <button className="btn btn-primary">Votar</button>
+                  <button className="btn btn-secondary">Detalles</button>
                 </div>
-              );
-            })}
+              </div>
+            )}
           </div>
         )}
       </div>

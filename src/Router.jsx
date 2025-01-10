@@ -9,10 +9,8 @@ import UserProfileComponent from './components/user/UserProfileComponent';
 import RondasComponent from './components/rondas/RondasComponent';
 import FooterComponent from './components/display/FooterComponent';
 
-
-// Función para verificar si el usuario está autenticado
 const isAuthenticated = () => {
-    return !!localStorage.getItem('token'); // Cambia según cómo guardas el token
+    return !!localStorage.getItem('token');
 };
 
 const PrivateRoute = ({ element }) => {
@@ -29,15 +27,15 @@ export default class Router extends Component {
             <BrowserRouter>
                 <MenuComponent />
                 <Routes>
-                    <Route path={"/"} element={<HomeComponent/>} />
-                    <Route path={"/login"} element={<LoginComponent/>} />
-                    <Route path={"/charlas"} element={<CharlasComponent/>} />
-                    <Route path={"/create/charla"} element={<FormCharlas/>} />
-                    <Route path={"/update/charla/:id"} element={<FormCharlas/>} />
-                    <Route path={"/user/profile"} element={<UserProfileComponent/>}/> 
-                    <Route path={"/rondas"} element={<RondasComponent/>}/>  
+                    <Route path="/" element={<HomeComponent />} />
+                    <Route path="/login" element={<PublicRoute element={<LoginComponent />} />} />
+                    <Route path="/charlas" element={<PrivateRoute element={<CharlasComponent />} />} />
+                    <Route path="/create/charla" element={<PrivateRoute element={<FormCharlas />} />} />
+                    <Route path="/update/charla/:id" element={<PrivateRoute element={<FormCharlas />} />} />
+                    <Route path="/user/profile" element={<PrivateRoute element={<UserProfileComponent />} />} />
+                    <Route path="/rondas" element={<PrivateRoute element={<RondasComponent />} />} />
                 </Routes>
-                <FooterComponent />
+                {/* <FooterComponent /> */}
             </BrowserRouter>
         );
     }
