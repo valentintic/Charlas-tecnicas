@@ -30,3 +30,13 @@ export const getCharlasUser = async () => {
     }
 
 }
+
+export const getAlumnoId = async () => {
+    try {
+        const response = await axiosApi.get("/api/usuarios/perfil")
+        console.log("id: " + response.data.usuario.idUsuario);
+        return response.data.usuario.idUsuario
+    } catch (error) {
+        console.log(error)
+    }
+}

@@ -3,8 +3,9 @@ import { getRondas } from '../../services/Rondas';
 import { getCharlaById, createCharla } from '../../services/CharlasApi';
 import styles from './FormCharlas.module.css';
 import withParams from '../../withParams';
-import { getUserProfile } from '../../services/UsuariosService';
+import { getAlumnoId } from '../../services/UsuariosService';
 import Charlas from '../../models/charlas';
+import { uploadCharlasImg} from '../../services/CharlasApi';
 
 class FormCharlas extends Component {
   state = {
@@ -83,35 +84,85 @@ class FormCharlas extends Component {
     return `${year}-${month}-${day}`;
   }
 
-  postFormCharlas = () => {
-    // Crear la instancia de Charlas
-    const charla = new Charlas(
-      this.state.charla.idCharla,
-      this.state.charla.titulo,
-      this.state.charla.descripcion,
-      this.state.charla.tiempo,
-      this.state.charla.fechaPropuesta,
-      '', // Se asignará más tarde
-      this.state.charla.idEstadoCharla,
-      this.state.charla.idRonda,
-      this.state.charla.imagenCharla
-    );
+  postFormCharlas = async () => {
+  try {
+    // Obtener el ID del alumno de manera más limpia
+    const id = await getAlumnoId();
+    console.log(id);
 
-    // Obtener el perfil del usuario y asignarlo a la charla
-    getUserProfile().then((response) => {
-      charla.idUsuario = response.idUsuario;
+    if (!id) {
+      throw new Error('No se pudo obtener el ID del alumno');
+    }
 
-      // Luego de asignar el idUsuario, enviar la charla a la API
-      createCharla(charla).then((response) => {
-        console.log(response);
-        console.log('Charla creada:', charla);
-      });
-    });
-  };
+    const charla = new Charlas();
+    charla.idCharla = parseInt(this.state.charla.idCharla);
+    charla.titulo = this.state.charla.titulo;
+    charla.descripcion = this.state.charla.descripcion;
+    charla.tiempo = parseInt(this.state.charla.tiempo);
+    charla.fechaPropuesta = this.state.charla.fechaPropuesta;
+    charla.idEstadoCharla = 2;
+    charla.idUsuario = id;  // Asignamos el ID del alumno
+    charla.idRonda = parseInt(this.state.charla.idRonda);
+    charla.imagenCharla = this.state.charla.imagenCharla;
+
+    // Crear la charla
+    const charlaResponse = await createCharla(charla);
+    console.log(charla);
+    console.log('Charla creada:', charlaResponse);
+
+    // Verificar si la charla se creó correctamente
+    if (charlaResponse && charlaResponse.idCharla) {
+      // Subir la imagen después de crear la charla
+      await this.postImagenCharla(charlaResponse.idCharla);
+      this.props.history.push('/rondas');
+    } else {
+      console.error('El ID de la charla no está presente en la respuesta.');
+    }
+  } catch (error) {
+    console.error('Error al crear la charla:', error);
+  }
+};
+
+  
+  
+  
+  
 
   putFormCharlas = () => {
     console.log(this.state.charla);
   };
+
+  postImagenCharla = async (id) => {
+    if (!id) {
+      console.error('ID de charla no válido. No se puede subir la imagen.');
+      return;
+    }
+  
+    if (!this.state.imagenArchivo) {
+      console.warn('No se ha seleccionado ninguna imagen.');
+      return;
+    }
+  
+    const reader = new FileReader();
+    reader.onloadend = async () => {
+      const fileContent = reader.result.split(',')[1]; // Extraer el contenido Base64 del archivo
+      const payload = {
+        fileName: this.state.imagenArchivo.name,
+        fileContent,
+      };
+  
+      try {
+        const response = await uploadCharlasImg(id, payload);
+        console.log('Imagen subida con éxito:', response);
+      } catch (error) {
+        console.error('Error subiendo la imagen:', error);
+      }
+    };
+  
+    reader.readAsDataURL(this.state.imagenArchivo);
+  };
+  
+  
 
   render() {
     if (this.state.isLoading) {
@@ -199,6 +250,20 @@ class FormCharlas extends Component {
               )).reverse()}
             </select>
           </div>
+
+          <div className="mb-3">
+            <label htmlFor="imagenCharla" className={styles.formLabel}>
+              Imagen de la Charla
+            </label>
+            <input
+              type="file"
+              name="imagenCharla"
+              id="imagenCharla"
+              onChange={(e) => this.setState({ imagenArchivo: e.target.files[0] })}
+              className={styles.formInput}
+            />
+          </div>
+
 
           {this.props.params.id ? (
             <button className="btn btn-primary" onClick={this.putFormCharlas}>Update</button>

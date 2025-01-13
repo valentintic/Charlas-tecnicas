@@ -118,15 +118,28 @@ export default class CharlasComponent extends Component {
           >
             {/* Slider */}
             <div className={`${styles.slickSlider}`}>
-              <Slider ref={this.sliderRef} {...sliderSettings}>
+              <Slider ref={this.sliderRef} {...sliderSettings} style={{ height: '350px' }}>
                 {charlas.map((charla, index) => {
-                  const imageUrl = charla.imagenUrl || DefaultImage;
-                  return (
+                const imageUrl = 
+                charla.imagenCharla && (charla.imagenCharla.endsWith(".jpg") || charla.imagenCharla.endsWith(".png"))
+                  ? charla.imagenCharla
+                  : DefaultImage;              
+                return (
                     <div key={charla.idCharla} className={`mb-4 ${styles.cardWrapper}`}>
                       <div
                         className={styles.card}
-                        style={{ backgroundImage: `url(${imageUrl})` }}
-                      >
+                      > 
+                        <img 
+                          src={
+                            charla.imagenCharla && (charla.imagenCharla.endsWith(".jpg") || charla.imagenCharla.endsWith(".png"))
+                              ? charla.imagenCharla
+                              : DefaultImage
+                          } 
+                          alt="charla" 
+                          className={styles.cardImgTop} 
+                          onError={(e) => e.target.src = DefaultImage}
+                        />
+
                         <div className={styles.cardBody}>
                           <h5 className={styles.cardTitle}>{charla.titulo}</h5>
                         </div>

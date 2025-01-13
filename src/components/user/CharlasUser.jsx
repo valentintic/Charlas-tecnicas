@@ -45,7 +45,7 @@ export default class CharlasUser extends Component {
                                         <td>{arr.charla.fechaPropuesta}</td>
                                         <td>{arr.charla.estadoCharla}</td>
                                         <td>{arr.charla.idRonda}</td>
-                                        <td><NavLink to="/">editar</NavLink></td>
+                                        <td><NavLink to={"/update/charla/" + arr.charla.idCharla} >editar</NavLink></td>
                                     </tr>
                                 );
                             })
