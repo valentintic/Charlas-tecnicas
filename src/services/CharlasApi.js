@@ -1,5 +1,6 @@
 import axiosApi from "./Axios";
-
+import { getAlumnoId } from "./UsuariosService";
+const idAlumno = getAlumnoId();
 export const getCharlas = async () => {
     try {
         const response = await axiosApi.get("api/charlas/charlascurso/");
@@ -60,6 +61,15 @@ export const getCharlaById = async (id) => {
         return response.data;
     } catch (error) {
         console.log("Error getting charla id", error);
+    }
+}
+
+export const uploadCharlasImg  = async (id, imagenCharla) => {
+    try {
+        const response = await axiosApi.post(`api/files/UploadImagenCharla/${id}`, imagenCharla);
+        return response.data;
+    } catch (error) {
+        console.log("Error uploading charlas img", error);
     }
 }
 
