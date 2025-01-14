@@ -40,3 +40,12 @@ export const getAlumnoId = async () => {
         console.log(error)
     }
 }
+
+export const uploadUserImg  = async (id, imagenUsuario) => {
+    try {
+        const response = await axiosApi.post(`api/files/uploadImagenUsuario/${id}`, imagenUsuario);
+        return response.data;
+    } catch (error) {
+        console.log("Error uploading user img", error);
+    }
+}
