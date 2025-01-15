@@ -7,7 +7,6 @@ import LoginComponent from './components/authentication/login/LoginComponent';
 import FormCharlas from './components/charlas/FormCharlas';
 import UserProfileComponent from './components/user/UserProfileComponent';
 import RondasComponent from './components/rondas/RondasComponent';
-import FooterComponent from './components/display/FooterComponent';
 
 const isAuthenticated = () => {
     return !!localStorage.getItem('token');

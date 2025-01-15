@@ -61,7 +61,7 @@ class LoginComponent extends Component {
     e.preventDefault();
     postLogin(this.state.user)
       .then((response) => {
-        localStorage.setItem("token", response.response);
+        localStorage.setItem("token", response.data.response);
         this.setState({ status: true });
       })
       .catch((error) => {
@@ -135,6 +135,7 @@ class LoginComponent extends Component {
                   
                 }}
               />
+
             </div>
             <input type="text" name="imagen" placeholder="Image.jpg" onChange={this.handleRegisterChange} />
             <input type="password" name="password" placeholder="Password" onChange={this.handleRegisterChange} />
