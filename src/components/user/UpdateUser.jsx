@@ -71,20 +71,28 @@ export default class UpdateUser extends Component {
       };
 
       editUser = async () => {
-        for (const key in this.state.userEdit) {
-            this.state.userEdit[key] = this.state.userData[key];
-        }
-        console.log("userData");
-        console.log(this.state.userData);
-        console.log("userEdit");
-        console.log(this.state.userEdit);
-        this.setState({ userEdit: { ...this.state.userEdit, password: "" } });
-        updateAlumno(this.state.userEdit).then((response) => {
-            console.log(response);
-            this.postImagenCharla();
-        })
-
-      }
+        const updatedUserEdit = {
+            ...this.state.userEdit,
+            ...this.state.userData,
+        };
+    
+        updatedUserEdit.password = this.state.userEdit.password || "123"; // Usa el valor actual o asigna un valor por defecto
+    
+        this.setState({ userEdit: updatedUserEdit }, async () => {
+            console.log("userData:", this.state.userData);
+            console.log("userEdit:", this.state.userEdit);
+    
+            try {
+                const response = await updateAlumno(this.state.userEdit);
+                console.log("Respuesta del servidor:", response);
+    
+                await this.postImagenCharla();
+            } catch (error) {
+                console.error("Error al actualizar el usuario:", error);
+            }
+        });
+    };
+    
 
       handleChange = (e) => {
         const { name, value } = e.target; // Extraemos el nombre y el valor del input
@@ -294,11 +302,11 @@ export default class UpdateUser extends Component {
                                                 </span>
                                             </div>
                                             <div>
-                                                <p className="mb-0">alexarawles@gmail.com</p>
+                                                <p className="mb-0">{ this.state.userData.email }</p>
                                                 <small className="text-muted">1 month ago</small>
                                             </div>
                                         </div>
-                                        <button className="btn btn-outline-primary">+ Add Email Address</button>
+                                        <button className="btn btn-outline-primary">Change Password</button>
                                     </div>
                                 </div>
 
