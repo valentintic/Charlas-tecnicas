@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { getRondas } from '../../services/Rondas';
-import { getCharlaById, createCharla } from '../../services/CharlasApi';
+import { getCharlaById, createCharla, uploadCharlasImg, updateCharla } from '../../services/CharlasApi';
 import styles from './FormCharlas.module.css';
 import withParams from '../../withParams';
 import { getAlumnoId } from '../../services/UsuariosService';
 import Charlas from '../../models/charlas';
-import { uploadCharlasImg} from '../../services/CharlasApi';
+import { Navigate } from 'react-router-dom';
 
 class FormCharlas extends Component {
   state = {
@@ -22,6 +22,7 @@ class FormCharlas extends Component {
     },
     ronda: [],
     isLoading: true,
+    redirect: false,
   };
 
   handleChange = (e) => {
@@ -86,7 +87,6 @@ class FormCharlas extends Component {
 
   postFormCharlas = async () => {
   try {
-    // Obtener el ID del alumno de manera más limpia
     const id = await getAlumnoId();
     console.log(id);
 
@@ -101,20 +101,18 @@ class FormCharlas extends Component {
     charla.tiempo = parseInt(this.state.charla.tiempo);
     charla.fechaPropuesta = this.state.charla.fechaPropuesta;
     charla.idEstadoCharla = 2;
-    charla.idUsuario = id;  // Asignamos el ID del alumno
+    charla.idUsuario = id;
     charla.idRonda = parseInt(this.state.charla.idRonda);
     charla.imagenCharla = this.state.charla.imagenCharla;
 
-    // Crear la charla
+    console.log(charla);  
     const charlaResponse = await createCharla(charla);
-    console.log(charla);
-    console.log('Charla creada:', charlaResponse);
 
-    // Verificar si la charla se creó correctamente
     if (charlaResponse && charlaResponse.idCharla) {
-      // Subir la imagen después de crear la charla
-      await this.postImagenCharla(charlaResponse.idCharla);
-      this.props.history.push('/rondas');
+      await this.postImagenCharla(charla.idCharla)
+      this.setState({
+        redirect: true
+        });
     } else {
       console.error('El ID de la charla no está presente en la respuesta.');
     }
@@ -128,9 +126,43 @@ class FormCharlas extends Component {
   
   
 
-  putFormCharlas = () => {
-    console.log(this.state.charla);
-  };
+putFormCharlas = async () => {
+  try {
+    const id = await getAlumnoId();
+    if (!id) {
+      throw new Error('No se pudo obtener el ID del alumno');
+    }
+
+    const charla = new Charlas();
+    charla.idCharla = parseInt(this.state.charla.idCharla);
+    charla.titulo = this.state.charla.titulo;
+    charla.descripcion = this.state.charla.descripcion;
+    charla.tiempo = parseInt(this.state.charla.tiempo);
+    charla.fechaPropuesta = this.state.charla.fechaPropuesta;
+    charla.idEstadoCharla = 2;
+    charla.idUsuario = id;
+    charla.idRonda = parseInt(this.state.charla.idRonda);
+    charla.imagenCharla = this.state.charla.imagenCharla;
+
+    console.log(charla);
+    const charlaResponse = await updateCharla(charla);
+    console.log(charlaResponse);
+
+    if (charlaResponse) {
+      await this.postImagenCharla(charla.idCharla).then(() => {
+        this.setState({
+          redirect: true
+          });
+        }
+      );
+    } else {
+      console.error('El ID de la charla no está presente en la respuesta.');
+    }
+  } catch (error) {
+    console.error('Error al actualizar la charla:', error);
+  }
+};
+
 
   postImagenCharla = async (id) => {
     
@@ -158,6 +190,8 @@ class FormCharlas extends Component {
   render() {
     if (this.state.isLoading) {
       return <div>Loading...</div>;
+    } else if (this.state.redirect) {
+      return <Navigate to="/charlas" />;
     }
 
     return (

@@ -57,3 +57,12 @@ export const updateAlumno = async (usuario ) => {
     }
 
 }
+
+export const changePassword = async (newPassword) => {
+    try {
+        const response = await axiosApi.put("/api/usuarios/updatepasswordusuario", newPassword);
+        return response;
+    } catch (error) {
+        console.log(error);
+    }
+}

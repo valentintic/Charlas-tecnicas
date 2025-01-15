@@ -23,7 +23,7 @@ export const createCharla = async (charla) => {
 export const updateCharla = async (charla) => {
     try {
         const response = await axiosApi.put("api/charlas/", charla);
-        return response.data;
+        return response;
     } catch (error) {
         console.log("Error updating charla", error);
     }
