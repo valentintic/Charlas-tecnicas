@@ -1,7 +1,7 @@
 import { Component } from 'react'
-import { getUserProfile } from '../../services/UsuariosService'
 import CharlasUser from './CharlasUser'
 import UpdateUser from './UpdateUser'
+import Profesores from './Profesores'
 
 export default class UserProfileComponent extends Component {
 
@@ -60,6 +60,19 @@ export default class UserProfileComponent extends Component {
                                         >
                                             Mis Charlas
                                         </button>
+                                        <button
+                                            className="nav-link text-start"
+                                            id="v-profesores-tab"
+                                            data-bs-toggle="pill"
+                                            data-bs-target="#v-pills-profesores"
+                                            type="button"
+                                            role="tab"
+                                            aria-controls="v-pills-profesores"
+                                            aria-selected="false"
+                                            style={{ borderRadius: "0.5rem", fontWeight: "500" }}
+                                        >
+                                            Profesores
+                                        </button>
 
                                     </div>
 
@@ -91,6 +104,16 @@ export default class UserProfileComponent extends Component {
                                             {/* MIS CHARLAS */}
                                             <CharlasUser/>
                                         </div>
+                                        <div
+                                            className="tab-pane fade"
+                                            id="v-pills-profesores"
+                                            role="tabpanel"
+                                            aria-labelledby="v-pills-profesores-tab"
+                                        >
+                                            {/* MIS CHARLAS */}
+                                            <Profesores/>
+                                        </div>
+                                        
                                     </div>
                                 </div>
                             </div>

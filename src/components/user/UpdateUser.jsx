@@ -47,7 +47,7 @@ export default class UpdateUser extends Component {
                 this.setState({
                     userData: response.usuario
                 });
-                console.log(response.usuario);
+                // console.log(response.usuario);
             })
             .catch((error) => {
                 console.error("Error fetching user profile:", error);
