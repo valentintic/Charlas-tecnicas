@@ -1,7 +1,7 @@
 import { Component } from 'react'
 import { getUserProfile } from '../../services/UsuariosService'
-import UpdateUser from './updateUser'
 import CharlasUser from './CharlasUser'
+import UpdateUser from './UpdateUser'
 
 export default class UserProfileComponent extends Component {
 
@@ -10,24 +10,14 @@ export default class UserProfileComponent extends Component {
     }
 
     componentDidMount = () => {
-
-        getUserProfile().then((response) => {
-            this.setState({
-                userData: response.usuario
-            })
-            // console.log(response.usuario)
-        })
-        // console.log(this.state.userData)
+        
     }
     
     render() {
         return (
             <>
-                {
-                    this.state.userData ?
-                        (
                             <div>
-                                <h1>Bienvenido {this.state.userData.nombre}</h1>
+                                <h1>Bienvenido</h1>
                                 
 
                                 <div className="d-flex vh-100">
@@ -104,14 +94,6 @@ export default class UserProfileComponent extends Component {
                                     </div>
                                 </div>
                             </div>
-                        ) :
-                        (
-                            <div>
-                                <h1>Cargando datos....</h1>
-                            </div>
-
-                        )
-                }
             </>
         )
     }
