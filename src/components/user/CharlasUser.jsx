@@ -15,7 +15,7 @@ export default class CharlasUser extends Component {
                 misCharlas: response
             })
 
-            console.log(response)
+            //console.log(response)
         })
     }
 
