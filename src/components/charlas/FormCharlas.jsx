@@ -133,16 +133,7 @@ class FormCharlas extends Component {
   };
 
   postImagenCharla = async (id) => {
-    if (!id) {
-      console.error('ID de charla no válido. No se puede subir la imagen.');
-      return;
-    }
-  
-    if (!this.state.imagenArchivo) {
-      console.warn('No se ha seleccionado ninguna imagen.');
-      return;
-    }
-  
+    
     const reader = new FileReader();
     reader.onloadend = async () => {
       const fileContent = reader.result.split(',')[1]; // Extraer el contenido Base64 del archivo

@@ -12,7 +12,6 @@ export const postRegister = async (idcurso, usuario) => {
 export const getUserProfile = async () => {
     try {
         const response = await axiosApi.get("/api/usuarios/perfil")
-        // console.log(response.data);
         return response.data
     } catch (error) {
         console.log(error)
@@ -34,9 +33,27 @@ export const getCharlasUser = async () => {
 export const getAlumnoId = async () => {
     try {
         const response = await axiosApi.get("/api/usuarios/perfil")
-        console.log("id: " + response.data.usuario.idUsuario);
         return response.data.usuario.idUsuario
     } catch (error) {
         console.log(error)
     }
+}
+
+export const uploadUserImg  = async (id, imagenUsuario) => {
+    try {
+        const response = await axiosApi.post(`api/files/uploadImagenUsuario/${id}`, imagenUsuario);
+        return response.data;
+    } catch (error) {
+        console.log("Error uploading user img", error);
+    }
+}
+
+export const updateAlumno = async (usuario ) => {
+    try {
+        const response = await axiosApi.put("/api/usuarios", usuario);
+        return response.data;
+    } catch (error) {
+        console.warn("Error updating alumno", error);
+    }
+
 }
