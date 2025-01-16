@@ -1,5 +1,5 @@
 import { Component } from 'react'
-import { getProfesoresAsync } from '../../services/UsuariosAdminService';
+import { getProfesores } from '../../services/UsuariosAdminService';
 
 
 
@@ -13,7 +13,7 @@ export default class Profesores extends Component {
     this.loadProfesores();
   }
   loadProfesores = () => {
-    getProfesoresAsync().then((response) => {
+    getProfesores().then((response) => {
       this.setState({
         profesores: response
       })

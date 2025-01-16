@@ -11,15 +11,15 @@ export default class UserProfileComponent extends Component {
     }
 
     componentDidMount = () => {
-        
+
     }
-    
+
     render() {
         return (
             <>
-                            <div>
-                                <h1>Bienvenido</h1>
-                                
+                <div>
+                    <h1>Bienvenido</h1>
+
 
                                 <div className="d-flex vh-100 justify-content-around">
                                     {/* Barra lateral */}
@@ -88,7 +88,7 @@ export default class UserProfileComponent extends Component {
                                             Ver Alumnos
                                         </button>
 
-                                    </div>
+                        </div>
 
                                     {/* Contenedor de pestañas */}
                                     <div
