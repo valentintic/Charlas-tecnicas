@@ -30,7 +30,7 @@ export default class MenuComponent extends Component {
     return (
       <>
         <div>
-          <nav className={`navbar navbar-expand-xl navbar-dark ${styles.navbar}`} aria-label="Third navbar example">
+          <nav className={`navbar navbar-expand-sm navbar-dark ${styles.navbar}`} aria-label="Third navbar example">
             <div className="container-fluid">
               <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample03" aria-controls="navbarsExample03" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>

@@ -17,3 +17,13 @@ export const getUsuariosActivosAsync = async () => {
         console.log(error)
     }
 }
+
+export const getAllUsersAdmin = async () => {
+    try {
+        const response = await axiosApi.get("/api/Usuarios");
+        console.log(response.data);
+        return response.data;
+    } catch (error) {
+        console.log(error);
+    }
+}

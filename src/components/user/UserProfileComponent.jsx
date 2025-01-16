@@ -2,6 +2,7 @@ import { Component } from 'react'
 import CharlasUser from './CharlasUser'
 import UpdateUser from './UpdateUser'
 import Profesores from './Profesores'
+import Alumnos from './Alumnos'
 
 export default class UserProfileComponent extends Component {
 
@@ -20,7 +21,7 @@ export default class UserProfileComponent extends Component {
                                 <h1>Bienvenido</h1>
                                 
 
-                                <div className="d-flex vh-100">
+                                <div className="d-flex vh-100 justify-content-around">
                                     {/* Barra lateral */}
                                     <div
                                         className="nav flex-column nav-pills p-3 shadow-sm"
@@ -73,6 +74,19 @@ export default class UserProfileComponent extends Component {
                                         >
                                             Profesores
                                         </button>
+                                        <button
+                                            className="nav-link text-start"
+                                            id="v-alumnos-tab"
+                                            data-bs-toggle="pill"
+                                            data-bs-target="#v-pills-alumnos"
+                                            type="button"
+                                            role="tab"
+                                            aria-controls="v-pills-alumnos"
+                                            aria-selected="false"
+                                            style={{ borderRadius: "0.5rem", fontWeight: "500" }}
+                                        >
+                                            Ver Alumnos
+                                        </button>
 
                                     </div>
 
@@ -112,6 +126,16 @@ export default class UserProfileComponent extends Component {
                                         >
                                             {/* MIS CHARLAS */}
                                             <Profesores/>
+                                        </div>
+                                        <div
+                                            className="tab-pane fade"
+                                            id="v-pills-alumnos"
+                                            role="tabpanel"
+                                            aria-labelledby="v-pills-alumnos-tab"
+                                            style={{ overflowY: 'auto' }}
+                                        >
+                                            {/* MIS CHARLAS */}
+                                            <Alumnos/>
                                         </div>
                                         
                                     </div>
