@@ -105,7 +105,6 @@ class FormCharlas extends Component {
     charla.idRonda = parseInt(this.state.charla.idRonda);
     charla.imagenCharla = this.state.charla.imagenCharla;
 
-    console.log(charla);  
     const charlaResponse = await createCharla(charla);
 
     if (charlaResponse && charlaResponse.idCharla) {

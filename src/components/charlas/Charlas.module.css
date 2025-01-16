@@ -68,24 +68,27 @@ h1 {
   font-weight: 600;
   color: white;
   position: absolute;
-  bottom: 10px; /* Lo posiciona en la parte inferior */
-  left: 50%; /* Centra horizontalmente */
-  transform: translateX(-50%); /* Ajusta para centrar */
-  transition: transform 0.3s ease, bottom 0.3s ease, font-size 0.3s ease;
+  bottom: -8px;
+  left: 50%; 
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 10px 20px;
+  width: 100%;
+  transition: transform 0.3s ease, bottom 0.35s ease, font-size 0.3s ease;
 }
 
 .card:hover {
   transform: scale(1.035);
-  /*
-  radio shadow
-  */
   box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
 }
 
 /* Al hacer hover, el título sube */
 .card:hover .cardTitle {
-  bottom: 80%; /* Mueve el título a la parte superior */
-  font-size: 1.5rem; /* Aumenta el tamaño del texto */
+  font-size: 1.25rem; /* Aumenta el tamaño del texto */
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  
 }
 
 /* Estilos para los detalles debajo del slider */
