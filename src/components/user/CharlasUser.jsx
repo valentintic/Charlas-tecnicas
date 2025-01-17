@@ -1,5 +1,6 @@
 import { Component } from 'react'
 import { getCharlasUser } from '../../services/UsuariosService'
+import { deleteCharla } from '../../services/CharlasApi'
 import { NavLink } from 'react-router-dom'
 
 export default class CharlasUser extends Component {
@@ -9,6 +10,10 @@ export default class CharlasUser extends Component {
     }
 
     componentDidMount = () => {
+        this.getCharlasUser();
+    }
+
+    getCharlasUser = () => {
         getCharlasUser().then((response) => {
             
             this.setState({
@@ -16,6 +21,13 @@ export default class CharlasUser extends Component {
             })
 
             //console.log(response)
+        })
+    }
+
+    handleDeleteCharla = async (id) => {
+        await deleteCharla(id).then((response) => {
+            console.log(response)
+            this.getCharlasUser()
         })
     }
 
@@ -46,6 +58,7 @@ export default class CharlasUser extends Component {
                                         <td>{arr.charla.estadoCharla}</td>
                                         <td>{arr.charla.idRonda}</td>
                                         <td><NavLink to={"/update/charla/" + arr.charla.idCharla} >editar</NavLink></td>
+                                        <td><button onClick={() => this.handleDeleteCharla(arr.charla.idCharla)}>Eliminar</button></td>
                                     </tr>
                                 );
                             })

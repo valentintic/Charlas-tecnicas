@@ -4,6 +4,7 @@ import { Usuario } from '../../models/usuario';
 import { postLogin } from '../../services/Login';
 import { Navigate } from 'react-router-dom';
 import Swal from 'sweetalert2'; // Importar SweetAlert
+import defaultUserImage from "../../assets/profile-default-icon.jpg";
 export default class UpdateUser extends Component {
     state = {
         userData: {
@@ -294,6 +295,7 @@ export default class UpdateUser extends Component {
                                 <div className="d-flex align-items-center">
                                     <img
                                         src={this.state.userData.imagen}
+                                        onError={(e) => e.target.src = defaultUserImage}
                                         alt="Avatar"
                                         className="rounded-circle me-3"
                                         style={{ width: "80px", height: "80px" }}
