@@ -107,8 +107,10 @@ class FormCharlas extends Component {
 
     const charlaResponse = await createCharla(charla);
 
+    console.log("Response de la charla", charlaResponse);
+
     if (charlaResponse && charlaResponse.idCharla) {
-      await this.postImagenCharla(charla.idCharla)
+      await this.postImagenCharla(charlaResponse.idCharla);
       this.setState({
         redirect: true
         });

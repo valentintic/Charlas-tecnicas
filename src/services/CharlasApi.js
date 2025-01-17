@@ -1,6 +1,4 @@
 import axiosApi from "./Axios";
-import { getAlumnoId } from "./UsuariosService";
-const idAlumno = getAlumnoId();
 export const getCharlas = async () => {
     try {
         const response = await axiosApi.get("api/charlas/charlascurso/");

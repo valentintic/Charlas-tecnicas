@@ -5,6 +5,7 @@ import styles from './Charlas.module.css';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import ComentariosComponent from './ComentariosComponent';
 
 export default class CharlasComponent extends Component {
   state = {
@@ -189,6 +190,10 @@ export default class CharlasComponent extends Component {
                 <div className={styles.cardButtons}>
                   <button className="btn btn-primary">Votar</button>
                   <button className="btn btn-secondary">Detalles</button>
+                </div>
+
+                <div>
+                  <ComentariosComponent charlaId={charlas[centeredIndex].idCharla} />
                 </div>
               </div>
             )}
