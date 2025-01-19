@@ -1,5 +1,5 @@
 const Global = {
-    urlApiCharlas: "https://apicharlasalumnostajamar.azurewebsites.net/"
+    urlApiCharlas: "https://apicharlasalumnostajamar2025.azurewebsites.net/"
 }
 
 export default Global

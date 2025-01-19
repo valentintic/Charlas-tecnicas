@@ -2,7 +2,7 @@ import axiosApi from "./Axios"
 
 export const getProfesoresAsync = async () => {
     try {
-        const response = await axiosApi.get("/api/Admin/Profesores")
+        const response = await axiosApi.get("/api/admin/profesores")
         return response.data
     } catch (error) {
         console.log(error)
@@ -11,7 +11,7 @@ export const getProfesoresAsync = async () => {
 
 export const getUsuariosActivosAsync = async () => {
     try {
-        const response = await axiosApi.get("/api/Admin/UsuariosActivos")
+        const response = await axiosApi.get("/api/admin/usuariosactivos")
         return response.data
     } catch (error) {
         console.log(error)
@@ -20,7 +20,7 @@ export const getUsuariosActivosAsync = async () => {
 
 export const getAllUsersAdmin = async () => {
     try {
-        const response = await axiosApi.get("/api/Usuarios")
+        const response = await axiosApi.get("/api/usuarios")
         return response.data
     } catch (error) {
         console.log(error)
