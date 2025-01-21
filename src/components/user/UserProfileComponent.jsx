@@ -14,10 +14,11 @@ export default class UserProfileComponent extends Component {
   };
 
   render() {
+    const userRole = localStorage.getItem("role");
+
     return (
       <>
         <div className="container-fluid mt-4">
-          <h1 className="mb-4">Bienvenido</h1>
           <div className="row g-3">
             {/* Barra lateral */}
             <div
@@ -41,45 +42,57 @@ export default class UserProfileComponent extends Component {
                 >
                   Perfil
                 </button>
-                <button
-                  className="nav-link text-start mb-2"
-                  id="v-pills-charlasuser-tab"
-                  data-bs-toggle="pill"
-                  data-bs-target="#v-pills-charlasuser"
-                  type="button"
-                  role="tab"
-                  aria-controls="v-pills-charlasuser"
-                  aria-selected="false"
-                  style={{ borderRadius: '0.5rem', fontWeight: '500' }}
-                >
-                  Mis Charlas
-                </button>
-                <button
-                  className="nav-link text-start mb-2"
-                  id="v-profesores-tab"
-                  data-bs-toggle="pill"
-                  data-bs-target="#v-pills-profesores"
-                  type="button"
-                  role="tab"
-                  aria-controls="v-pills-profesores"
-                  aria-selected="false"
-                  style={{ borderRadius: '0.5rem', fontWeight: '500' }}
-                >
-                  Profesores
-                </button>
-                <button
-                  className="nav-link text-start mb-2"
-                  id="v-alumnos-tab"
-                  data-bs-toggle="pill"
-                  data-bs-target="#v-pills-alumnos"
-                  type="button"
-                  role="tab"
-                  aria-controls="v-pills-alumnos"
-                  aria-selected="false"
-                  style={{ borderRadius: '0.5rem', fontWeight: '500' }}
-                >
-                  Ver Alumnos
-                </button>
+
+                {/* Mostrar "Mis Charlas" solo para Alumnos */}
+                {userRole === "ALUMNO" && (
+                  <button
+                    className="nav-link text-start mb-2"
+                    id="v-pills-charlasuser-tab"
+                    data-bs-toggle="pill"
+                    data-bs-target="#v-pills-charlasuser"
+                    type="button"
+                    role="tab"
+                    aria-controls="v-pills-charlasuser"
+                    aria-selected="false"
+                    style={{ borderRadius: '0.5rem', fontWeight: '500' }}
+                  >
+                    Mis Charlas
+                  </button>
+                )}
+
+                {/* Mostrar "Profesores" solo para ADMINISTRADORistrador y Profesor */}
+                {(userRole === "ADMINISTRADOR" || userRole === "PROFESOR") && (
+                  <button
+                    className="nav-link text-start mb-2"
+                    id="v-profesores-tab"
+                    data-bs-toggle="pill"
+                    data-bs-target="#v-pills-profesores"
+                    type="button"
+                    role="tab"
+                    aria-controls="v-pills-profesores"
+                    aria-selected="false"
+                    style={{ borderRadius: '0.5rem', fontWeight: '500' }}
+                  >
+                    Profesores
+                  </button>
+                )}
+
+                {/* Mostrar "Ver Alumnos" solo para ADMINISTRADORistrador */}
+                {userRole === "ADMINISTRADOR" && (
+                  <button
+                    className="nav-link text-start mb-2"
+                    id="v-alumnos-tab"
+                    data-bs-toggle="pill"
+                    data-bs-target="#v-pills-alumnos"
+                    type="button"
+                    role="tab"
+                    aria-controls="v-pills-alumnos"
+                    aria-selected="false"
+                    style={{ borderRadius: '0.5rem', fontWeight: '500' }}
+                  >
+                    Ver Alumnos
+                  </button>
+                )}
               </div>
             </div>
 
@@ -103,34 +116,46 @@ export default class UserProfileComponent extends Component {
                 >
                   <UpdateUser />
                 </div>
-                <div
-                  className="tab-pane fade"
-                  id="v-pills-charlasuser"
-                  role="tabpanel"
-                  aria-labelledby="v-pills-charlasuser-tab"
-                >
-                  <CharlasUser />
-                </div>
-                <div
-                  className="tab-pane fade"
-                  id="v-pills-profesores"
-                  role="tabpanel"
-                  aria-labelledby="v-pills-profesores-tab"
-                >
-                  <Profesores />
-                </div>
-                <div
-                  className="tab-pane fade"
-                  id="v-pills-alumnos"
-                  role="tabpanel"
-                  aria-labelledby="v-pills-alumnos-tab"
-                  style={{
-                    overflowY: 'auto',
-                    maxHeight: '100%',
-                  }}
-                >
-                  <Alumnos />
-                </div>
+
+                {/* Mostrar "Mis Charlas" solo para Alumnos */}
+                {userRole === "ALUMNO" && (
+                  <div
+                    className="tab-pane fade"
+                    id="v-pills-charlasuser"
+                    role="tabpanel"
+                    aria-labelledby="v-pills-charlasuser-tab"
+                  >
+                    <CharlasUser />
+                  </div>
+                )}
+
+                {/* Mostrar "Profesores" solo para ADMINISTRADORistrador y Profesor */}
+                {(userRole === "ADMINISTRADOR" || userRole === "PROFESOR") && (
+                  <div
+                    className="tab-pane fade"
+                    id="v-pills-profesores"
+                    role="tabpanel"
+                    aria-labelledby="v-pills-profesores-tab"
+                  >
+                    <Profesores />
+                  </div>
+                )}
+
+                {/* Mostrar "Ver Alumnos" solo para ADMINISTRADORistrador */}
+                {userRole === "ADMINISTRADOR" && (
+                  <div
+                    className="tab-pane fade"
+                    id="v-pills-alumnos"
+                    role="tabpanel"
+                    aria-labelledby="v-pills-alumnos-tab"
+                    style={{
+                      overflowY: 'auto',
+                      maxHeight: '100%',
+                    }}
+                  >
+                    <Alumnos />
+                  </div>
+                )}
               </div>
             </div>
           </div>

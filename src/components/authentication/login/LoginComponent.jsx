@@ -29,10 +29,11 @@ class LoginComponent extends Component {
   };
 
   handleToggleForm = () => {
-    this.setState(prevState => ({
-      isActive: !prevState.isActive,  // Cambia entre login y registro
+    this.setState((prevState) => ({
+      isActive: !prevState.isActive,
     }));
   };
+  
 
   handleChange = (e) => {
     const { name, value } = e.target;
@@ -45,23 +46,23 @@ class LoginComponent extends Component {
   };
 
   handleRegisterChange = (e) => {
-    e.preventDefault();
     const { name, value } = e.target;
-    this.setState({
+    this.setState((prevState) => ({
       userRegistration: {
-        ...this.state.userRegistration,
+        ...prevState.userRegistration,
         [name]: value,
       },
-      ...(name === 'curso' && { curso: value }),
-      
-    });
+      ...(name === 'curso' ? { curso: value } : {}),
+    }));
   };
+  
 
   login = (e) => {
     e.preventDefault();
     postLogin(this.state.user)
       .then((response) => {
         localStorage.setItem("token", response.data.response);
+        localStorage.setItem("role", response.data.role)
         this.setState({ status: true });
       })
       .catch((error) => {
@@ -100,8 +101,13 @@ class LoginComponent extends Component {
   
 
   render() {
+    const role = localStorage.getItem("role");
     if (this.state.status) {
-      return <Navigate to="/charlas" />;
+      if (role === "ALUMNO") {
+        return <Navigate to="/charlas" />;
+      } else if (role === "ADMINISTRADOR") {
+        return <Navigate to="/" />;
+      }
     }
 
     return (

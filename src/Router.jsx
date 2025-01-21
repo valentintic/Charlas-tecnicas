@@ -7,6 +7,7 @@ import LoginComponent from './components/authentication/login/LoginComponent';
 import FormCharlas from './components/charlas/FormCharlas';
 import UserProfileComponent from './components/user/UserProfileComponent';
 import RondasComponent from './components/rondas/RondasComponent';
+import { getUserProfile } from './services/UsuariosService';
 
 const isAuthenticated = () => {
     return !!localStorage.getItem('token');

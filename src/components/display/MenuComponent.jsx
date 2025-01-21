@@ -5,7 +5,7 @@ import { FaHome } from "react-icons/fa";
 
 export default class MenuComponent extends Component {
   state = {
-    isAuthenticated: localStorage.getItem("token") !== null
+    isAuthenticated: localStorage.getItem("token") !== null,
   };
 
   componentDidMount() {
@@ -23,10 +23,18 @@ export default class MenuComponent extends Component {
 
   logoff = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("role");
     this.setState({ isAuthenticated: false });
   };
 
+  getRole = () => {
+    const role = localStorage.getItem("role");
+    return role;
+  }
+
   render() {
+    const role = this.getRole(); // Obtenemos el rol del usuario
+
     return (
       <>
         <div>
@@ -37,17 +45,15 @@ export default class MenuComponent extends Component {
               </button>
               <div className="collapse navbar-collapse" id="navbarsExample03">
                 <ul className={`navbar-nav me-auto mb-2 mb-sm-0 ${styles.navbarLeft}`}>
-                <li className="nav-item">
-                  <NavLink to={"/"} className={`nav-link ${styles.navLink}`} aria-current="page">
-                    <img
-                      src="https://www.tajamar.es/wp-content/uploads/2017/06/logo-tajamar.svg"
-                      alt="Logo Tajamar"
-                      className={styles.navLogo}
-                    />
-                  </NavLink>
-                </li>
-
-
+                  <li className="nav-item">
+                    <NavLink to={"/"} className={`nav-link ${styles.navLink}`} aria-current="page">
+                      <img
+                        src="https://www.tajamar.es/wp-content/uploads/2017/06/logo-tajamar.svg"
+                        alt="Logo Tajamar"
+                        className={styles.navLogo}
+                      />
+                    </NavLink>
+                  </li>
                 </ul>
 
                 {/* Navbar a la derecha */}
@@ -69,31 +75,33 @@ export default class MenuComponent extends Component {
 
                   {this.state.isAuthenticated && (
                     <>
-                      {/* Dropdown */}
-                      <li className="nav-item dropdown">
-                        <a className={`nav-link dropdown-toggle ${styles.navLink}`} href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                          Charlas
-                        </a>
-                        <ul className={`dropdown-menu ${styles.dropdownMenu}`} aria-labelledby="navbarDropdown">
-                          <li>
-                            <NavLink to="/charlas" className={`dropdown-item ${styles.dropdownItem}`}>
-                              Ver Charlas
-                            </NavLink>
-                          </li>
-                          <li>
-                            <NavLink to="/create/charla" className={`dropdown-item ${styles.dropdownItem}`}>
-                              Create Charla
-                            </NavLink>
-                          </li>
-                        </ul>
-                      </li>
+                      {/* Mostrar el menú de Charlas solo si el rol no es Administrador */}
+                      {role !== "3" && (
+                        <li className="nav-item dropdown">
+                          <a className={`nav-link dropdown-toggle ${styles.navLink}`} href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Charlas
+                          </a>
+                          <ul className={`dropdown-menu ${styles.dropdownMenu}`} aria-labelledby="navbarDropdown">
+                            <li>
+                              <NavLink to="/charlas" className={`dropdown-item ${styles.dropdownItem}`}>
+                                Ver Charlas
+                              </NavLink>
+                            </li>
+                            <li>
+                              <NavLink to="/create/charla" className={`dropdown-item ${styles.dropdownItem}`}>
+                                Create Charla
+                              </NavLink>
+                            </li>
+                          </ul>
+                        </li>
+                      )}
                       <li className="nav-item">
-                        <NavLink to={"/rondas"} className={`nav-link ${styles.navLink} `} aria-current="page">
+                        <NavLink to={"/rondas"} className={`nav-link ${styles.navLink}`} aria-current="page">
                           Rondas
                         </NavLink>
                       </li>
                       <li className="nav-item">
-                        <NavLink to={"/user/profile"} className={`nav-link ${styles.navLink} `} aria-current="page">
+                        <NavLink to={"/user/profile"} className={`nav-link ${styles.navLink}`} aria-current="page">
                           Perfil
                         </NavLink>
                       </li>
