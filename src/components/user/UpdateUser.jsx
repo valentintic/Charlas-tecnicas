@@ -1,6 +1,6 @@
 import { Component } from 'react'
 import { getUserProfile, getAlumnoId, uploadUserImg, updateAlumno , changePassword} from '../../services/UsuariosService'
-import { Usuario } from '../../models/usuario';
+// import { Usuario } from '../../models/usuario';
 import { postLogin } from '../../services/Login';
 import { Navigate } from 'react-router-dom';
 import Swal from 'sweetalert2'; // Importar SweetAlert
@@ -64,12 +64,12 @@ export default class UpdateUser extends Component {
                 <div style="padding: 20px; font-family: Arial, sans-serif;">
                     <div style="margin-bottom: 15px;">
                         <label for="oldPassword" style="font-size: 14px; color: #333; font-weight: bold;">Contraseña actual</label>
-                        <input id="oldPassword" type="password" class="swal2-input" placeholder="Introduce tu contraseña actual" value="${oldPassword}" 
+                        <input id="oldPassword" type="password" class="swal2-input" placeholder="Introduce tu contraseña actual" defaultValue="${oldPassword}" 
                             style="width: 80%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px; box-sizing: border-box;" />
                     </div>
                     <div style="margin-bottom: 15px;">
                         <label for="confirmPassword" style="font-size: 14px; color: #333; font-weight: bold;">Repite la contraseña actual</label>
-                        <input id="confirmPassword" type="password" class="swal2-input" placeholder="Repite la contraseña actual" value="${confirmPassword}" 
+                        <input id="confirmPassword" type="password" class="swal2-input" placeholder="Repite la contraseña actual" defaultValue="${confirmPassword}" 
                             style="width: 80%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px; box-sizing: border-box;" />
                     </div>
                 </div>
@@ -77,7 +77,7 @@ export default class UpdateUser extends Component {
             `,
             focusConfirm: false,
             showCancelButton: true,
-            showCancelButton: true,
+            // showCancelButton: true,
             preConfirm: () => {
                 const oldPassword = document.getElementById('oldPassword').value;
                 const confirmPassword = document.getElementById('confirmPassword').value;
@@ -317,7 +317,7 @@ export default class UpdateUser extends Component {
                                             type="text"
                                             className="form-control"
                                             placeholder="Tu nombre"
-                                            value={this.state.userData.nombre}
+                                            defaultValue={this.state.userData.nombre}
                                             onChange={this.handleChange}
                                             name="nombre"
                                         />
@@ -329,7 +329,7 @@ export default class UpdateUser extends Component {
                                             type="text"
                                             className="form-control"
                                             placeholder="Tu apellido"
-                                            value={this.state.userData.apellidos}
+                                            defaultValue={this.state.userData.apellidos}
                                             onChange={this.handleChange}
                                             name="apellidos"
                                         />
@@ -341,14 +341,14 @@ export default class UpdateUser extends Component {
                                                 type="text"
                                                 className="form-control"
                                                 placeholder="Tu correo"
-                                                value={this.state.userData.email.split('@')[0]}
+                                                defaultValue={this.state.userData.email.split('@')[0]}
                                                 onChange={this.handleEmailChange}
                                                 name="email"
                                             />
                                             <input
                                                 type="text"
                                                 className="form-control"
-                                                value="@tajamar365.com" // Parte fija del email
+                                                defaultValue="@tajamar365.com" // Parte fija del email
                                                 disabled // No editable
                                                 readOnly // Asegura que no se pueda modificar
                                             />
@@ -362,7 +362,7 @@ export default class UpdateUser extends Component {
                                             type="text"
                                             className="form-control"
                                             placeholder="Tu apellido"
-                                            value={this.state.userData.role}
+                                            defaultValue={this.state.userData.role}
                                             name="role"
                                         />
                                     </div>
@@ -373,7 +373,7 @@ export default class UpdateUser extends Component {
                                             type="text"
                                             className="form-control"
                                             placeholder="Tu apellido"
-                                            value={
+                                            defaultValue={
                                                 (this.state.userData.idCurso || "") + " - " + (this.state.userData.curso || "")
                                             }
                                             name="idCurso"
