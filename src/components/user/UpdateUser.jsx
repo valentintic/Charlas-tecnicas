@@ -372,7 +372,7 @@ export default class UpdateUser extends Component {
                                             disabled={this.state.userData.role === "ALUMNO"}
                                             type="text"
                                             className="form-control"
-                                            placeholder="Tu apellido"
+                                            placeholder="Cursos"
                                             defaultValue={
                                                 (this.state.userData.idCurso || "") + " - " + (this.state.userData.curso || "")
                                             }

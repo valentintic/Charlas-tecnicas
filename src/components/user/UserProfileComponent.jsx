@@ -60,7 +60,6 @@ export default class UserProfileComponent extends Component {
                   </button>
                 )}
 
-                {/* Mostrar "Profesores" solo para ADMINISTRADORistrador y Profesor */}
                 {(userRole === "ADMINISTRADOR" || userRole === "PROFESOR") && (
                   <button
                     className="nav-link text-start mb-2"
