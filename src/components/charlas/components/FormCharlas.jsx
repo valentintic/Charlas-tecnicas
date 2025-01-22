@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { getRondas } from '../../services/Rondas';
-import { getCharlaById, createCharla, uploadCharlasImg, updateCharla } from '../../services/CharlasApi';
-import styles from './FormCharlas.module.css';
-import withParams from '../../withParams';
-import { getAlumnoId } from '../../services/UsuariosService';
-import Charlas from '../../models/charlas';
+import { getRondas } from '../../../services/Rondas';
+import { getCharlaById, createCharla, uploadCharlasImg, updateCharla } from '../../../services/CharlasApi';
+import styles from '../modules/FormCharlas.module.css';
+import withParams from '../../../withParams';
+import { getAlumnoId } from '../../../services/UsuariosService';
+import Charlas from '../../../models/charlas';
 import { Navigate } from 'react-router-dom';
 
 class FormCharlas extends Component {

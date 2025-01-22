@@ -8,3 +8,12 @@ export const getComentariosCharla = async (idCharla) => {
         console.log("Error getting comentarios charla", error);
     }
 }
+
+export const createComentario = async (comentario) => {
+    try {
+        const response = await axiosApi.post("api/comentarios", comentario);
+        return response.data
+    } catch (error) {
+        console.log("Error creating comentario", error);
+    }
+}

@@ -12,13 +12,15 @@
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-
 /* Título principal */
 h1 {
   font-size: 3rem;
   font-weight: 700;
   text-align: center;
   margin-bottom: 30px;
+  color: #333;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 /* Estilos generales para las tarjetas */
@@ -46,37 +48,38 @@ h1 {
   left: 0;
   width: 100%;
   height: 100%;
-  background-size: cover; /* Ajusta la imagen para cubrir todo el área */
-  background-position: center; /* Centra la imagen */
-  background-repeat: no-repeat !important; /* Evita que la imagen se repita */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat !important;
   transition: transform 0.3s ease;
 }
-
 
 /* Cuerpo de la tarjeta */
 .cardBody {
   position: relative;
   z-index: 2;
-  padding: 10px;
+  padding: 15px;
   text-align: center;
-  transition: background 0.3s ease;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
 }
 
 /* Título de la tarjeta */
 .cardTitle {
   font-size: 1.25rem;
   font-weight: 600;
-  color: white;
+  color: #fff;
   position: absolute;
   bottom: -8px;
-  left: 50%; 
+  left: 50%;
   transform: translateX(-50%);
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 0, 0, 0.3);
   padding: 10px 20px;
   width: 100%;
   transition: transform 0.3s ease, bottom 0.35s ease, font-size 0.3s ease;
 }
 
+/* Hover de las tarjetas */
 .card:hover {
   transform: scale(1.035);
   box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
@@ -85,10 +88,9 @@ h1 {
 
 /* Al hacer hover, el título sube */
 .card:hover .cardTitle {
-  font-size: 1.25rem; /* Aumenta el tamaño del texto */
+  font-size: 1.25rem;
   background-color: rgba(0, 0, 0, 0.5);
   width: 100%;
-  
 }
 
 /* Estilos para los detalles debajo del slider */
@@ -113,47 +115,7 @@ h1 {
   margin-bottom: 25px;
 }
 
-.cardDetails.closing {
-  animation: fadeOutDown 1s ease forwards;
-}
-
-@keyframes fadeOutDown {
-  from {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  to {
-    opacity: 0;
-    transform: translateY(30px);
-    display: none;
-  }
-}
-
-@keyframes cardOpen {
-  from {
-    opacity: 0;
-    display: none;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    display: block;
-    transform: translateY(0);
-  }
-}
-
-.cardDetails p {
-  font-size: 1rem;
-  margin: 10px 0;
-  line-height: 1.6;
-  color: #444;
-}
-
-.cardDetails strong {
-  font-weight: 700;
-  color: #007bff;
-}
-
+/* Estilos de los botones dentro de los detalles */
 .cardButtons {
   margin-top: 20px;
   display: flex;
@@ -169,31 +131,28 @@ h1 {
   transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
   cursor: pointer;
+  font-family: 'Roboto', sans-serif;
 }
 
+/* Botón primario */
 .cardButtons .btn-primary {
-  background-color: #007bff;
+  background-color: #4CAF50;
   color: white;
 }
 
+/* Botón secundario */
 .cardButtons .btn-secondary {
-  background-color: #28a745;
+  background-color: #f44336;
   color: white;
 }
 
+/* Hover de los botones */
 .cardButtons .btn:hover {
   transform: translateY(-3px);
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
 }
 
-.cardButtons .btn-primary:hover {
-  background-color: #0056b3;
-}
-
-.cardButtons .btn-secondary:hover {
-  background-color: #218838;
-}
-
+/* Estilos para los puntos de la navegación del carrusel */
 .slickDots {
   bottom: 0;
   display: flex;
@@ -203,90 +162,31 @@ h1 {
   padding: 0;
 }
 
-
-.slickDotActive {
-  color: #0056b3;
-  background-color: #e9ecef;
-}
-
-.slickDotText {
-  font-size: 14px;
-  color: #333;
-  font-weight: bold;
-  text-align: center;
-  padding: 0;
-  margin-bottom: 25px;
-  bottom: 0;
-}
-
-ul .slick-dots {
-  position: absolute;
-  bottom: 0;
-  display: block;
-  width: 100%;
-  padding: 0;
-  margin: 0;
-  list-style: none;
-  text-align: center;
-}
-
-:global(.slick-active) .slickDotText {
-  color: #0056b3;
-  background: rgba(0, 0, 0, 0.3); /* Negro con 50% de opacidad */
-  border-radius: 7px;
-}
-
-
 /* Estilos para el contenedor del carrusel */
 .cardWrapper {
   display: flex !important;
   justify-content: center;
   align-items: center;
   padding: 10px;
-  overflow: hidden; /* Ocultar contenido desbordado */
-  cursor: grab; /* Cursor para scroll */
+  overflow: hidden;
+  cursor: grab;
 }
 
 .cardWrapper:active {
-  cursor: grabbing; /* Cambia el cursor al hacer clic */
-}
-
-/* Estilos para las tarjetas dentro del carrusel */
-.slick-slide {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: transform 0.3s ease;
-}
-
-
-/* Estilos para los slides laterales */
-.slick-center .card {
-  transform: scale(1.1); /* Aumenta el tamaño del card central */
-  z-index: 2; /* Coloca el card central sobre los demás */
-}
-
-.slick-slide:not(.slick-center) .card {
-  transform: scale(0.95) rotate(-5deg); /* Ajusta la rotación */
-  opacity: 0.8; /* Aumenta la opacidad */
-  z-index: 1; /* Coloca los slides laterales detrás */
-}
-
-.slick-slide:not(.slick-center) .card:hover {
-  transform: scale(1) rotate(0deg); /* Efecto hover para las tarjetas laterales */
+  cursor: grabbing;
 }
 
 /* Estilos responsivos */
 @media (max-width: 768px) {
   .cardTitle {
-    font-size: 1rem; /* Ajusta el tamaño del título */
+    font-size: 1rem;
   }
 
   .slick-slide {
-    transform: scale(0.95); /* Reduce el tamaño de las tarjetas */
+    transform: scale(0.95);
   }
 
   .slick-center .card {
-    transform: scale(1.05); /* Ajusta el tamaño del card central */
+    transform: scale(1.05);
   }
 }

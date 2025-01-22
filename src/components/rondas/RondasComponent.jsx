@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { getRondasCurso } from '../../services/Rondas';
-import CharlasComponent from '../charlas/CharlasComponent';
+import CharlasComponent from '../charlas/components/CharlasComponent';
 import styles from './Rondas.module.css'; // Importa el archivo CSS
 
 export default class RondasComponent extends Component {
