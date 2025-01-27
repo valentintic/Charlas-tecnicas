@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
-import { getAlumnosCursoProfesorAsync } from '../../services/ProfesorService'
+import { getAlumnosCursoProfesorAsync, getCursosProfesorAsync } from '../../services/ProfesorService'
 
 export default class AlumnosProfesorCurso extends Component {
 
     state = {
+        cursos:null,
         alumnosCurso: null
     }
 
@@ -23,12 +24,30 @@ export default class AlumnosProfesorCurso extends Component {
         return (
             <div>
                 <h1>AlumnosProfesorCurso</h1>
+                {/* <label>Cursos:</label>
+                {
+                    this.state.cursos ?
+                    (
+                        <select name='cursos' id='cursos'>
+                        {
+                            this.state.cursos.map((curso, index) => {
+                                return(
+                                    <option key={index} value={curso}>
+                                        {curso}
+                                    </option>
+                                );
+                            })
+                        }
+                        </select>
+                    ):
+                    (<h2>Cargando cursos...</h2>)
+                } */}
                 {
                     this.state.alumnosCurso ?
                     (
                         <>
                         <h2>hola</h2>
-                        {/* <table>
+                        <table>
                             <thead>
                                 <tr>
                                     <th></th>
@@ -37,16 +56,16 @@ export default class AlumnosProfesorCurso extends Component {
                             <tbody>
                                 {
                                     this.state.alumnosCurso.map((alumnos, index) => {
-                                        // Muestra todos los alumnos de este curso
+                                        // Muestra todos ls alumnos de este curso
                                         
                                     })
                                 }
                             </tbody>
-                        </table> */}
+                        </table>
                         </>
                     ) :
                     (
-                        <h2>Cargando datos...</h2>
+                        <h2>Cargando alumnos...</h2>
                     )
                 }
             </div>
