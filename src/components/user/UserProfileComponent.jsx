@@ -3,6 +3,7 @@ import CharlasUser from './CharlasUser';
 import UpdateUser from './UpdateUser';
 import Profesores from './Profesores';
 import Alumnos from './Alumnos';
+import AlumnosProfesorCurso from './AlumnosProfesorCurso';
 
 export default class UserProfileComponent extends Component {
   state = {
@@ -59,8 +60,24 @@ export default class UserProfileComponent extends Component {
                     Mis Charlas
                   </button>
                 )}
+                {/* Mostrar "Mis alumnos" segun el curso del profesor que se ha logueado */}
+                {userRole === "PROFESOR" && (
+                  <button
+                    className="nav-link text-start mb-2"
+                    id="v-pills-alumnoscursoprofesor-tab"
+                    data-bs-toggle="pill"
+                    data-bs-target="#v-pills-alumnoscursoprofesor"
+                    type="button"
+                    role="tab"
+                    aria-controls="v-pills-alumnoscursoprofesor"
+                    aria-selected="false"
+                    style={{ borderRadius: '0.5rem', fontWeight: '500' }}
+                  >
+                    Mis alumnos
+                  </button>
+                )}
 
-                {(userRole === "ADMINISTRADOR" || userRole === "PROFESOR") && (
+                {(userRole === "ADMINISTRADOR") && (
                   <button
                     className="nav-link text-start mb-2"
                     id="v-profesores-tab"
@@ -128,8 +145,20 @@ export default class UserProfileComponent extends Component {
                   </div>
                 )}
 
+                {/* Mostrar "Mis alumno" solo para Profesor */}
+                {userRole === "PROFESOR" && (
+                  <div
+                    className="tab-pane fade"
+                    id="v-pills-alumnoscursoprofesor"
+                    role="tabpanel"
+                    aria-labelledby="v-pills-alumnoscursoprofesor-tab"
+                  >
+                    <AlumnosProfesorCurso />
+                  </div>
+                )}
+
                 {/* Mostrar "Profesores" solo para ADMINISTRADORistrador y Profesor */}
-                {(userRole === "ADMINISTRADOR" || userRole === "PROFESOR") && (
+                {(userRole === "ADMINISTRADOR") && (
                   <div
                     className="tab-pane fade"
                     id="v-pills-profesores"
