@@ -103,7 +103,7 @@ export const deleteRondaProfesorAsync = async (idRonda) => {
 // EL PROFESOR CAMBIA PUEDE CAMBIAR EL ESTADO DE UN ALUMNO A ACTIVO O INACTIVO (true o false) APUNTANDO A SU ID
 export const updateEstadoAlumnoProfesorAsync = async (idAlumno, estado) => {
     try {
-        const response = await axiosApi.put("api/profesor/updatealumno/"+idAlumno+"/"+estado, "");
+        const response = await axiosApi.put("api/profesor/updateestadoalumno/"+idAlumno+"/"+estado, "");
         return response.data;
     } catch (error) {   
         console.log("Error acutalizando el estado del alumno como profesor", error);
@@ -130,4 +130,12 @@ export const getDatosAlumnoProfesorAsync = async (idAlumno) => {
     }
 }
 
-
+// Permite acceder a todas las charlas del profesor
+export const getCharlasCursoProfesor = async (idAlumno) => {
+    try {
+        const response = await axiosApi.get("/api/charlas/charlascurso")
+        return response.data
+    } catch (error) {
+        console.log(error)
+    }
+}

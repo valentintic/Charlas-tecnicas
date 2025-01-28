@@ -4,6 +4,7 @@ import UpdateUser from './UpdateUser';
 import Profesores from './Profesores';
 import Alumnos from './Alumnos';
 import AlumnosProfesorCurso from './AlumnosProfesorCurso';
+import UpdateEstadoCharlaAlumnosProfesor from './UpdateEstadoCharlaAlumnosProfesor';
 
 export default class UserProfileComponent extends Component {
   state = {
@@ -74,6 +75,22 @@ export default class UserProfileComponent extends Component {
                     style={{ borderRadius: '0.5rem', fontWeight: '500' }}
                   >
                     Mis alumnos
+                  </button>
+                )}
+                {/* Mostrar "Mis Rondas Charlas" profesor que se ha logueado */}
+                {userRole === "PROFESOR" && (
+                  <button
+                    className="nav-link text-start mb-2"
+                    id="v-pills-estadoCharla-tab"
+                    data-bs-toggle="pill"
+                    data-bs-target="#v-pills-estadoCharla"
+                    type="button"
+                    role="tab"
+                    aria-controls="v-pills-estadoCharla"
+                    aria-selected="false"
+                    style={{ borderRadius: '0.5rem', fontWeight: '500' }}
+                  >
+                    Charlas Alumnos
                   </button>
                 )}
 
@@ -154,6 +171,18 @@ export default class UserProfileComponent extends Component {
                     aria-labelledby="v-pills-alumnoscursoprofesor-tab"
                   >
                     <AlumnosProfesorCurso />
+                  </div>
+                )}
+
+                {/* Mostrar "Mis alumno" solo para Profesor */}
+                {userRole === "PROFESOR" && (
+                  <div
+                    className="tab-pane fade"
+                    id="v-pills-estadoCharla"
+                    role="tabpanel"
+                    aria-labelledby="v-pills-estadoCharla-tab"
+                  >
+                    <UpdateEstadoCharlaAlumnosProfesor />
                   </div>
                 )}
 
