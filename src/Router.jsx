@@ -9,7 +9,7 @@ import UserProfileComponent from './components/user/UserProfileComponent';
 import RondasComponent from './components/rondas/RondasComponent';
 import { getUserProfile } from './services/UsuariosService';
 import { CalendarComponent } from './components/rondas/CalendarComponent';
-import FormCurso from './components/cursos/component/FormCurso';
+
 
 const isAuthenticated = () => {
     return !!localStorage.getItem('token');
@@ -38,7 +38,6 @@ export default class Router extends Component {
                     <Route path="/rondas" element={<PrivateRoute element={<RondasComponent />} />} />
                     <Route path="*" element={<Navigate to="/" />} />
                     <Route path='/calendario' element={<PrivateRoute element={<CalendarComponent />} />} />
-                    <Route path='/create/curso' element={<PrivateRoute element={<FormCurso />} />} />
                 </Routes>
             </BrowserRouter>
         );
