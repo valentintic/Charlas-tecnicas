@@ -5,7 +5,8 @@ import Profesores from './Profesores';
 import Alumnos from './Alumnos';
 import AlumnosProfesorCurso from './AlumnosProfesorCurso';
 import UpdateEstadoCharlaAlumnosProfesor from './UpdateEstadoCharlaAlumnosProfesor';
-
+import GestionRondas from './../rondas/GestionRondas';
+import CrearCurso from './../profesor/CrearCurso'; 
 export default class UserProfileComponent extends Component {
   state = {
     userData: null,
@@ -61,7 +62,8 @@ export default class UserProfileComponent extends Component {
                     Mis Charlas
                   </button>
                 )}
-                {/* Mostrar "Mis alumnos" segun el curso del profesor que se ha logueado */}
+
+                {/* Mostrar "Mis alumnos" para Profesor */}
                 {userRole === "PROFESOR" && (
                   <button
                     className="nav-link text-start mb-2"
@@ -77,7 +79,8 @@ export default class UserProfileComponent extends Component {
                     Mis alumnos
                   </button>
                 )}
-                {/* Mostrar "Mis Rondas Charlas" profesor que se ha logueado */}
+
+                {/* Mostrar "Charlas Alumnos" para Profesor */}
                 {userRole === "PROFESOR" && (
                   <button
                     className="nav-link text-start mb-2"
@@ -94,7 +97,42 @@ export default class UserProfileComponent extends Component {
                   </button>
                 )}
 
-                {(userRole === "ADMINISTRADOR") && (
+                {/* 🔹 Nueva opción: Crear Curso (Solo para Profesores) */}
+                {userRole === "PROFESOR" && (
+                  <button
+                    className="nav-link text-start mb-2"
+                    id="v-pills-crear-curso-tab"
+                    data-bs-toggle="pill"
+                    data-bs-target="#v-pills-crear-curso"
+                    type="button"
+                    role="tab"
+                    aria-controls="v-pills-crear-curso"
+                    aria-selected="false"
+                    style={{ borderRadius: '0.5rem', fontWeight: '500' }}
+                  >
+                    Crear Curso
+                  </button>
+                )}
+
+                {/* 🔹 Nueva opción: Gestión de Rondas (Solo para Profesores) */}
+                {userRole === "PROFESOR" && (
+                  <button
+                    className="nav-link text-start mb-2"
+                    id="v-pills-gestionrondas-tab"
+                    data-bs-toggle="pill"
+                    data-bs-target="#v-pills-gestionrondas"
+                    type="button"
+                    role="tab"
+                    aria-controls="v-pills-gestionrondas"
+                    aria-selected="false"
+                    style={{ borderRadius: '0.5rem', fontWeight: '500' }}
+                  >
+                    Gestión de Rondas
+                  </button>
+                )}
+
+                {/* Mostrar "Profesores" solo para ADMINISTRADOR */}
+                {userRole === "ADMINISTRADOR" && (
                   <button
                     className="nav-link text-start mb-2"
                     id="v-profesores-tab"
@@ -110,7 +148,7 @@ export default class UserProfileComponent extends Component {
                   </button>
                 )}
 
-                {/* Mostrar "Ver Alumnos" solo para ADMINISTRADORistrador */}
+                {/* Mostrar "Ver Alumnos" solo para ADMINISTRADOR */}
                 {userRole === "ADMINISTRADOR" && (
                   <button
                     className="nav-link text-start mb-2"
@@ -150,66 +188,46 @@ export default class UserProfileComponent extends Component {
                   <UpdateUser />
                 </div>
 
-                {/* Mostrar "Mis Charlas" solo para Alumnos */}
                 {userRole === "ALUMNO" && (
-                  <div
-                    className="tab-pane fade"
-                    id="v-pills-charlasuser"
-                    role="tabpanel"
-                    aria-labelledby="v-pills-charlasuser-tab"
-                  >
+                  <div className="tab-pane fade" id="v-pills-charlasuser" role="tabpanel">
                     <CharlasUser />
                   </div>
                 )}
 
-                {/* Mostrar "Mis alumno" solo para Profesor */}
                 {userRole === "PROFESOR" && (
-                  <div
-                    className="tab-pane fade"
-                    id="v-pills-alumnoscursoprofesor"
-                    role="tabpanel"
-                    aria-labelledby="v-pills-alumnoscursoprofesor-tab"
-                  >
+                  <div className="tab-pane fade" id="v-pills-alumnoscursoprofesor" role="tabpanel">
                     <AlumnosProfesorCurso />
                   </div>
                 )}
 
-                {/* Mostrar "Mis alumno" solo para Profesor */}
                 {userRole === "PROFESOR" && (
-                  <div
-                    className="tab-pane fade"
-                    id="v-pills-estadoCharla"
-                    role="tabpanel"
-                    aria-labelledby="v-pills-estadoCharla-tab"
-                  >
+                  <div className="tab-pane fade" id="v-pills-estadoCharla" role="tabpanel">
                     <UpdateEstadoCharlaAlumnosProfesor />
                   </div>
                 )}
 
-                {/* Mostrar "Profesores" solo para ADMINISTRADORistrador y Profesor */}
-                {(userRole === "ADMINISTRADOR") && (
-                  <div
-                    className="tab-pane fade"
-                    id="v-pills-profesores"
-                    role="tabpanel"
-                    aria-labelledby="v-pills-profesores-tab"
-                  >
+                {/* 🔹 Contenedor de la pestaña "Crear Curso" */}
+                {userRole === "PROFESOR" && (
+                  <div className="tab-pane fade" id="v-pills-crear-curso" role="tabpanel">
+                    <CrearCurso />
+                  </div>
+                )}
+
+                {/* 🔹 Contenedor de la pestaña "Gestión de Rondas" */}
+                {userRole === "PROFESOR" && (
+                  <div className="tab-pane fade" id="v-pills-gestionrondas" role="tabpanel">
+                    <GestionRondas />
+                  </div>
+                )}
+
+                {userRole === "ADMINISTRADOR" && (
+                  <div className="tab-pane fade" id="v-pills-profesores" role="tabpanel">
                     <Profesores />
                   </div>
                 )}
 
-                {/* Mostrar "Ver Alumnos" solo para ADMINISTRADORistrador */}
                 {userRole === "ADMINISTRADOR" && (
-                  <div
-                    className="tab-pane fade"
-                    id="v-pills-alumnos"
-                    role="tabpanel"
-                    aria-labelledby="v-pills-alumnos-tab"
-                    style={{
-                      overflowY: 'auto',
-                      maxHeight: '100%',
-                    }}
-                  >
+                  <div className="tab-pane fade" id="v-pills-alumnos" role="tabpanel">
                     <Alumnos />
                   </div>
                 )}
