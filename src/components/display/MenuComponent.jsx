@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import styles from "./Navbar.module.css"; 
 import { FaHome } from "react-icons/fa";
+import { div } from 'framer-motion/client';
 
 export default class MenuComponent extends Component {
   state = {
@@ -76,7 +77,7 @@ export default class MenuComponent extends Component {
                   {this.state.isAuthenticated && (
                     <>
                       {/* Mostrar el menú de Charlas solo si el rol no es Administrador */}
-                      {role !== "3" && (
+                      {role !== "ADMINISTRADOR" && (
                         <li className="nav-item dropdown">
                           <a className={`nav-link dropdown-toggle ${styles.navLink}`} href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Charlas
@@ -92,9 +93,17 @@ export default class MenuComponent extends Component {
                                 Create Charla
                               </NavLink>
                             </li>
+
                           </ul>
                         </li>
                       )}
+                      {role === "PROFESOR" && (
+                              <li className="nav-item">
+                              <NavLink to={"/create/curso"} className={`nav-link ${styles.navLink}`} aria-current="page">
+                                Create curso
+                              </NavLink>
+                            </li>
+                            )}
                       <li className="nav-item">
                         <NavLink to={"/rondas"} className={`nav-link ${styles.navLink}`} aria-current="page">
                           Rondas

@@ -45,8 +45,10 @@ const CharlasComponent = ({ idRonda }) => {
   };
 
   const getGroupedDots = () => {
+    // Validamos que `charlas` sea un array y tenga elementos
     const groupSize = 5;
-    const dots = Array.from({ length: charlas.length }, (_, index) => index);
+    const validCharlas = Array.isArray(charlas) ? charlas : [];
+    const dots = Array.from({ length: validCharlas.length }, (_, index) => index);
     const groupedDots = [];
     for (let i = 0; i < dots.length; i += groupSize) {
       groupedDots.push(dots.slice(i, i + groupSize));
@@ -59,6 +61,8 @@ const CharlasComponent = ({ idRonda }) => {
     return new Date(date).toLocaleDateString('es-ES', dateOptions);
   };
 
+  // Longitud de charlas calculada una sola vez, asegurándonos de que sea un array
+  const charlasLength = Array.isArray(charlas) ? charlas.length : 0;
   const groupedDots = getGroupedDots();
 
   const sliderSettings = {
@@ -75,9 +79,9 @@ const CharlasComponent = ({ idRonda }) => {
         </ul>
       );
     },
-    infinite: charlas.length > 1,
+    infinite: charlasLength > 1,
     speed: 500,
-    slidesToShow: charlas.length < 3 ? charlas.length : 3,
+    slidesToShow: charlasLength < 3 ? charlasLength : 3,
     slidesToScroll: 1,
     centerMode: true,
     focusOnSelect: true,
@@ -97,7 +101,7 @@ const CharlasComponent = ({ idRonda }) => {
   return (
     <div className={styles.container}>
       {!idRonda && <h1>Charlas</h1>}
-      {charlas.length === 0 ? (
+      {charlasLength === 0 ? (
         <h2>No hay charlas</h2>
       ) : (
         <div style={{ width: '98%', margin: '0 auto', textAlign: 'center' }}>

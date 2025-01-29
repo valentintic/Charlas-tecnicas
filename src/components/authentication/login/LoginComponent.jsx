@@ -105,7 +105,7 @@ class LoginComponent extends Component {
     if (this.state.status) {
       if (role === "ALUMNO") {
         return <Navigate to="/charlas" />;
-      } else if (role === "ADMINISTRADOR") {
+      } else {
         return <Navigate to="/" />;
       }
     }

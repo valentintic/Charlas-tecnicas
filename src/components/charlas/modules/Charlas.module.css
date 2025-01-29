@@ -97,15 +97,16 @@ h1 {
 .cardDetails {
   display: none;
   margin-top: 60px;
-  padding: 20px;
-  background: rgba(48, 48, 48, 0.1);
-  backdrop-filter: blur(10px);
+  padding: 25px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
   border-radius: 12px;
   opacity: 0;
   transform: translateY(30px);
-  transition: opacity 0.5s ease, transform 0.5s ease;
-  color: #333;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: opacity 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.4s ease;
+  color: #2d3436;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .cardDetails.visible {
@@ -115,41 +116,106 @@ h1 {
   margin-bottom: 25px;
 }
 
-/* Estilos de los botones dentro de los detalles */
+/* Nuevos estilos para el botón de votación */
 .cardButtons {
   margin-top: 20px;
   display: flex;
-  justify-content: flex-start;
-  gap: 15px;
+  justify-content: center;  
 }
 
-.cardButtons .btn {
-  padding: 12px 25px;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: 600;
-  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+.cardButtons button {
+  position: relative;
   cursor: pointer;
-  font-family: 'Roboto', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 25vh;
+  padding: 0;
+  font-size: 16px;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  color: #2d3436;
+  background: linear-gradient(135deg, #4CAF50, #45a049);
+  border: none;
+  border-radius: 30px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
 }
 
-/* Botón primario */
-.cardButtons .btn-primary {
-  background-color: #4CAF50;
-  color: white;
+.voteSection {
+  display: flex;
+  align-items: start;
+  padding: 12px 20px;
+  background: linear-gradient(135deg, #ff6b6b, #ff5252);
+  gap: 12px;
+
 }
 
-/* Botón secundario */
-.cardButtons .btn-secondary {
-  background-color: #f44336;
-  color: white;
+.separator {
+  width: 1px;
+  height: 24px;
+  background: rgba(255, 255, 255, 0.3);
+  margin: 0 15px;
 }
 
-/* Hover de los botones */
-.cardButtons .btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+.buttonText {
+  padding: 12px 20px;
+  color: #2d3436;
+  font-weight: 500;
+  text-align: center;
+}
+
+.cardButtons button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.cardButtons button.votedButton .voteSection {
+  background: linear-gradient(135deg, #4CAF50, #45a049);
+}
+
+.cardButtons button .icon {
+  width: 22px;
+  height: 22px;
+  transition: all 0.3s ease;
+  fill: none;
+  stroke: #ffffff;
+  stroke-width: 2;
+}
+
+.cardButtons button .vote-count {
+  font-weight: 700;
+  color: #fff;
+  font-size: 16px;
+}
+
+.cardButtons button[disabled] {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.cardButtons button[disabled] .voteSection {
+  background: #bdc3c7;
+}
+
+.cardButtons button[disabled] .buttonText {
+  color: #000000;
+}
+
+.cardButtons button[disabled] {
+  background: #bdc3c7;
+}
+
+/* Heart icon animation */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+.cardButtons button.votedButton .icon {
+  fill: #ff0000;
+  animation: pulse 0.6s ease;
 }
 
 /* Estilos para los puntos de la navegación del carrusel */
@@ -189,4 +255,27 @@ h1 {
   .slick-center .card {
     transform: scale(1.05);
   }
+
+  .cardButtons button {
+    font-size: 14px;
+  }
+  
+  .voteSection {
+    padding: 10px 15px;
+  }
+  
+  .buttonText {
+    padding: 10px 15px;
+    width: 10vh
+  }
+}
+
+.errorBanner {
+  background: #ffebee;
+  color: #c62828;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  border: 1px solid #ffcdd2;
+  font-weight: 500;
 }
