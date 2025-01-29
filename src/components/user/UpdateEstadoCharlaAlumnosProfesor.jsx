@@ -1,50 +1,51 @@
 import React, { Component } from 'react';
-import { getCharlasCursoProfesor } from '../../services/ProfesorService';
+import { getCharlasCursoProfesor, getRondasProfesorAsync, updateEstadoCharlaProfesorAsync } from '../../services/ProfesorService';
 
 export default class UpdateEstadoCharlaAlumnosProfesor extends Component {
     state = {
         charlas: null,
+        rondasProfesor: [],
         filtroTitulo: '',
         filtroIdRonda: '',
         filtroUsuario: '',
-        filtroEstado: '' // 'true' para activa, 'false' para inactiva
+        filtroEstado: ''
     };
 
     componentDidMount = () => {
         this.loadCharlasCursoProfesor();
+        this.loadRondasProfesor();
     };
 
     loadCharlasCursoProfesor = () => {
         getCharlasCursoProfesor().then((response) => {
             this.setState({ charlas: response });
+            console.log(response);
         });
     };
 
-    handleFiltroTituloChange = (event) => {
-        this.setState({ filtroTitulo: event.target.value });
+    loadRondasProfesor = () => {
+        getRondasProfesorAsync().then((response) => {
+            this.setState({ rondasProfesor: response });
+            console.log(response);
+        });
     };
 
-    handleFiltroIdRondaChange = (event) => {
-        this.setState({ filtroIdRonda: event.target.value });
+    UpdateEstadoCharlaAlumnosProfesor = (idCharla, idEstado) => {
+        updateEstadoCharlaProfesorAsync(idCharla, idEstado);
     };
 
-    handleFiltroUsuarioChange = (event) => {
-        this.setState({ filtroUsuario: event.target.value });
-    };
-
-    handleFiltroEstadoChange = (event) => {
-        this.setState({ filtroEstado: event.target.value });
+    handleFiltroChange = (event) => {
+        this.setState({ [event.target.name]: event.target.value });
     };
 
     handleEstadoChange = (idCharla, nuevoEstado) => {
-        // Aquí puedes agregar la llamada al endpoint para actualizar el estado de la charla si se requiere
         console.log(`Actualizando charla con ID ${idCharla} al estado ${nuevoEstado}`);
 
-        // Simular actualización en el estado local (opcional si no hay una actualización en el backend)
+        // Simular actualización local
         this.setState((prevState) => {
             const charlasActualizadas = prevState.charlas.map((charla) =>
                 charla.idCharla === idCharla
-                    ? { ...charla, estadoCharla: nuevoEstado }
+                    ? { ...charla, idEstadoCharla: nuevoEstado }
                     : charla
             );
             return { charlas: charlasActualizadas };
@@ -52,22 +53,17 @@ export default class UpdateEstadoCharlaAlumnosProfesor extends Component {
     };
 
     render() {
-        const { charlas, filtroTitulo, filtroIdRonda, filtroUsuario, filtroEstado } = this.state;
+        const { charlas, rondasProfesor, filtroTitulo, filtroIdRonda, filtroUsuario, filtroEstado } = this.state;
 
-        // Filtrar las charlas según los filtros seleccionados
         const charlasFiltradas = charlas
             ? charlas.filter((charla) => {
-                  const cumpleTitulo =
-                      !filtroTitulo || charla.titulo.toLowerCase().includes(filtroTitulo.toLowerCase());
-                  const cumpleIdRonda =
-                      !filtroIdRonda || charla.idRonda.toString() === filtroIdRonda;
-                  const cumpleUsuario =
-                      !filtroUsuario || charla.usuario.toLowerCase().includes(filtroUsuario.toLowerCase());
-                  const cumpleEstado =
-                      !filtroEstado || charla.estadoCharla.toString() === filtroEstado;
+                const cumpleTitulo = !filtroTitulo || charla.titulo.toLowerCase().includes(filtroTitulo.toLowerCase());
+                const cumpleIdRonda = !filtroIdRonda || charla.idRonda.toString() === filtroIdRonda;
+                const cumpleUsuario = !filtroUsuario || charla.usuario.toLowerCase().includes(filtroUsuario.toLowerCase());
+                const cumpleEstado = !filtroEstado || charla.idEstadoCharla === parseInt(filtroEstado);
 
-                  return cumpleTitulo && cumpleIdRonda && cumpleUsuario && cumpleEstado;
-              })
+                return cumpleTitulo && cumpleIdRonda && cumpleUsuario && cumpleEstado;
+            })
             : [];
 
         return (
@@ -80,9 +76,9 @@ export default class UpdateEstadoCharlaAlumnosProfesor extends Component {
                             <label htmlFor="filtroTitulo">Filtrar por Título:</label>
                             <input
                                 type="text"
-                                id="filtroTitulo"
+                                name="filtroTitulo"
                                 value={filtroTitulo}
-                                onChange={this.handleFiltroTituloChange}
+                                onChange={this.handleFiltroChange}
                                 placeholder="Buscar título..."
                                 className="form form-control"
                             />
@@ -90,23 +86,28 @@ export default class UpdateEstadoCharlaAlumnosProfesor extends Component {
                             <label htmlFor="filtroIdRonda" style={{ marginLeft: '20px' }}>
                                 Filtrar por ID Ronda:
                             </label>
-                            <input
-                                type="number"
-                                id="filtroIdRonda"
+                            <select
+                                name="filtroIdRonda"
                                 value={filtroIdRonda}
-                                onChange={this.handleFiltroIdRondaChange}
-                                placeholder="ID Ronda"
+                                onChange={this.handleFiltroChange}
                                 className="form form-control"
-                            />
+                            >
+                                <option value="">Todas</option>
+                                {rondasProfesor.map((ronda) => (
+                                    <option key={ronda.idRonda} value={ronda.idRonda}>
+                                        {ronda.descripcionModulo} - {ronda.idRonda}
+                                    </option>
+                                ))}
+                            </select>
 
                             <label htmlFor="filtroUsuario" style={{ marginLeft: '20px' }}>
                                 Filtrar por Usuario:
                             </label>
                             <input
                                 type="text"
-                                id="filtroUsuario"
+                                name="filtroUsuario"
                                 value={filtroUsuario}
-                                onChange={this.handleFiltroUsuarioChange}
+                                onChange={this.handleFiltroChange}
                                 placeholder="Buscar usuario..."
                                 className="form form-control"
                             />
@@ -115,14 +116,14 @@ export default class UpdateEstadoCharlaAlumnosProfesor extends Component {
                                 Filtrar por Estado:
                             </label>
                             <select
-                                id="filtroEstado"
+                                name="filtroEstado"
                                 value={filtroEstado}
-                                onChange={this.handleFiltroEstadoChange}
+                                onChange={this.handleFiltroChange}
                                 className="form form-control"
                             >
                                 <option value="">Todos</option>
-                                <option value="true">Activa</option>
-                                <option value="false">Inactiva</option>
+                                <option value="1">Propuesta</option>
+                                <option value="2">Aceptada</option>
                             </select>
                         </div>
 
@@ -144,17 +145,16 @@ export default class UpdateEstadoCharlaAlumnosProfesor extends Component {
                                         <td>{charla.usuario}</td>
                                         <td>
                                             <select
-                                                name="estadoCharla"
-                                                value={charla.estadoCharla}
+                                                value={charla.idEstadoCharla}
                                                 onChange={(e) =>
                                                     this.handleEstadoChange(
-                                                        charla.idCharla,
-                                                        e.target.value === 'true'
+                                                        charla.idEstadoCharla,
+                                                        parseInt(e.target.value)
                                                     )
                                                 }
                                             >
-                                                <option value="true">PROPUESTA</option>
-                                                <option value="false">ACEPTA</option>
+                                                <option value="1">Propuesta</option>
+                                                <option value="2">Aceptada</option>
                                             </select>
                                         </td>
                                     </tr>
