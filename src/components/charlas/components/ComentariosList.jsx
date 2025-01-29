@@ -49,7 +49,7 @@ const ComentariosList = ({ comentarios }) => {
             <div key={comentario.idComentario} className={styles.comentarioItem}>
               <div className={styles.comentarioHeader}>
                 <img
-                  src={`https://i.pravatar.cc/150?img=${comentario.idUsuario}`}
+                  src={`http://apicharlasalumnostajamar2025.azurewebsites.net:80/images/users/${comentario.idUsuario}_user.jpg`}
                   alt="Avatar"
                   className={styles.avatar}
                 />

@@ -27,7 +27,7 @@ export const getAllUsersAdmin = async () => {
     }
 }
 
-export const updateStateProfesor = async (id, state) => {
+export const updateStateProfesorService = async (id, state) => {
     try {
         const resposne = await axiosApi.put('api/admin/updateestadoprofesor/' + id + '/' + state)
         return resposne.data
@@ -36,7 +36,7 @@ export const updateStateProfesor = async (id, state) => {
     }
 }
 
-export const updateCursoUsuario = async (idUsuario, idCurso) => {
+export const updateCursoUsuarioService = async (idUsuario, idCurso) => {
     try {
         const response = await axiosApi.put('api/Admin/UpdateCursoUsuario/' + idUsuario + '/' + idCurso)
         return response.data
@@ -54,7 +54,7 @@ export const cursoUsuario = async () => {
     }
 }
 
-export const updateRoleUsuario = async (idUsuario, idRole) => {
+export const updateRoleUsuarioService = async (idUsuario, idRole) => {
     try {
         const response = await axiosApi.put('api/admin/updateroleusuario/' + idUsuario + '/' + idRole)
         return response.data

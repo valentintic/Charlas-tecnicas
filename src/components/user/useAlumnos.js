@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import {
   getAllUsersAdmin,
-  updateStateProfesor,
+  updateStateProfesorService,
   cursoUsuario,
-  updateCursoUsuario,
-  updateRoleUsuario,
+  updateCursoUsuarioService,
+  updateRoleUsuarioService,
 } from "../../services/UsuariosAdminService";
 
 const useAlumnos = () => {
@@ -73,7 +73,7 @@ const useAlumnos = () => {
     }
 
     try {
-      await updateCursoUsuario(idUsuario, idCurso);
+      await updateCursoUsuarioService(idUsuario, idCurso);
       const alumnosActualizados = alumnos.map((alumno) => {
         if (alumno.idUsuario === idUsuario) {
           return {
@@ -91,26 +91,27 @@ const useAlumnos = () => {
     }
   };
 
-  const updateRoleUsuario = async (idUsuario, idRole) => {
+  const updateRoleUsuario = useCallback(async (idUsuario, idRole) => {
     try {
-      await updateRoleUsuario(idUsuario, idRole);
+      // Llamamos a la función real del servicio para actualizar el rol
+      await updateRoleUsuarioService(idUsuario, idRole); // Cambié el nombre de la función importada
       const alumnosActualizados = alumnos.map((alumno) => {
         if (alumno.idUsuario === idUsuario) {
           return { ...alumno, idRole };
         }
         return alumno;
       });
-
+  
       setAlumnos(alumnosActualizados);
       setAlumnosFiltrados(alumnosActualizados);
     } catch (error) {
       console.error("Error al actualizar el rol del usuario:", error);
     }
-  };
+  }, [alumnos]);
 
-  const updateStateProfesor = async (id, state) => {
+  const updateStateProfesor = useCallback(async (id, state) => {
     try {
-      await updateStateProfesor(id, state);
+      await updateStateProfesorService(id, state);
       const alumnosActualizados = alumnos.map((alumno) => {
         if (alumno.idUsuario === id) {
           return { ...alumno, estadoUsuario: state };
@@ -123,7 +124,7 @@ const useAlumnos = () => {
     } catch (error) {
       console.error("Error al actualizar el estado del profesor:", error);
     }
-  };
+  }, [alumnos]);
 
   const manejarCambioFiltro = (e) => {
     const { name, value } = e.target;
@@ -133,7 +134,7 @@ const useAlumnos = () => {
     }));
   };
 
-  const aplicarFiltros = () => {
+  const aplicarFiltros = useCallback(() => {
     const { nombre, apellidos, role } = filtros;
 
     const alumnosFiltrados = alumnos.filter((alumno) => {
@@ -145,11 +146,11 @@ const useAlumnos = () => {
     });
 
     setAlumnosFiltrados(alumnosFiltrados);
-  };
+  }, [alumnos, filtros, roleMap]);
 
   useEffect(() => {
     aplicarFiltros();
-  }, [filtros, alumnos]);
+  }, [filtros, alumnos, aplicarFiltros]);
 
   return {
     alumnosFiltrados,
