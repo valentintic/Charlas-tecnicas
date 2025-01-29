@@ -100,7 +100,7 @@ class FormCharlas extends Component {
     charla.descripcion = this.state.charla.descripcion;
     charla.tiempo = parseInt(this.state.charla.tiempo);
     charla.fechaPropuesta = this.state.charla.fechaPropuesta;
-    charla.idEstadoCharla = 2;
+    charla.idEstadoCharla = 1;
     charla.idUsuario = id;
     charla.idRonda = parseInt(this.state.charla.idRonda);
     charla.imagenCharla = this.state.charla.imagenCharla;

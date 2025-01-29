@@ -34,6 +34,7 @@ export default class UpdateUser extends Component {
 
         oldPassword: "",
         confirmPassword: "",
+        passwordChanged: false,
         errorMsg: "",
     }
 
@@ -179,6 +180,7 @@ export default class UpdateUser extends Component {
                     title: 'Contraseña cambiada con éxito',
                     text: 'Tu contraseña ha sido actualizada correctamente.',
                 });
+                this.setState({ passwordChanged: true });
                 localStorage.removeItem("token");
             } else {
                 Swal.fire({
@@ -235,7 +237,7 @@ export default class UpdateUser extends Component {
             try {
                 const response = await updateAlumno(this.state.userEdit);
                 console.log("Respuesta del servidor:", response);
-    
+                
                 await this.postImagenCharla();
             } catch (error) {
                 console.error("Error al actualizar el usuario:", error);
@@ -262,11 +264,10 @@ export default class UpdateUser extends Component {
         }));
     };
     handleEmailChange = (e) => {
-        const emailPrefix = e.target.value; // Parte antes del @
-        const fixedDomain = "@tajamar365.com"; // Parte fija
-        const fullEmail = emailPrefix + fixedDomain; // Concatenamos la parte modificada con la parte fija
+        const emailPrefix = e.target.value;
+        const fixedDomain = "@tajamar365.com";
+        const fullEmail = emailPrefix + fixedDomain;
     
-        // Actualizamos el estado con el correo completo
         this.setState({
             userData: {
                 ...this.state.userData,
@@ -284,8 +285,8 @@ export default class UpdateUser extends Component {
     render() {
         return (
             <>
-                {this.state.confirmedPassword ? (
-                    <Navigate to="/update/password" />
+                {this.state.passwordChanged === true ? (
+                    <Navigate to="/login" />
                 ) : this.state.userData ? (
                     <div>
                         <h1>Perfiles</h1>

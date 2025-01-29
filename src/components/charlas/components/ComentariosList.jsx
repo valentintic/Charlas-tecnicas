@@ -25,6 +25,16 @@ const ComentariosList = ({ comentarios }) => {
     setComentariosVisibles((prev) => [...prev, ...nuevosComentarios]);
   };
 
+  const borrarComentario = async (id) => {
+    await deleteComentario(id);
+    getComentariosCharla(idCharla);
+  }
+
+  const updateComentario = async (comentario) => {
+    await updateComentario(comentario);
+    getComentariosCharla(idCharla);
+  }
+
   const alternarComentarios = () => {
     setMostrarComentarios((prev) => !prev);
   };
@@ -49,7 +59,7 @@ const ComentariosList = ({ comentarios }) => {
             <div key={comentario.idComentario} className={styles.comentarioItem}>
               <div className={styles.comentarioHeader}>
                 <img
-                  src={`http://apicharlasalumnostajamar2025.azurewebsites.net:80/images/users/${comentario.idUsuario}_user.jpg`}
+                  src={`http://apicharlasalumnostajamar.azurewebsites.net:80/images/users/${comentario.idUsuario}_user.png`}
                   alt="Avatar"
                   className={styles.avatar}
                 />

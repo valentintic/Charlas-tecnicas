@@ -6,6 +6,7 @@ import {
   updateCursoUsuarioService,
   updateRoleUsuarioService,
 } from "../../services/UsuariosAdminService";
+import { deleteUserAsync } from "../../services/UsuariosService";
 
 const useAlumnos = () => {
   const [alumnos, setAlumnos] = useState([]);
@@ -134,6 +135,18 @@ const useAlumnos = () => {
     }));
   };
 
+  const deleteUsuario = async (idUsuario) => {
+    try {
+      await deleteUserAsync(idUsuario);
+      const alumnosActualizados = alumnos.filter((alumno) => alumno.idUsuario !== idUsuario);
+      setAlumnos(alumnosActualizados);
+      setAlumnosFiltrados(alumnosActualizados);
+      
+    } catch (error) {
+      console.error("Error al eliminar el usuario:", error);
+    }
+  }
+
   const aplicarFiltros = useCallback(() => {
     const { nombre, apellidos, role } = filtros;
 
@@ -161,6 +174,7 @@ const useAlumnos = () => {
     handleCursoChange,
     updateRoleUsuario,
     updateStateProfesor,
+    deleteUsuario,
   };
 };
 
