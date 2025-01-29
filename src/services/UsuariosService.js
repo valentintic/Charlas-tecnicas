@@ -66,3 +66,12 @@ export const changePassword = async (newPassword) => {
         console.log(error);
     }
 }
+
+export const deleteUserAsync = async (id) => {
+    try {
+        const response = await axiosApi.delete(`/api/usuarios/${id}`);
+        return response.data;
+    } catch (error) {
+        console.log(error);
+    }
+}

@@ -98,7 +98,7 @@ export default class UserProfileComponent extends Component {
                 )}
 
                 {/* 🔹 Nueva opción: Crear Curso (Solo para Profesores) */}
-                {userRole === "PROFESOR" && (
+                {userRole === "PROFESOR" || userRole === "ADMINISTRADOR" && (
                   <button
                     className="nav-link text-start mb-2"
                     id="v-pills-crear-curso-tab"

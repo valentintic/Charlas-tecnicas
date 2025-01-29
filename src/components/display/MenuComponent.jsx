@@ -97,13 +97,6 @@ export default class MenuComponent extends Component {
                           </ul>
                         </li>
                       )}
-                      {role === "PROFESOR" && (
-                              <li className="nav-item">
-                              <NavLink to={"/create/curso"} className={`nav-link ${styles.navLink}`} aria-current="page">
-                                Create curso
-                              </NavLink>
-                            </li>
-                            )}
                       <li className="nav-item">
                         <NavLink to={"/rondas"} className={`nav-link ${styles.navLink}`} aria-current="page">
                           Rondas

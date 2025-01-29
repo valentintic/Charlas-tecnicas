@@ -5,20 +5,29 @@ import styles from '../modules/Charlas.module.css';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import ComentariosComponent from './ComentariosComponent';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import CharlaDetailsComponent from './CharlasDetailComponent';
+import { getUserProfile } from '../../../services/UsuariosService'; // Asegúrate de tener esta función para obtener el perfil del usuario
 
 const CharlasComponent = ({ idRonda }) => {
   const [charlas, setCharlas] = useState([]);
   const [centeredIndex, setCenteredIndex] = useState(0);
   const [currentDotBlock, setCurrentDotBlock] = useState(0);
+  const [isActive, setIsActive] = useState(null); // Estado del usuario
 
   const sliderRef = useRef();
 
+  // Fetching charlas y perfil de usuario
   useEffect(() => {
     fetchCharlas();
+    getUser(); 
   }, [idRonda]);
+
+  const getUser = async () => {
+    const response = await getUserProfile();
+    console.log('User profile:', response);
+    setIsActive(response.usuario.estadoUsuario);
+  };
 
   const fetchCharlas = async () => {
     const fetchFunction = idRonda ? getCharlasCursoIdRonda(idRonda) : getCharlas();
@@ -27,7 +36,7 @@ const CharlasComponent = ({ idRonda }) => {
   };
 
   const handleSlideChange = (currentIndex) => {
-    setCenteredIndex(currentIndex);
+    setCenteredIndex(currentIndex); 
     updateDotBlock(currentIndex);
   };
 
@@ -45,7 +54,6 @@ const CharlasComponent = ({ idRonda }) => {
   };
 
   const getGroupedDots = () => {
-    // Validamos que `charlas` sea un array y tenga elementos
     const groupSize = 5;
     const validCharlas = Array.isArray(charlas) ? charlas : [];
     const dots = Array.from({ length: validCharlas.length }, (_, index) => index);
@@ -56,12 +64,6 @@ const CharlasComponent = ({ idRonda }) => {
     return groupedDots;
   };
 
-  const formatedDate = (date) => {
-    const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
-    return new Date(date).toLocaleDateString('es-ES', dateOptions);
-  };
-
-  // Longitud de charlas calculada una sola vez, asegurándonos de que sea un array
   const charlasLength = Array.isArray(charlas) ? charlas.length : 0;
   const groupedDots = getGroupedDots();
 
@@ -98,11 +100,16 @@ const CharlasComponent = ({ idRonda }) => {
     ],
   };
 
+  // Asegúrate de que el usuario esté cargado antes de renderizar las charlas
+  if (isActive === null) {
+    return <h2>Cargando perfil...</h2>;
+  }
+
   return (
     <div className={styles.container}>
       {!idRonda && <h1>Charlas</h1>}
-      {charlasLength === 0 ? (
-        <h2>No hay charlas</h2>
+      {charlasLength === 0 || isActive ===false ? (
+        <h2>No hay charlas disponibles o tu cuenta está desactivada.</h2>
       ) : (
         <div style={{ width: '98%', margin: '0 auto', textAlign: 'center' }}>
           <div className={`${styles.slickSlider}`}>

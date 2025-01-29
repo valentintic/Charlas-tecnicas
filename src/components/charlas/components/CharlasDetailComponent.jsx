@@ -4,13 +4,16 @@ import styles from '../modules/Charlas.module.css';
 import { formatedDate } from '../../utils/dateUtils';
 import ComentariosComponent from './ComentariosComponent';
 import { getVotosCharla, getVotoUsuarioRonda, updateVotoCharla, deleteVotoCharla } from '../../../services/Votos';
+import CharlaResources from './CharlaResources';
 
 class CharlaDetailsComponent extends Component {
   state = {
     votos: 0,
     existingVote: null,
     isLoading: false,
-    error: null
+    error: null,
+    charla: this.props.charla,
+    isModalOpen: false,
   };
 
   componentDidMount() {
@@ -21,6 +24,10 @@ class CharlaDetailsComponent extends Component {
     if (prevProps.charla.idCharla !== this.props.charla.idCharla) {
       this.initializeData();
     }
+  }
+
+  handleModal = () => {
+    this.setState({ isModalOpen: !this.state.isModalOpen });
   }
 
   initializeData = async () => {
@@ -93,7 +100,7 @@ class CharlaDetailsComponent extends Component {
 
   render() {
     const { charla } = this.props;
-    const { votos, existingVote, isLoading, error } = this.state;
+    const { votos, existingVote, isLoading, error, isModalOpen } = this.state;
     const hasVotedCurrentCharla = existingVote?.idCharla === charla.idCharla;
     const hasVotedOtherCharla = existingVote && !hasVotedCurrentCharla;
 
@@ -110,7 +117,7 @@ class CharlaDetailsComponent extends Component {
         <div className={styles.cardButtons}>
           <button 
             onClick={this.handleVote}
-            disabled={isLoading || hasVotedOtherCharla}
+            disabled={isLoading || hasVotedOtherCharla || hasVotedCurrentCharla}
             className={`${styles.voteButton} ${hasVotedCurrentCharla ? styles.votedButton : ''}`}
             aria-label={hasVotedCurrentCharla ? 'Quitar voto' : 'Votar por esta charla'}
           >
@@ -136,6 +143,23 @@ class CharlaDetailsComponent extends Component {
               )}
             </span>
           </button>
+          <button onClick={this.handleModal}>Ver Recursos</button> {/* Botón para abrir el modal */}
+          
+          {isModalOpen && (
+            <div className="modal fade show d-block" tabIndex="-1" style={{ display: 'block' }}>
+              <div className="modal-dialog">
+                <div className="modal-content">
+                  <div className="modal-header">
+                    <h5 className="modal-title">Recursos de la Charla</h5>
+                    <button type="button" className="btn-close" onClick={this.handleModal}></button>
+                  </div>
+                  <div className="modal-body">
+                    <CharlaResources charlaId={charla.idCharla} closeModal={this.handleModal} />
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
 
         <ComentariosComponent charlaId={charla.idCharla} />

@@ -10,7 +10,6 @@ import RondasComponent from './components/rondas/RondasComponent';
 import { getUserProfile } from './services/UsuariosService';
 import { CalendarComponent } from './components/rondas/CalendarComponent';
 
-
 const isAuthenticated = () => {
     return !!localStorage.getItem('token');
 };
