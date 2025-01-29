@@ -6,7 +6,9 @@ import Alumnos from './Alumnos';
 import AlumnosProfesorCurso from './AlumnosProfesorCurso';
 import UpdateEstadoCharlaAlumnosProfesor from './UpdateEstadoCharlaAlumnosProfesor';
 import GestionRondas from './../rondas/GestionRondas';
-import CrearCurso from './../profesor/CrearCurso'; 
+import CrearCurso from './../profesor/CrearCurso';
+import RondasCursoProfesor from './../profesor/RondasCursoProfesor'; 
+
 export default class UserProfileComponent extends Component {
   state = {
     userData: null,
@@ -114,6 +116,23 @@ export default class UserProfileComponent extends Component {
                   </button>
                 )}
 
+                {/* Mostrar "Rondas del Curso" solo para Profesor */}
+                {userRole === "PROFESOR" && (
+                  <button
+                    className="nav-link text-start mb-2"
+                    id="v-pills-charlas-curso-tab"
+                    data-bs-toggle="pill"
+                    data-bs-target="#v-pills-charlas-curso"
+                    type="button"
+                    role="tab"
+                    aria-controls="v-pills-charlas-curso"
+                    aria-selected="false"
+                    style={{ borderRadius: '0.5rem', fontWeight: '500' }}
+                  >
+                    Rondas del Curso
+                  </button>
+                )}
+
                 {/* 🔹 Nueva opción: Gestión de Rondas (Solo para Profesores) */}
                 {userRole === "PROFESOR" && (
                   <button
@@ -127,7 +146,7 @@ export default class UserProfileComponent extends Component {
                     aria-selected="false"
                     style={{ borderRadius: '0.5rem', fontWeight: '500' }}
                   >
-                    Gestión de Rondas
+                    Crear Ronda
                   </button>
                 )}
 
@@ -191,6 +210,12 @@ export default class UserProfileComponent extends Component {
                 {userRole === "ALUMNO" && (
                   <div className="tab-pane fade" id="v-pills-charlasuser" role="tabpanel">
                     <CharlasUser />
+                  </div>
+                )}
+
+                {userRole === "PROFESOR" && (
+                  <div className="tab-pane fade" id="v-pills-charlas-curso" role="tabpanel">
+                    <RondasCursoProfesor /> 
                   </div>
                 )}
 
