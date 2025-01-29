@@ -6,8 +6,10 @@ export default class AlumnosProfesorCurso extends Component {
         cursos: null,
         alumnos: null,
         filtroCurso: '',
-        filtroEstado: '', // 'true' para activo, 'false' para inactivo
-        filtroCorreo: ''
+        filtroEstado: '',
+        filtroCorreo: '',
+        currentPage: 1,
+        alumnosPerPage: 15
     };
 
     componentDidMount = () => {
@@ -25,28 +27,19 @@ export default class AlumnosProfesorCurso extends Component {
 
             this.setState({
                 cursos: cursosProfe,
-                alumnos: alumnosProfe
+                alumnos: alumnosProfe.flat(), // Aplanar el array de alumnos
+                currentPage: 1 // Reiniciar a la primera página
             });
         });
     };
 
-    handleFiltroCursoChange = (event) => {
-        this.setState({ filtroCurso: event.target.value });
-    };
-
-    handleFiltroEstadoChange = (event) => {
-        this.setState({ filtroEstado: event.target.value });
-    };
-
-    handleFiltroCorreoChange = (event) => {
-        this.setState({ filtroCorreo: event.target.value });
-    };
+    handleFiltroCursoChange = (event) => this.setState({ filtroCurso: event.target.value, currentPage: 1 });
+    handleFiltroEstadoChange = (event) => this.setState({ filtroEstado: event.target.value, currentPage: 1 });
+    handleFiltroCorreoChange = (event) => this.setState({ filtroCorreo: event.target.value, currentPage: 1 });
 
     handleEstadoChange = (idAlumno, nuevoEstado) => {
-        // Llama al endpoint para actualizar el estado del alumno
         updateEstadoAlumnoProfesorAsync(idAlumno, nuevoEstado)
             .then(() => {
-                // Volver a cargar la lista de alumnos tras la actualización
                 this.loadAlumnosCursoProfesor();
             })
             .catch((error) => {
@@ -54,23 +47,29 @@ export default class AlumnosProfesorCurso extends Component {
             });
     };
 
+    handlePageChange = (newPage) => {
+        this.setState({ currentPage: newPage });
+    };
+
     render() {
-        const { cursos, alumnos, filtroCurso, filtroEstado, filtroCorreo } = this.state;
+        const { cursos, alumnos, filtroCurso, filtroEstado, filtroCorreo, currentPage, alumnosPerPage } = this.state;
 
-        // Filtrar los alumnos según los filtros seleccionados
         const alumnosFiltrados = alumnos
-            ? alumnos.flat().filter((alumno) => {
-                  const cumpleCurso =
-                      !filtroCurso || alumno.alumno.idCurso.toString() === filtroCurso;
-                  const cumpleEstado =
-                      !filtroEstado || alumno.alumno.estadoUsuario.toString() === filtroEstado;
-                  const cumpleCorreo =
-                      !filtroCorreo ||
-                      alumno.alumno.email.toLowerCase().includes(filtroCorreo.toLowerCase());
+            ? alumnos.filter((alumno) => {
+                const cumpleCurso = !filtroCurso || alumno.alumno.idCurso.toString() === filtroCurso;
+                const cumpleEstado = !filtroEstado || alumno.alumno.estadoUsuario.toString() === filtroEstado;
+                const cumpleCorreo =
+                    !filtroCorreo || alumno.alumno.email.toLowerCase().includes(filtroCorreo.toLowerCase());
 
-                  return cumpleCurso && cumpleEstado && cumpleCorreo;
-              })
+                return cumpleCurso && cumpleEstado && cumpleCorreo;
+            })
             : [];
+
+        // Paginar alumnos
+        const indexOfLastAlumno = currentPage * alumnosPerPage;
+        const indexOfFirstAlumno = indexOfLastAlumno - alumnosPerPage;
+        const alumnosFiltradosPaginados = alumnosFiltrados.slice(indexOfFirstAlumno, indexOfLastAlumno);
+        const totalPages = Math.ceil(alumnosFiltrados.length / alumnosPerPage);
 
         return (
             <div>
@@ -79,12 +78,8 @@ export default class AlumnosProfesorCurso extends Component {
                     <>
                         {/* Filtros */}
                         <div style={{ marginBottom: '20px' }}>
-                            <label htmlFor="filtroCurso">Filtrar por Curso:</label>
-                            <select
-                                id="filtroCurso"
-                                value={filtroCurso}
-                                onChange={this.handleFiltroCursoChange}
-                            >
+                            <label htmlFor="filtroCurso" style={{ marginLeft: '20px' }}>Filtrar por Curso:</label>
+                            <select id="filtroCurso" value={filtroCurso} onChange={this.handleFiltroCursoChange}>
                                 <option value="">Todos</option>
                                 {cursos.map((curso, index) => (
                                     <option key={index} value={curso.idCurso}>
@@ -96,11 +91,7 @@ export default class AlumnosProfesorCurso extends Component {
                             <label htmlFor="filtroEstado" style={{ marginLeft: '20px' }}>
                                 Filtrar por Estado:
                             </label>
-                            <select
-                                id="filtroEstado"
-                                value={filtroEstado}
-                                onChange={this.handleFiltroEstadoChange}
-                            >
+                            <select id="filtroEstado" value={filtroEstado} onChange={this.handleFiltroEstadoChange}>
                                 <option value="">Todos</option>
                                 <option value="true">Activo</option>
                                 <option value="false">Inactivo</option>
@@ -129,7 +120,7 @@ export default class AlumnosProfesorCurso extends Component {
                                 </tr>
                             </thead>
                             <tbody>
-                                {alumnosFiltrados.map((alumno, index) => (
+                                {alumnosFiltradosPaginados.map((alumno, index) => (
                                     <tr key={index}>
                                         <td>{alumno.alumno.email}</td>
                                         <td>
@@ -138,12 +129,11 @@ export default class AlumnosProfesorCurso extends Component {
                                         <td>
                                             <select
                                                 name="estadoUsuario"
-                                                id="EstadoUsuario"
                                                 value={alumno.alumno.estadoUsuario}
                                                 onChange={(e) =>
                                                     this.handleEstadoChange(
                                                         alumno.alumno.idUsuario,
-                                                        e.target.value === 'true'
+                                                        e.target.value
                                                     )
                                                 }
                                             >
@@ -155,6 +145,43 @@ export default class AlumnosProfesorCurso extends Component {
                                 ))}
                             </tbody>
                         </table>
+
+                        {/* Paginación */}
+                        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px', gap: '10px' }}>
+                            <button
+                                onClick={() => this.handlePageChange(currentPage - 1)}
+                                disabled={currentPage === 1}
+                                style={{
+                                    padding: '8px 16px',
+                                    borderRadius: '5px',
+                                    border: '1px solid #ccc',
+                                    background: currentPage === 1 ? '#ddd' : '#007bff',
+                                    color: currentPage === 1 ? '#666' : '#fff',
+                                    cursor: currentPage === 1 ? 'not-allowed' : 'pointer'
+                                }}
+                            >
+                                ⬅ Anterior
+                            </button>
+
+                            <span style={{ alignSelf: 'center', fontSize: '16px', fontWeight: 'bold' }}>
+                                Página {currentPage} de {totalPages}
+                            </span>
+
+                            <button
+                                onClick={() => this.handlePageChange(currentPage + 1)}
+                                disabled={currentPage === totalPages || totalPages === 0}
+                                style={{
+                                    padding: '8px 16px',
+                                    borderRadius: '5px',
+                                    border: '1px solid #ccc',
+                                    background: currentPage === totalPages || totalPages === 0 ? '#ddd' : '#007bff',
+                                    color: currentPage === totalPages || totalPages === 0 ? '#666' : '#fff',
+                                    cursor: currentPage === totalPages || totalPages === 0 ? 'not-allowed' : 'pointer'
+                                }}
+                            >
+                                Siguiente ➡
+                            </button>
+                        </div>
                     </>
                 ) : (
                     <h2>Cargando Alumnos Profesor Curso...</h2>
