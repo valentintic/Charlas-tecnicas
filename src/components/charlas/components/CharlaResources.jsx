@@ -156,7 +156,7 @@ export default class CharlaResources extends Component {
                 <p className="mt-3 text-muted">No hay recursos disponibles.</p>
               </>
             )}
-            <button className='btn btn-primary' onClick={this.handleFormulario}>{editando ? 'Editar Recurso' : 'Agregar Nuevo Recurso'}</button>
+            <button className='btn btn-primary' onClick={this.handleFormulario}>{editando ? 'Editar Recurso' : 'Nuevo Recurso'}</button>
             {this.state.mostrarFormulario == true ?  <>
             <h5 className="mt-3">{editando ? 'Editar Recurso' : 'Agregar Nuevo Recurso'}</h5>
             <div className="custom-form">
