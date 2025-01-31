@@ -1,80 +1,59 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { postCreateRondaProfesorAsync } from "../../services/ProfesorService";
 
 export default function GestionRondas() {
-  const [cursoActivo, setCursoActivo] = useState(null);
   const [fechaPresentacion, setFechaPresentacion] = useState("");
   const [fechaCierre, setFechaCierre] = useState("");
-  const [duracion, setDuracion] = useState(0);
-  const [descripcionModulo, setDescripcionModulo] = useState("");
+  const [duracion, setDuracion] = useState(""); // Se validará antes de enviar
+  const [descripcionModulo, setDescripcionModulo] = useState(""); // Se validará antes de enviar
   const [fechaLimiteVotacion, setFechaLimiteVotacion] = useState("");
+  const [error, setError] = useState(""); // Para mostrar errores
 
-  // Cargar el curso activo al cargar el componente
-  useEffect(() => {
-    const fetchCursosActivos = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        const response = await fetch("/api/profesor/cursosactivosprofesor", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-
-        if (!response.ok) throw new Error("Error al obtener los cursos activos");
-
-        const data = await response.json();
-        console.log("📢 Cursos activos recibidos:", data);
-
-        if (data.length > 0) {
-          setCursoActivo(data[0].idCurso); // Tomamos el primer curso de la lista
-        } else {
-          console.warn("⚠ No hay cursos activos disponibles");
-        }
-      } catch (error) {
-        console.error("❌ Error obteniendo cursos activos:", error);
-      }
-    };
-
-    fetchCursosActivos();
-  }, []);
+  const formatDate = (date) => (date ? date.split("T")[0] : "");
 
   const handleCrearRonda = async (e) => {
     e.preventDefault();
 
-    if (!cursoActivo) {
-      alert("No se pudo obtener el curso activo.");
+    // Validación de campos obligatorios
+    if (!duracion || duracion <= 0) {
+      setError("⚠ La duración debe ser un número mayor a 0.");
+      return;
+    }
+    if (!descripcionModulo.trim()) {
+      setError("⚠ La descripción del módulo es obligatoria.");
       return;
     }
 
+    setError(""); // Si pasa la validación, limpiamos errores
+
+    const rondaData = {
+      idRonda: 0,
+      idCursoUsuario: 0,
+      fechaPresentacion: formatDate(fechaPresentacion),
+      fechaCierre: formatDate(fechaCierre),
+      duracion: Number(duracion),
+      descripcionModulo,
+      fechaLimiteVotacion: formatDate(fechaLimiteVotacion),
+    };
+
+    console.log("🚀 Cuerpo de la petición:", JSON.stringify(rondaData, null, 2));
+
     try {
-      const token = localStorage.getItem("token");
-      const response = await fetch("/api/profesor/createronda", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          idRonda: null, // El id se generará automáticamente, no lo envíes
-          idCursoUsuario: cursoActivo, // Se envía el curso activo
-          fechaPresentacion,
-          fechaCierre,
-          duracion,
-          descripcionModulo,
-          fechaLimiteVotacion,
-        }),
-      });
+      const response = await postCreateRondaProfesorAsync(rondaData);
 
-      if (!response.ok) throw new Error("Error al crear la ronda");
+      if (!response) throw new Error("Error al crear la ronda");
 
-      alert("Ronda creada con éxito");
+      alert("✅ Ronda creada con éxito");
 
-      // Limpiar los campos del formulario
+      // Limpiar los campos
       setFechaPresentacion("");
       setFechaCierre("");
-      setDuracion(0);
+      setDuracion("");
       setDescripcionModulo("");
       setFechaLimiteVotacion("");
     } catch (error) {
       console.error(error);
-      alert("Hubo un error al crear la ronda");
+      alert("❌ Hubo un error al crear la ronda");
     }
   };
 
@@ -82,37 +61,38 @@ export default function GestionRondas() {
     <div className="container">
       <h2>Gestión de Rondas</h2>
 
+      {error && <div className="alert alert-danger">{error}</div>}
+
       <form onSubmit={handleCrearRonda}>
         <div className="mb-3">
           <label className="form-label">Fecha de Presentación</label>
           <input
-            type="datetime-local"
+            type="date"
             className="form-control"
             value={fechaPresentacion}
             onChange={(e) => setFechaPresentacion(e.target.value)}
-            required
           />
         </div>
 
         <div className="mb-3">
           <label className="form-label">Fecha de Cierre</label>
           <input
-            type="datetime-local"
+            type="date"
             className="form-control"
             value={fechaCierre}
             onChange={(e) => setFechaCierre(e.target.value)}
-            required
           />
         </div>
 
         <div className="mb-3">
-          <label className="form-label">Duración</label>
+          <label className="form-label">Duración (minutos)</label>
           <input
             type="number"
             className="form-control"
             value={duracion}
-            onChange={(e) => setDuracion(Number(e.target.value))}
+            onChange={(e) => setDuracion(e.target.value)}
             required
+            min="1"
           />
         </div>
 
@@ -130,21 +110,10 @@ export default function GestionRondas() {
         <div className="mb-3">
           <label className="form-label">Fecha Límite de Votación</label>
           <input
-            type="datetime-local"
+            type="date"
             className="form-control"
             value={fechaLimiteVotacion}
             onChange={(e) => setFechaLimiteVotacion(e.target.value)}
-            required
-          />
-        </div>
-
-        <div className="mb-3">
-          <label className="form-label">ID Curso Activo</label>
-          <input
-            type="text"
-            className="form-control"
-            value={cursoActivo || "Cargando..."}
-            readOnly
           />
         </div>
 

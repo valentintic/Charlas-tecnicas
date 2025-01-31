@@ -8,6 +8,8 @@ import UpdateEstadoCharlaAlumnosProfesor from "./UpdateEstadoCharlaAlumnosProfes
 import GestionRondas from "./../rondas/GestionRondas";
 import CrearCurso from "./../profesor/CrearCurso";
 import "./UserProfileComponent.css";
+import RondasList from "../profesor/RondasList";
+import RondasCursoProfesor from "../profesor/RondasCursoProfesor";
 
 export default class UserProfileComponent extends Component {
   state = {
@@ -62,6 +64,12 @@ export default class UserProfileComponent extends Component {
                     Gestión de Rondas
                   </button>
                 </li>
+                <li>
+                  <button onClick={() => this.setActiveTab("listRondas")} className={activeTab === "listRondas" ? "active" : ""}>
+                    Listado de Rondas
+                  </button>
+                </li>
+                
               </>
             )}
             {userRole === "ADMINISTRADOR" && (
@@ -89,6 +97,7 @@ export default class UserProfileComponent extends Component {
           {activeTab === "estadoCharla" && userRole === "PROFESOR" && <UpdateEstadoCharlaAlumnosProfesor />}
           {activeTab === "crearCurso" && userRole === "PROFESOR" && <CrearCurso />}
           {activeTab === "gestionRondas" && userRole === "PROFESOR" && <GestionRondas />}
+          {activeTab === "listRondas" && userRole === "PROFESOR" && <RondasCursoProfesor />}
           {activeTab === "profesores" && userRole === "ADMINISTRADOR" && <Profesores />}
           {activeTab === "alumnos" && userRole === "ADMINISTRADOR" && <Alumnos />}
         </main>
