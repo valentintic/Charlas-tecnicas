@@ -12,6 +12,7 @@ const Alumnos = () => {
     handleCursoChange,
     updateRoleUsuario,
     updateStateProfesor,
+    deleteUsuario,
   } = useAlumnos();
 
   return (
@@ -71,6 +72,7 @@ const Alumnos = () => {
                 <th>Cursos</th>
                 <th>Curso</th>
                 <th>Estado</th>
+                <th>Acciones</th>
               </tr>
             </thead>
             <tbody>
@@ -158,6 +160,11 @@ const Alumnos = () => {
                             : "Solo los profesores pueden cambiar el estado"
                         }
                       ></span>
+                    </td>
+                    <td>
+                      <button className="btn btn-danger" onClick={() => deleteUsuario(alumno.idUsuario)}>
+                        Eliminar
+                      </button>
                     </td>
                   </tr>
                 ))

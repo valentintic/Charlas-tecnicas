@@ -1,0 +1,79 @@
+/* Contenedor principal del dashboard */
+.dashboard-container {
+    display: flex;
+    height: 100vh;
+    background: #f4f4f4;
+    
+  }
+  
+  /* Barra lateral */
+  .sidebar {
+    width: 250px;
+    background: #1e1e2f;
+    color: white;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .sidebar-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .sidebar-menu {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .sidebar-menu li {
+    margin: 10px 0;
+  }
+  
+  .sidebar-menu button {
+    width: 100%;
+    background: none;
+    border: none;
+    color: white;
+    text-align: left;
+    padding: 10px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.3s;
+    border-radius: 5px;
+  }
+  
+  .sidebar-menu button:hover,
+  .sidebar-menu button.active {
+    background: rgba(255, 255, 255, 0.1);
+    border-left: 5px solid #00bcd4;
+    padding-left: 15px;
+  }
+  
+  /* Contenedor del contenido principal */
+  .content {
+    flex: 1;
+    padding: 30px;
+    background: white;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    margin: 20px;
+    overflow-y: auto;
+    
+  }
+  .content .container{
+    max-width: 100%;
+    max-height: 100%;
+  }
+  
+  /* Transición de pestañas */
+  .tab-pane {
+    display: none;
+  }
+  
+  .tab-pane.active {
+    display: block;
+  }
+  

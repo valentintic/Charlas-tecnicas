@@ -53,10 +53,10 @@ export const getCursosProfesorAsync = async () => {
 //EL PROFESOR PUEDE ACTUALIZAR UN CHARLA POR SU IDCHARLA Y IDESTADO
 export const updateEstadoCharlaProfesorAsync = async (idCharla, idEstado) => {
     try {
-        const response = await axiosApi.put("api/profesor/updateestadocharla/"+idCharla+"/"+idEstado, "");
+        const response = await axiosApi.put("api/profesor/updateestadocharla/"+idCharla+"/"+idEstado);
         return response;
     } catch (error) {
-        console.log("Error updating estado charla como profesor", error);
+        console.log("Error actualizando el estado charla como profesor", error);
     }
 }
 

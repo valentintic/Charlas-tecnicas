@@ -1,17 +1,22 @@
 import React, { Component } from 'react';
-import { getCharlasCursoProfesor } from '../../services/ProfesorService';
+import { getCharlasCursoProfesor, getRondasProfesorAsync, updateEstadoCharlaProfesorAsync } from '../../services/ProfesorService';
+import './UpdateEstadoCharlaAlumnosProfesor.css';
 
 export default class UpdateEstadoCharlaAlumnosProfesor extends Component {
     state = {
-        charlas: null,
+        charlas: [],
+        rondasProfesor: [],
         filtroTitulo: '',
         filtroIdRonda: '',
         filtroUsuario: '',
-        filtroEstado: '' // 'true' para activa, 'false' para inactiva
+        filtroEstado: '',
+        currentPage: 1,
+        itemsPerPage: 20
     };
 
     componentDidMount = () => {
         this.loadCharlasCursoProfesor();
+        this.loadRondasProfesor();
     };
 
     loadCharlasCursoProfesor = () => {
@@ -20,151 +25,160 @@ export default class UpdateEstadoCharlaAlumnosProfesor extends Component {
         });
     };
 
-    handleFiltroTituloChange = (event) => {
-        this.setState({ filtroTitulo: event.target.value });
-    };
-
-    handleFiltroIdRondaChange = (event) => {
-        this.setState({ filtroIdRonda: event.target.value });
-    };
-
-    handleFiltroUsuarioChange = (event) => {
-        this.setState({ filtroUsuario: event.target.value });
-    };
-
-    handleFiltroEstadoChange = (event) => {
-        this.setState({ filtroEstado: event.target.value });
-    };
-
-    handleEstadoChange = (idCharla, nuevoEstado) => {
-        // Aquí puedes agregar la llamada al endpoint para actualizar el estado de la charla si se requiere
-        console.log(`Actualizando charla con ID ${idCharla} al estado ${nuevoEstado}`);
-
-        // Simular actualización en el estado local (opcional si no hay una actualización en el backend)
-        this.setState((prevState) => {
-            const charlasActualizadas = prevState.charlas.map((charla) =>
-                charla.idCharla === idCharla
-                    ? { ...charla, estadoCharla: nuevoEstado }
-                    : charla
-            );
-            return { charlas: charlasActualizadas };
+    loadRondasProfesor = () => {
+        getRondasProfesorAsync().then((response) => {
+            this.setState({ rondasProfesor: response });
         });
     };
 
+    handleFiltroChange = (event) => {
+        this.setState({ [event.target.name]: event.target.value, currentPage: 1 });
+    };
+
+    handleEstadoChange = (idCharla, nuevoEstado) => {
+        updateEstadoCharlaProfesorAsync(idCharla, nuevoEstado).then(() => {
+            this.setState((prevState) => {
+                const charlasActualizadas = prevState.charlas.map((charla) =>
+                    charla.idCharla === idCharla ? { ...charla, idEstadoCharla: nuevoEstado } : charla
+                );
+                return { charlas: charlasActualizadas };
+            });
+        });
+    };
+
+    handlePageChange = (newPage) => {
+        this.setState({ currentPage: newPage });
+    };
+
     render() {
-        const { charlas, filtroTitulo, filtroIdRonda, filtroUsuario, filtroEstado } = this.state;
+        const { charlas, rondasProfesor, filtroTitulo, filtroIdRonda, filtroUsuario, filtroEstado, currentPage, itemsPerPage } = this.state;
 
-        // Filtrar las charlas según los filtros seleccionados
-        const charlasFiltradas = charlas
-            ? charlas.filter((charla) => {
-                  const cumpleTitulo =
-                      !filtroTitulo || charla.titulo.toLowerCase().includes(filtroTitulo.toLowerCase());
-                  const cumpleIdRonda =
-                      !filtroIdRonda || charla.idRonda.toString() === filtroIdRonda;
-                  const cumpleUsuario =
-                      !filtroUsuario || charla.usuario.toLowerCase().includes(filtroUsuario.toLowerCase());
-                  const cumpleEstado =
-                      !filtroEstado || charla.estadoCharla.toString() === filtroEstado;
+        const charlasFiltradas = charlas.filter((charla) => {
+            const cumpleTitulo = !filtroTitulo || charla.titulo.toLowerCase().includes(filtroTitulo.toLowerCase());
+            const cumpleIdRonda = !filtroIdRonda || charla.idRonda.toString() === filtroIdRonda;
+            const cumpleUsuario = !filtroUsuario || charla.usuario.toLowerCase().includes(filtroUsuario.toLowerCase());
+            const cumpleEstado = !filtroEstado || charla.idEstadoCharla === parseInt(filtroEstado);
 
-                  return cumpleTitulo && cumpleIdRonda && cumpleUsuario && cumpleEstado;
-              })
-            : [];
+            return cumpleTitulo && cumpleIdRonda && cumpleUsuario && cumpleEstado;
+        });
+
+        // Paginación
+        const totalPages = Math.ceil(charlasFiltradas.length / itemsPerPage);
+        const indexOfLastItem = currentPage * itemsPerPage;
+        const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+        const charlasPaginadas = charlasFiltradas.slice(indexOfFirstItem, indexOfLastItem);
 
         return (
-            <div>
-                <h1>Actualizar Estado de Charlas</h1>
-                {charlas ? (
-                    <>
-                        {/* Filtros */}
-                        <div style={{ marginBottom: '20px' }}>
-                            <label htmlFor="filtroTitulo">Filtrar por Título:</label>
-                            <input
-                                type="text"
-                                id="filtroTitulo"
-                                value={filtroTitulo}
-                                onChange={this.handleFiltroTituloChange}
-                                placeholder="Buscar título..."
-                                className="form form-control"
-                            />
+            <div className="container">
+                <h1 className="title">Charlas - Estado</h1>
 
-                            <label htmlFor="filtroIdRonda" style={{ marginLeft: '20px' }}>
-                                Filtrar por ID Ronda:
-                            </label>
-                            <input
-                                type="number"
-                                id="filtroIdRonda"
-                                value={filtroIdRonda}
-                                onChange={this.handleFiltroIdRondaChange}
-                                placeholder="ID Ronda"
-                                className="form form-control"
-                            />
+                {/* Filtros */}
+                <div className="filtersContainer">
+                    <div className="filterGroup">
+                        <label htmlFor="filtroTitulo">Título:</label>
+                        <input 
+                            type="text" 
+                            name="filtroTitulo" 
+                            value={filtroTitulo} 
+                            onChange={this.handleFiltroChange} 
+                            placeholder="Buscar por título..." 
+                            className="input" 
+                        />
+                    </div>
 
-                            <label htmlFor="filtroUsuario" style={{ marginLeft: '20px' }}>
-                                Filtrar por Usuario:
-                            </label>
-                            <input
-                                type="text"
-                                id="filtroUsuario"
-                                value={filtroUsuario}
-                                onChange={this.handleFiltroUsuarioChange}
-                                placeholder="Buscar usuario..."
-                                className="form form-control"
-                            />
+                    <div className="filterGroup">
+                        <label htmlFor="filtroIdRonda">Ronda:</label>
+                        <select 
+                            name="filtroIdRonda" 
+                            value={filtroIdRonda} 
+                            onChange={this.handleFiltroChange} 
+                            className="select"
+                        >
+                            <option value="">Todas las rondas</option>
+                            {rondasProfesor.map((ronda) => (
+                                <option key={ronda.idRonda} value={ronda.idRonda}>
+                                    {ronda.descripcionModulo} - {ronda.idRonda}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
 
-                            <label htmlFor="filtroEstado" style={{ marginLeft: '20px' }}>
-                                Filtrar por Estado:
-                            </label>
-                            <select
-                                id="filtroEstado"
-                                value={filtroEstado}
-                                onChange={this.handleFiltroEstadoChange}
-                                className="form form-control"
-                            >
-                                <option value="">Todos</option>
-                                <option value="true">Activa</option>
-                                <option value="false">Inactiva</option>
-                            </select>
-                        </div>
+                    <div className="filterGroup">
+                        <label htmlFor="filtroUsuario">Usuario:</label>
+                        <input 
+                            type="text" 
+                            name="filtroUsuario" 
+                            value={filtroUsuario} 
+                            onChange={this.handleFiltroChange} 
+                            placeholder="Buscar usuario..." 
+                            className="input" 
+                        />
+                    </div>
 
-                        {/* Tabla */}
-                        <table className="table">
-                            <thead>
-                                <tr>
-                                    <th>Título</th>
-                                    <th>ID Ronda</th>
-                                    <th>Usuario</th>
-                                    <th>Estado</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {charlasFiltradas.map((charla) => (
-                                    <tr key={charla.idCharla}>
-                                        <td>{charla.titulo}</td>
-                                        <td>{charla.idRonda}</td>
-                                        <td>{charla.usuario}</td>
-                                        <td>
-                                            <select
-                                                name="estadoCharla"
-                                                value={charla.estadoCharla}
-                                                onChange={(e) =>
-                                                    this.handleEstadoChange(
-                                                        charla.idCharla,
-                                                        e.target.value === 'true'
-                                                    )
-                                                }
-                                            >
-                                                <option value="true">PROPUESTA</option>
-                                                <option value="false">ACEPTA</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </>
-                ) : (
-                    <h2>Cargando Charlas...</h2>
-                )}
+                    <div className="filterGroup">
+                        <label htmlFor="filtroEstado">Estado:</label>
+                        <select 
+                            name="filtroEstado" 
+                            value={filtroEstado} 
+                            onChange={this.handleFiltroChange} 
+                            className="select"
+                        >
+                            <option value="">Todos los estados</option>
+                            <option value="1">Propuesta</option>
+                            <option value="2">Aceptada</option>
+                        </select>
+                    </div>
+                </div>
+
+                {/* Tabla */}
+                <table className="table">
+                    <thead>
+                        <tr>
+                            <th>Título</th>
+                            <th>ID Ronda</th>
+                            <th>Usuario</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {charlasPaginadas.map((charla) => (
+                            <tr key={charla.idCharla}>
+                                <td>{charla.titulo}</td>
+                                <td>{charla.idRonda}</td>
+                                <td>{charla.usuario}</td>
+                                <td>
+                                    <select 
+                                        value={charla.idEstadoCharla} 
+                                        onChange={(e) => this.handleEstadoChange(charla.idCharla, parseInt(e.target.value))} 
+                                        className="select"
+                                    >
+                                        <option value="1">Propuesta</option>
+                                        <option value="2">Aceptada</option>
+                                    </select>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+
+                {/* Paginación */}
+                <div className="paginationContainer">
+                    <button 
+                        onClick={() => this.handlePageChange(currentPage - 1)} 
+                        disabled={currentPage === 1} 
+                        className="button"
+                    >
+                        ⬅ Anterior
+                    </button>
+                    <span className="pageInfo">Página {currentPage} de {totalPages}</span>
+                    <button 
+                        onClick={() => this.handlePageChange(currentPage + 1)} 
+                        disabled={currentPage === totalPages || totalPages === 0} 
+                        className="button"
+                    >
+                        Siguiente ➡
+                    </button>
+                </div>
             </div>
         );
     }

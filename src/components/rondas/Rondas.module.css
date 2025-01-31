@@ -93,7 +93,7 @@ h1 {
 
 
 .showCharlas {
-  max-height: 1000px; /* Altura máxima para mostrar el contenido */
+  max-height: 1500px; /* Altura máxima para mostrar el contenido */
   padding-top: 20px;
   padding-bottom: 20px;
 }

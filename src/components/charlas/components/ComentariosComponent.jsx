@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { getComentariosCharla, createComentario } from '../../../services/Comentarios'; // Asegúrate de importar la función de crear comentario
 import ComentariosList from './ComentariosList';
 import styles from '../modules/ComentariosComponent.module.css';
+import {getAlumnoId} from '../../../services/UsuariosService';
 
 export default class ComentariosComponent extends Component {
   state = {
@@ -13,12 +14,20 @@ export default class ComentariosComponent extends Component {
       contenido: "",
       fecha: new Date(),
     },
+    idAlumno: 0,
+  }
+
+  handleGetAlumnoId = async () => {
+    getAlumnoId().then((response) => {
+      console.log('Alumno ID:', response);
+      this.setState({ idAlumno: response });
+    });
   };
 
   componentDidMount() {
     const id = this.props.charlaId;
+    this.handleGetAlumnoId();
     this.loadComentarios(id);
-    console.log('ComentariosComponent mounted');
   }
 
   componentDidUpdate(prevProps) {
@@ -29,7 +38,6 @@ export default class ComentariosComponent extends Component {
 
   loadComentarios(id) {
     getComentariosCharla(id).then((response) => {
-      console.log('response', response);
       this.setState({
         comentarios: response,
       });
@@ -53,9 +61,7 @@ export default class ComentariosComponent extends Component {
         };
   
         // Llamar a la función para crear el comentario en la base de datos
-        createComentario(comentario).then((response) => {
-          console.log('Comentario creado:', response);
-          
+        createComentario(comentario).then((response) => {          
           // Aquí puedes manejar el ID de usuario si es devuelto por el servidor
           this.setState({
             comentarios: [...comentarios, response], // Agregar el comentario creado al estado
@@ -99,7 +105,7 @@ export default class ComentariosComponent extends Component {
         <div className={styles.comentarioForm}>
           <div className={styles.comentarioInput}>
             <img
-              src={`https://i.pravatar.cc/150?img=1`} // Cambiar por el avatar del usuario actual
+              src={`http://apicharlasalumnostajamar2025.azurewebsites.net:80/images/users/${this.state.idUsuario}_user.jpg`} // Cambiar por el avatar del usuario actual
               alt="Avatar"
               className={styles.avatar}
             />

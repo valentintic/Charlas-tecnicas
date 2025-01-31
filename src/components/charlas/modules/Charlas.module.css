@@ -97,15 +97,16 @@ h1 {
 .cardDetails {
   display: none;
   margin-top: 60px;
-  padding: 20px;
-  background: rgba(48, 48, 48, 0.1);
-  backdrop-filter: blur(10px);
+  padding: 25px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
   border-radius: 12px;
   opacity: 0;
   transform: translateY(30px);
-  transition: opacity 0.5s ease, transform 0.5s ease;
-  color: #333;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: opacity 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.4s ease;
+  color: #2d3436;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .cardDetails.visible {
@@ -115,41 +116,154 @@ h1 {
   margin-bottom: 25px;
 }
 
-/* Estilos de los botones dentro de los detalles */
+/* Nuevos estilos para el botón de votación */
 .cardButtons {
   margin-top: 20px;
   display: flex;
-  justify-content: flex-start;
-  gap: 15px;
+  justify-content: center;
+  gap: 15px; /* Asegura que haya espacio entre los botones */
 }
 
-.cardButtons .btn {
-  padding: 12px 25px;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: 600;
-  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+.cardButtons button {
+  position: relative;
   cursor: pointer;
-  font-family: 'Roboto', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 45%; /* Tamaño del botón ajustado */
+  padding: 12px 18px;
+  font-size: 16px;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  color: #ffffff;
+  background: linear-gradient(135deg, #4a4a4a, #8e8e8e); /* Gradiente metálico */
+  border: none;
+  border-radius: 25px; /* Bordes redondeados */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Sombra suave */
+  transition: all 0.3s ease;
+  overflow: hidden;
+  text-align: center;
+  max-width: 30vh;
+  max-height: 5vh;
 }
 
-/* Botón primario */
-.cardButtons .btn-primary {
-  background-color: #4CAF50;
-  color: white;
+.cardButtons button:hover {
+  transform: scale(1.05); /* Efecto de aumento sutil en hover */
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada */
+  background: linear-gradient(135deg, #6a6a6a, #9f9f9f); /* Gradiente más claro */
 }
 
-/* Botón secundario */
-.cardButtons .btn-secondary {
-  background-color: #f44336;
-  color: white;
+.cardButtons button:active {
+  transform: scale(0.98); /* Efecto al presionar */
+  background: linear-gradient(135deg, #5a5a5a, #8e8e8e); /* Gradiente ligeramente más oscuro */
 }
 
-/* Hover de los botones */
-.cardButtons .btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+.cardButtons button.disabled {
+  background: #b5b5b5; /* Fondo gris claro cuando está deshabilitado */
+  cursor: not-allowed; /* Cursor deshabilitado */
+  opacity: 0.5; /* Baja opacidad */
+}
+
+.voteSection {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.voteSection svg {
+  width: 24px;
+  height: 24px;
+  transition: all 0.3s ease;
+  fill: none;
+  stroke: #ffffff;
+  stroke-width: 2;
+}
+
+.cardButtons button .voteSection svg {
+  width: 24px;
+  height: 24px;
+  transition: all 0.3s ease;
+  fill: none;
+  stroke: #ffffff;
+  stroke-width: 2;
+}
+
+.cardButtons button.votedButton .voteSection svg {
+  fill: #ff0000; /* Ícono rojo cuando votado */
+  animation: pulse 0.6s ease;
+}
+
+.voteCount {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.cardButtons button.votedButton .voteSection svg {
+  fill: #ff0000; /* Color rojo para el ícono cuando votado */
+  animation: pulse 0.6s ease;
+}
+
+/* Estilo para el botón de Recursos */
+.buttonResources {
+  background: linear-gradient(135deg, #4a4a4a, #8e8e8e);
+  color: #ffffff;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 25px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.buttonResources:hover {
+  background: linear-gradient(135deg, #6a6a6a, #9f9f9f);
+  transform: translateY(-3px); /* Efecto hover sutil */
+}
+
+.buttonResources:active {
+  transform: translateY(0); /* Efecto de presionado */
+}
+
+.separator {
+  width: 1px;
+  height: 24px;
+  background: rgba(255, 255, 255, 0.3);
+  margin: 0 15px;
+}
+
+.buttonText {
+  padding: 12px 20px;
+  color: #2d3436;
+  font-weight: 500;
+  text-align: center;
+}
+
+.cardButtons button.votedButton .voteSection {
+  background: linear-gradient(135deg, #4CAF50, #45a049);
+}
+
+.cardButtons button[disabled] {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.cardButtons button[disabled] .voteSection {
+  background: #bdc3c7;
+}
+
+.cardButtons button[disabled] .buttonText {
+  color: #000000;
+}
+
+.cardButtons button[disabled] {
+  background: #bdc3c7;
+}
+
+/* Animación para el ícono de corazón */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
 }
 
 /* Estilos para los puntos de la navegación del carrusel */
@@ -189,4 +303,117 @@ h1 {
   .slick-center .card {
     transform: scale(1.05);
   }
+
+  .cardButtons button {
+    font-size: 14px;
+  }
+  
+  .voteSection {
+    padding: 10px 15px;
+  }
+  
+  .buttonText {
+    padding: 10px 15px;
+    width: 10vh;
+  }
+}
+
+.errorBanner {
+  background: #ffebee;
+  color: #c62828;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  border: 1px solid #ffcdd2;
+  font-weight: 500;
+}
+
+
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+  margin: 20px;
+  max-width: 60vh;
+  align-items: center;
+  margin-left: 30.5%;
+}
+
+.button3d {
+  -webkit-appearance: none;
+  appearance: none;
+  position: relative;
+  border-width: 0;
+  padding: 0 12px;
+  min-width: 5em;
+  min-height: 5em;
+  box-sizing: border-box;
+  background: transparent;
+  font: inherit;
+  cursor: pointer;
+  margin: 10px;
+  border-radius: 25px;
+  transition: all 0.3s ease;
+  justify-content: center;
+  align-items: center;
+}
+
+.buttonTop {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+  padding: 12px 24px;
+  transform: translateY(0);
+  color: #fff;
+  background-image: linear-gradient(135deg, #6a11cb, #2575fc);
+  text-shadow: 0 -1px rgba(0, 0, 0, 0.25);
+  border-radius: 25px;
+  transition: transform 0.3s, border-radius 0.3s, background 0.3s;
+}
+
+.button3d:active .buttonTop {
+  border-radius: 20px 20px 15px 15px;
+  transform: translateY(4px);
+  background-image: linear-gradient(135deg, #2575fc, #6a11cb);
+}
+
+.buttonBottom {
+  position: absolute;
+  z-index: 1;
+  bottom: 4px;
+  left: 4px;
+  border-radius: 25px;
+  padding-top: 8px;
+  width: calc(100% - 8px);
+  height: calc(100% - 10px);
+  background-image: linear-gradient(135deg, #2575fc, #6a11cb);
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+  transition: border-radius 0.2s, padding-top 0.2s;
+  justify-content: center;
+  align-items: center;
+}
+
+.buttonBase {
+  justify-content: center;
+  position: absolute;
+  z-index: 0;
+  top: 4px;
+  left: 0;
+  border-radius: 25px;
+  width: 100%;
+  height: calc(100% - 4px);
+  background-color: rgba(0, 0, 0, 0.15);
+  box-shadow: 0 1px 1px rgba(255, 255, 255, 0.75),
+              inset 0 2px 2px rgba(0, 0, 0, 0.25);
+  transition: border-radius 0.2s, padding-top 0.2s;
+}
+
+.button3d:active .buttonBottom {
+  border-radius: 20px 20px 15px 15px;
+  padding-top: 0;
+}
+
+.button3d:active .buttonBase {
+  border-radius: 20px 20px 15px 15px;
 }

@@ -17,3 +17,30 @@ export const createComentario = async (comentario) => {
         console.log("Error creating comentario", error);
     }
 }
+
+export const updateComentario = async (comentario) => {
+    try {
+        const response = await axiosApi.put(
+            "api/comentarios",
+            JSON.stringify(comentario),
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        console.error("Error updating comentario", error);
+        throw error;
+    }
+};
+
+export const deleteComentario = async (id) => {
+    try {
+        const response = await axiosApi.delete(`api/comentarios/${id}`);
+        return response.data;
+    } catch (error) {
+        console.log("Error deleting comentario", error);
+    }   
+}

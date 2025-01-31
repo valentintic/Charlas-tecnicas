@@ -5,20 +5,29 @@ import styles from '../modules/Charlas.module.css';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import ComentariosComponent from './ComentariosComponent';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import CharlaDetailsComponent from './CharlasDetailComponent';
+import { getUserProfile } from '../../../services/UsuariosService'; // Asegúrate de tener esta función para obtener el perfil del usuario
 
 const CharlasComponent = ({ idRonda }) => {
   const [charlas, setCharlas] = useState([]);
   const [centeredIndex, setCenteredIndex] = useState(0);
   const [currentDotBlock, setCurrentDotBlock] = useState(0);
+  const [isActive, setIsActive] = useState(null); // Estado del usuario
 
   const sliderRef = useRef();
 
+  // Fetching charlas y perfil de usuario
   useEffect(() => {
     fetchCharlas();
+    getUser(); 
   }, [idRonda]);
+
+  const getUser = async () => {
+    const response = await getUserProfile();
+    console.log('User profile:', response);
+    setIsActive(response.usuario.estadoUsuario);
+  };
 
   const fetchCharlas = async () => {
     const fetchFunction = idRonda ? getCharlasCursoIdRonda(idRonda) : getCharlas();
@@ -27,7 +36,7 @@ const CharlasComponent = ({ idRonda }) => {
   };
 
   const handleSlideChange = (currentIndex) => {
-    setCenteredIndex(currentIndex);
+    setCenteredIndex(currentIndex); 
     updateDotBlock(currentIndex);
   };
 
@@ -46,7 +55,8 @@ const CharlasComponent = ({ idRonda }) => {
 
   const getGroupedDots = () => {
     const groupSize = 5;
-    const dots = Array.from({ length: charlas.length }, (_, index) => index);
+    const validCharlas = Array.isArray(charlas) ? charlas : [];
+    const dots = Array.from({ length: validCharlas.length }, (_, index) => index);
     const groupedDots = [];
     for (let i = 0; i < dots.length; i += groupSize) {
       groupedDots.push(dots.slice(i, i + groupSize));
@@ -54,11 +64,7 @@ const CharlasComponent = ({ idRonda }) => {
     return groupedDots;
   };
 
-  const formatedDate = (date) => {
-    const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
-    return new Date(date).toLocaleDateString('es-ES', dateOptions);
-  };
-
+  const charlasLength = Array.isArray(charlas) ? charlas.length : 0;
   const groupedDots = getGroupedDots();
 
   const sliderSettings = {
@@ -75,9 +81,9 @@ const CharlasComponent = ({ idRonda }) => {
         </ul>
       );
     },
-    infinite: charlas.length > 1,
+    infinite: charlasLength > 1,
     speed: 500,
-    slidesToShow: charlas.length < 3 ? charlas.length : 3,
+    slidesToShow: charlasLength < 3 ? charlasLength : 3,
     slidesToScroll: 1,
     centerMode: true,
     focusOnSelect: true,
@@ -94,11 +100,16 @@ const CharlasComponent = ({ idRonda }) => {
     ],
   };
 
+  // Asegúrate de que el usuario esté cargado antes de renderizar las charlas
+  if (isActive === null) {
+    return <h2>Cargando perfil...</h2>;
+  }
+
   return (
     <div className={styles.container}>
       {!idRonda && <h1>Charlas</h1>}
-      {charlas.length === 0 ? (
-        <h2>No hay charlas</h2>
+      {charlasLength === 0 || isActive ===false ? (
+        <h2>No hay charlas disponibles o tu cuenta está desactivada.</h2>
       ) : (
         <div style={{ width: '98%', margin: '0 auto', textAlign: 'center' }}>
           <div className={`${styles.slickSlider}`}>
@@ -124,10 +135,22 @@ const CharlasComponent = ({ idRonda }) => {
                 );
               })}
             </Slider>
-            <div className="d-flex justify-content-between">
-              <button onClick={handlePrevious}>Anterior</button>
-              <button onClick={handleNext}>Siguiente</button>
-            </div>
+            <div className={styles.buttonContainer}>
+      <button className={styles.button3d } onClick={handlePrevious}>
+        <div className={styles.buttonTop}>
+          <span className="material-icons">❮</span>
+        </div>
+        <div className={styles.buttonBottom} />
+        <div className={styles.buttonBase} />
+      </button>
+      <button className={styles.button3d} onClick={handleNext}>
+        <div className={styles.buttonTop}>
+          <span className="material-icons">❯</span>
+        </div>
+        <div className={styles.buttonBottom} />
+        <div className={styles.buttonBase} />
+      </button>
+    </div>
           </div>
 
           {charlas[centeredIndex] && (
