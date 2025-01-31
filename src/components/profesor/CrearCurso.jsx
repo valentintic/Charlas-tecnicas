@@ -1,64 +1,60 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
+import { postCreateCursoProfesorAsync } from './../../services/ProfesorService'; 
 
-export default function CrearCurso() {
+const CrearCurso = () => {
   const [nombre, setNombre] = useState('');
   const [fechaInicio, setFechaInicio] = useState('');
   const [fechaFin, setFechaFin] = useState('');
   const [activo, setActivo] = useState(true);
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
-    const token = localStorage.getItem('token');
+    // Verificar que todos los campos estén completos
     if (!nombre || !fechaInicio || !fechaFin) {
-      alert('Por favor, complete todos los campos.');
+      setError('Todos los campos son requeridos');
       return;
     }
 
+    const curso = {
+      nombre,
+      fechaInicio,
+      fechaFin,
+      activo,
+    };
+
     try {
-      const response = await fetch('/api/profesor/createcurso', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          idCurso: 0,
-          nombre,
-          fechaInicio,
-          fechaFin,
-          activo,
-        }),
-      });
+      const response = await postCreateCursoProfesorAsync(curso); // Llamada al servicio
 
-      if (!response.ok) {
-        throw new Error('Error al crear el curso');
+      if (response) {
+        setSuccess('Curso creado exitosamente');
+        setError(null);
+        setNombre('');
+        setFechaInicio('');
+        setFechaFin('');
+        setActivo(true);
       }
-
-      const data = await response.json();
-      alert('Curso creado con éxito');
-      console.log(data);
-
-      // Limpiar formulario después de enviar
-      setNombre('');
-      setFechaInicio('');
-      setFechaFin('');
-      setActivo(true);
-    } catch (error) {
-      console.error('Error creando el curso:', error);
-      alert('Hubo un error al crear el curso');
+    } catch (err) {
+      setError('Hubo un error al crear el curso');
+      setSuccess(null);
     }
   };
 
   return (
-    <div className="container">
-      <h2>Crear Nuevo Curso</h2>
+    <div>
+      <h3>Crear Nuevo Curso</h3>
+      {error && <div className="alert alert-danger">{error}</div>}
+      {success && <div className="alert alert-success">{success}</div>}
+
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
-          <label className="form-label">Nombre del Curso</label>
+          <label htmlFor="nombre" className="form-label">Nombre del Curso</label>
           <input
             type="text"
             className="form-control"
+            id="nombre"
             value={nombre}
             onChange={(e) => setNombre(e.target.value)}
             required
@@ -66,10 +62,11 @@ export default function CrearCurso() {
         </div>
 
         <div className="mb-3">
-          <label className="form-label">Fecha de Inicio</label>
+          <label htmlFor="fechaInicio" className="form-label">Fecha de Inicio</label>
           <input
-            type="datetime-local"
+            type="date"
             className="form-control"
+            id="fechaInicio"
             value={fechaInicio}
             onChange={(e) => setFechaInicio(e.target.value)}
             required
@@ -77,10 +74,11 @@ export default function CrearCurso() {
         </div>
 
         <div className="mb-3">
-          <label className="form-label">Fecha de Fin</label>
+          <label htmlFor="fechaFin" className="form-label">Fecha de Fin</label>
           <input
-            type="datetime-local"
+            type="date"
             className="form-control"
+            id="fechaFin"
             value={fechaFin}
             onChange={(e) => setFechaFin(e.target.value)}
             required
@@ -88,19 +86,22 @@ export default function CrearCurso() {
         </div>
 
         <div className="mb-3">
-          <label className="form-label">Activo</label>
-          <input
-            type="checkbox"
-            className="form-check-input"
-            checked={activo}
-            onChange={(e) => setActivo(e.target.checked)}
-          />
+          <label htmlFor="activo" className="form-label">Activo</label>
+          <select
+            id="activo"
+            className="form-select"
+            value={activo}
+            onChange={(e) => setActivo(e.target.value === 'true')}
+          >
+            <option value="true">Activo</option>
+            <option value="false">Inactivo</option>
+          </select>
         </div>
 
-        <button type="submit" className="btn btn-primary">
-          Crear Curso
-        </button>
+        <button type="submit" className="btn btn-primary">Crear Curso</button>
       </form>
     </div>
   );
-}
+};
+
+export default CrearCurso;

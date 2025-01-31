@@ -1,0 +1,110 @@
+/* RondaItem.module.css */
+
+/* Estilo general del formulario */
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;  /* Reducido el espacio entre los elementos */
+  background-color: #fff;
+  padding: 15px;  /* Reducido el padding para compactar el formulario */
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  margin: 0 auto;
+  transition: all 0.3s ease;
+}
+
+/* Títulos y etiquetas del formulario */
+.form-container label {
+  font-size: 0.9rem;  /* Reducido el tamaño de las etiquetas */
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.form-container input {
+  padding: 8px;  /* Reducido el padding de los inputs */
+  font-size: 0.9rem;  /* Reducido el tamaño de la fuente */
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  transition: border-color 0.3s ease;
+}
+
+.form-container input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* Estilo del botón principal de envío */
+.form-container button {
+  padding: 8px 12px;  /* Ajustado a un tamaño más pequeño */
+  background-color: #007bff;
+  color: #fff;
+  font-size: 0.875rem;  /* Ajuste más pequeño */
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.form-container button:hover {
+  background-color: #0056b3;
+}
+
+/* Estilo de los botones de editar/cancelar (con botones más pequeños) */
+.edit-button,
+.cancel-button {
+  padding: 6px 12px;  /* Botones más pequeños */
+  font-size: 0.8rem;  /* Fuente más pequeña */
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  min-width: 70px;  /* Botón no demasiado grande */
+  text-align: center;  /* Centrado del texto */
+}
+
+/* Estilo de los botones de editar */
+.edit-button {
+  background-color: #28a745;
+  color: #fff;
+}
+
+.edit-button:hover {
+  background-color: #218838;
+}
+
+/* Estilo de los botones de cancelar */
+.cancel-button {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+.cancel-button:hover {
+  background-color: #c82333;
+}
+
+/* Estilo del botón de eliminar */
+.delete-button {
+  padding: 6px 12px;
+  font-size: 0.8rem;  /* Más pequeño */
+  background-color: #dc3545; /* Rojo para eliminar */
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-left: 10px;  /* Espacio entre botones */
+  min-width: 70px;  /* Consistencia en el tamaño de los botones */
+}
+
+.delete-button:hover {
+  background-color: #c82333; /* Rojo más oscuro al pasar el ratón */
+}
+
+/* Estilo de los campos de entrada */
+input[type="text"],
+input[type="number"],
+input[type="datetime-local"] {
+  width: 100%;
+}
+

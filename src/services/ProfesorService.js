@@ -83,7 +83,7 @@ export const postCreateRondaProfesorAsync = async (ronda) => {
 //EL PROFESOR PUEDE ACTUALIZAR UN RONDA
 export const updateRondaProfesorAsync = async (ronda) => {
     try {
-        const response = await axiosApi.post("api/profesor/updateronda", ronda);
+        const response = await axiosApi.put("api/profesor/updateronda", ronda);
         return response.data;
     } catch (error) {   
         console.log("Error acutalizando la ronda como profesor", error);
