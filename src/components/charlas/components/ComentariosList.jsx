@@ -27,7 +27,6 @@ const ComentariosList = ({ comentarios }) => {
   }, []);
 
   useEffect(() => {
-    // Cerrar el menú si se hace clic fuera de él
     const handleClickOutside = (e) => {
       if (menuRef.current && !menuRef.current.contains(e.target)) {
         setShowMenu(null);
@@ -41,12 +40,11 @@ const ComentariosList = ({ comentarios }) => {
   }, []);
 
   useEffect(() => {
-    // Resetea los comentarios y el estado cuando cambian los comentarios (es decir, al cambiar de charla)
     setComentariosState(comentarios);
-    setMostrarComentarios(false); // Cierra los comentarios
-    setComentariosVisibles([]);   // Resetea la lista de comentarios visibles
-    setComentarioEditado(null);   // Limpia cualquier comentario en edición
-  }, [comentarios]); // Cuando los comentarios cambian, esto se ejecutará.
+    setMostrarComentarios(false); 
+    setComentariosVisibles([]);
+    setComentarioEditado(null);
+  }, [comentarios]);
 
   const formatDate = (fecha) => {
     const opciones = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -127,7 +125,8 @@ const ComentariosList = ({ comentarios }) => {
                   <small>{formatDate(comentario.fecha)}</small>
                 </div>
 
-                {/* Los tres puntos para mostrar el menú */}
+                {userId == comentario.idUsuario && 
+                <>
                 <div className={styles.comentarioAcciones}>
                   <span
                     className={styles.tresPuntos}
@@ -139,7 +138,6 @@ const ComentariosList = ({ comentarios }) => {
                     &#8230;
                   </span>
 
-                  {/* El menú de opciones se muestra cuando showMenu es igual al idComentario */}
                   {showMenu === comentario.idComentario && (
                     <div ref={menuRef} className={`${styles.menuOpciones} ${showMenu === comentario.idComentario ? styles.show : ''}`}>
                       {comentarioEditado?.idComentario !== comentario.idComentario && (
@@ -153,6 +151,9 @@ const ComentariosList = ({ comentarios }) => {
                     </div>
                   )}
                 </div>
+                </>
+                }
+                
               </div>
 
               {comentarioEditado?.idComentario === comentario.idComentario ? (
@@ -167,7 +168,7 @@ const ComentariosList = ({ comentarios }) => {
                   <button className='btn btn-secondary' onClick={() => setComentarioEditado(null)}>Cancelar</button>
                 </div>
               ) : (
-                <p>{comentario.contenido}</p>
+                <p style={{ display: "flex", marginLeft: "25px"}}>{comentario.contenido}</p>
               )}
             </div>
           ))}

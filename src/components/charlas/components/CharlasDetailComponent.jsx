@@ -14,6 +14,7 @@ class CharlaDetailsComponent extends Component {
     error: null,
     charla: this.props.charla,
     isModalOpen: false,
+    idRonda: this.props.idRonda,
   };
 
   componentDidMount() {
@@ -112,7 +113,9 @@ class CharlaDetailsComponent extends Component {
         <p><strong>Ronda:</strong> {formatedDate(charla.idRonda)}</p>
 
         <div className={styles.cardButtons}>
-          <button 
+          {this.state.idRonda && (
+            <>
+            <button 
             onClick={this.handleVote}
             disabled={isLoading || hasVotedOtherCharla || hasVotedCurrentCharla}
             className={`${styles.voteButton} ${hasVotedCurrentCharla ? styles.votedButton : ''}`}
@@ -140,6 +143,9 @@ class CharlaDetailsComponent extends Component {
               )}
             </span>
           </button>
+            </>
+          )}
+          
           <button onClick={this.handleModal} className={styles.buttonResources}>Ver Recursos</button> {/* Botón para abrir el modal */}
           
           {isModalOpen && (

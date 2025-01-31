@@ -154,7 +154,7 @@ const CharlasComponent = ({ idRonda }) => {
           </div>
 
           {charlas[centeredIndex] && (
-            <CharlaDetailsComponent charla={charlas[centeredIndex]} />
+            <CharlaDetailsComponent idRonda={idRonda} charla={charlas[centeredIndex]} />
           )}
         </div>
       )}
