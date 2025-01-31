@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { getAlumnosCursoProfesorAsync, updateEstadoAlumnoProfesorAsync } from '../../services/ProfesorService';
+import './AlumnosProfesorCurso.css';
 
 export default class AlumnosProfesorCurso extends Component {
     state = {
@@ -27,8 +28,8 @@ export default class AlumnosProfesorCurso extends Component {
 
             this.setState({
                 cursos: cursosProfe,
-                alumnos: alumnosProfe.flat(), // Aplanar el array de alumnos
-                currentPage: 1 // Reiniciar a la primera página
+                alumnos: alumnosProfe.flat(),
+                currentPage: 1
             });
         });
     };
@@ -72,42 +73,44 @@ export default class AlumnosProfesorCurso extends Component {
         const totalPages = Math.ceil(alumnosFiltrados.length / alumnosPerPage);
 
         return (
-            <div>
-                <h1>Alumnos Profesor Curso</h1>
+            <div className="container">
+                <h1 className="title">Alumnos Profesor Curso</h1>
                 {cursos && alumnos ? (
                     <>
                         {/* Filtros */}
-                        <div style={{ marginBottom: '20px' }}>
-                            <label htmlFor="filtroCurso" style={{ marginLeft: '20px' }}>Filtrar por Curso:</label>
-                            <select id="filtroCurso" value={filtroCurso} onChange={this.handleFiltroCursoChange}>
-                                <option value="">Todos</option>
-                                {cursos.map((curso, index) => (
-                                    <option key={index} value={curso.idCurso}>
-                                        {curso.idCurso} - {curso.nombre}
-                                    </option>
-                                ))}
-                            </select>
+                        <div className="filtersContainer">
+                            <div className="filterGroup">
+                                <label htmlFor="filtroCurso">Filtrar por Curso:</label>
+                                <select id="filtroCurso" value={filtroCurso} onChange={this.handleFiltroCursoChange}>
+                                    <option value="">Todos</option>
+                                    {cursos.map((curso, index) => (
+                                        <option key={index} value={curso.idCurso}>
+                                            {curso.idCurso} - {curso.nombre}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
 
-                            <label htmlFor="filtroEstado" style={{ marginLeft: '20px' }}>
-                                Filtrar por Estado:
-                            </label>
-                            <select id="filtroEstado" value={filtroEstado} onChange={this.handleFiltroEstadoChange}>
-                                <option value="">Todos</option>
-                                <option value="true">Activo</option>
-                                <option value="false">Inactivo</option>
-                            </select>
+                            <div className="filterGroup">
+                                <label htmlFor="filtroEstado">Filtrar por Estado:</label>
+                                <select id="filtroEstado" value={filtroEstado} onChange={this.handleFiltroEstadoChange}>
+                                    <option value="">Todos</option>
+                                    <option value="true">Activo</option>
+                                    <option value="false">Inactivo</option>
+                                </select>
+                            </div>
 
-                            <label htmlFor="filtroCorreo" style={{ marginLeft: '20px' }}>
-                                Filtrar por Correo:
-                            </label>
-                            <input
-                                type="text"
-                                id="filtroCorreo"
-                                value={filtroCorreo}
-                                onChange={this.handleFiltroCorreoChange}
-                                placeholder="Buscar correo..."
-                                className="form form-control"
-                            />
+                            <div className="filterGroup">
+                                <label htmlFor="filtroCorreo">Filtrar por Correo:</label>
+                                <input
+                                    type="text"
+                                    id="filtroCorreo"
+                                    value={filtroCorreo}
+                                    onChange={this.handleFiltroCorreoChange}
+                                    placeholder="Buscar correo..."
+                                    className="form-input"
+                                />
+                            </div>
                         </div>
 
                         {/* Tabla */}
@@ -147,37 +150,23 @@ export default class AlumnosProfesorCurso extends Component {
                         </table>
 
                         {/* Paginación */}
-                        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px', gap: '10px' }}>
+                        <div className="paginationContainer">
                             <button
                                 onClick={() => this.handlePageChange(currentPage - 1)}
                                 disabled={currentPage === 1}
-                                style={{
-                                    padding: '8px 16px',
-                                    borderRadius: '5px',
-                                    border: '1px solid #ccc',
-                                    background: currentPage === 1 ? '#ddd' : '#007bff',
-                                    color: currentPage === 1 ? '#666' : '#fff',
-                                    cursor: currentPage === 1 ? 'not-allowed' : 'pointer'
-                                }}
+                                className="paginationButton"
                             >
                                 ⬅ Anterior
                             </button>
 
-                            <span style={{ alignSelf: 'center', fontSize: '16px', fontWeight: 'bold' }}>
+                            <span className="paginationInfo">
                                 Página {currentPage} de {totalPages}
                             </span>
 
                             <button
                                 onClick={() => this.handlePageChange(currentPage + 1)}
                                 disabled={currentPage === totalPages || totalPages === 0}
-                                style={{
-                                    padding: '8px 16px',
-                                    borderRadius: '5px',
-                                    border: '1px solid #ccc',
-                                    background: currentPage === totalPages || totalPages === 0 ? '#ddd' : '#007bff',
-                                    color: currentPage === totalPages || totalPages === 0 ? '#666' : '#fff',
-                                    cursor: currentPage === totalPages || totalPages === 0 ? 'not-allowed' : 'pointer'
-                                }}
+                                className="paginationButton"
                             >
                                 Siguiente ➡
                             </button>

@@ -1,241 +1,98 @@
-import { Component } from 'react';
-import CharlasUser from './CharlasUser';
-import UpdateUser from './UpdateUser';
-import Profesores from './Profesores';
-import Alumnos from './Alumnos';
-import AlumnosProfesorCurso from './AlumnosProfesorCurso';
-import UpdateEstadoCharlaAlumnosProfesor from './UpdateEstadoCharlaAlumnosProfesor';
-import GestionRondas from './../rondas/GestionRondas';
-import CrearCurso from './../profesor/CrearCurso'; 
+import { Component } from "react";
+import CharlasUser from "./CharlasUser";
+import UpdateUser from "./UpdateUser";
+import Profesores from "./Profesores";
+import Alumnos from "./Alumnos";
+import AlumnosProfesorCurso from "./AlumnosProfesorCurso";
+import UpdateEstadoCharlaAlumnosProfesor from "./UpdateEstadoCharlaAlumnosProfesor";
+import GestionRondas from "./../rondas/GestionRondas";
+import CrearCurso from "./../profesor/CrearCurso";
+import "./UserProfileComponent.css";
+
 export default class UserProfileComponent extends Component {
   state = {
-    userData: null,
+    activeTab: "profile", // Pestaña activa por defecto
   };
 
-  componentDidMount = () => {
-    // Lógica para cargar datos del usuario si es necesario
+  setActiveTab = (tabName) => {
+    this.setState({ activeTab: tabName });
   };
 
   render() {
+    const { activeTab } = this.state;
     const userRole = localStorage.getItem("role");
 
     return (
-      <>
-        <div className="container-fluid mt-4">
-          <div className="row g-3">
-            {/* Barra lateral */}
-            <div
-              className="col-12 col-md-3"
-              style={{
-                backgroundColor: '#f8f9fa',
-                borderRight: '1px solid #e9ecef',
-              }}
-            >
-              <div className="nav flex-column nav-pills p-3 shadow-sm">
-                <button
-                  className="nav-link active text-start mb-2"
-                  id="v-pills-profile-tab"
-                  data-bs-toggle="pill"
-                  data-bs-target="#v-pills-profile"
-                  type="button"
-                  role="tab"
-                  aria-controls="v-pills-profile"
-                  aria-selected="false"
-                  style={{ borderRadius: '0.5rem', fontWeight: '500' }}
-                >
-                  Perfil
+      <div className="dashboard-container">
+        {/* Barra lateral */}
+        <nav className="sidebar">
+          <h2 className="sidebar-title">Dashboard</h2>
+          <ul className="sidebar-menu">
+            <li>
+              <button onClick={() => this.setActiveTab("profile")} className={activeTab === "profile" ? "active" : ""}>
+                Perfil
+              </button>
+            </li>
+            {userRole === "ALUMNO" && (
+              <li>
+                <button onClick={() => this.setActiveTab("charlasuser")} className={activeTab === "charlasuser" ? "active" : ""}>
+                  Mis Charlas
                 </button>
-
-                {/* Mostrar "Mis Charlas" solo para Alumnos */}
-                {userRole === "ALUMNO" && (
-                  <button
-                    className="nav-link text-start mb-2"
-                    id="v-pills-charlasuser-tab"
-                    data-bs-toggle="pill"
-                    data-bs-target="#v-pills-charlasuser"
-                    type="button"
-                    role="tab"
-                    aria-controls="v-pills-charlasuser"
-                    aria-selected="false"
-                    style={{ borderRadius: '0.5rem', fontWeight: '500' }}
-                  >
-                    Mis Charlas
-                  </button>
-                )}
-
-                {/* Mostrar "Mis alumnos" para Profesor */}
-                {userRole === "PROFESOR" && (
-                  <button
-                    className="nav-link text-start mb-2"
-                    id="v-pills-alumnoscursoprofesor-tab"
-                    data-bs-toggle="pill"
-                    data-bs-target="#v-pills-alumnoscursoprofesor"
-                    type="button"
-                    role="tab"
-                    aria-controls="v-pills-alumnoscursoprofesor"
-                    aria-selected="false"
-                    style={{ borderRadius: '0.5rem', fontWeight: '500' }}
-                  >
+              </li>
+            )}
+            {userRole === "PROFESOR" && (
+              <>
+                <li>
+                  <button onClick={() => this.setActiveTab("alumnosCurso")} className={activeTab === "alumnosCurso" ? "active" : ""}>
                     Mis alumnos
                   </button>
-                )}
-
-                {/* Mostrar "Charlas Alumnos" para Profesor */}
-                {userRole === "PROFESOR" && (
-                  <button
-                    className="nav-link text-start mb-2"
-                    id="v-pills-estadoCharla-tab"
-                    data-bs-toggle="pill"
-                    data-bs-target="#v-pills-estadoCharla"
-                    type="button"
-                    role="tab"
-                    aria-controls="v-pills-estadoCharla"
-                    aria-selected="false"
-                    style={{ borderRadius: '0.5rem', fontWeight: '500' }}
-                  >
+                </li>
+                <li>
+                  <button onClick={() => this.setActiveTab("estadoCharla")} className={activeTab === "estadoCharla" ? "active" : ""}>
                     Charlas Alumnos
                   </button>
-                )}
-
-                {/* 🔹 Nueva opción: Crear Curso (Solo para Profesores) */}
-                {userRole === "PROFESOR" || userRole === "ADMINISTRADOR" && (
-                  <button
-                    className="nav-link text-start mb-2"
-                    id="v-pills-crear-curso-tab"
-                    data-bs-toggle="pill"
-                    data-bs-target="#v-pills-crear-curso"
-                    type="button"
-                    role="tab"
-                    aria-controls="v-pills-crear-curso"
-                    aria-selected="false"
-                    style={{ borderRadius: '0.5rem', fontWeight: '500' }}
-                  >
+                </li>
+                <li>
+                  <button onClick={() => this.setActiveTab("crearCurso")} className={activeTab === "crearCurso" ? "active" : ""}>
                     Crear Curso
                   </button>
-                )}
-
-                {/* 🔹 Nueva opción: Gestión de Rondas (Solo para Profesores) */}
-                {userRole === "PROFESOR" && (
-                  <button
-                    className="nav-link text-start mb-2"
-                    id="v-pills-gestionrondas-tab"
-                    data-bs-toggle="pill"
-                    data-bs-target="#v-pills-gestionrondas"
-                    type="button"
-                    role="tab"
-                    aria-controls="v-pills-gestionrondas"
-                    aria-selected="false"
-                    style={{ borderRadius: '0.5rem', fontWeight: '500' }}
-                  >
+                </li>
+                <li>
+                  <button onClick={() => this.setActiveTab("gestionRondas")} className={activeTab === "gestionRondas" ? "active" : ""}>
                     Gestión de Rondas
                   </button>
-                )}
-
-                {/* Mostrar "Profesores" solo para ADMINISTRADOR */}
-                {userRole === "ADMINISTRADOR" && (
-                  <button
-                    className="nav-link text-start mb-2"
-                    id="v-profesores-tab"
-                    data-bs-toggle="pill"
-                    data-bs-target="#v-pills-profesores"
-                    type="button"
-                    role="tab"
-                    aria-controls="v-pills-profesores"
-                    aria-selected="false"
-                    style={{ borderRadius: '0.5rem', fontWeight: '500' }}
-                  >
+                </li>
+              </>
+            )}
+            {userRole === "ADMINISTRADOR" && (
+              <>
+                <li>
+                  <button onClick={() => this.setActiveTab("profesores")} className={activeTab === "profesores" ? "active" : ""}>
                     Profesores
                   </button>
-                )}
-
-                {/* Mostrar "Ver Alumnos" solo para ADMINISTRADOR */}
-                {userRole === "ADMINISTRADOR" && (
-                  <button
-                    className="nav-link text-start mb-2"
-                    id="v-alumnos-tab"
-                    data-bs-toggle="pill"
-                    data-bs-target="#v-pills-alumnos"
-                    type="button"
-                    role="tab"
-                    aria-controls="v-pills-alumnos"
-                    aria-selected="false"
-                    style={{ borderRadius: '0.5rem', fontWeight: '500' }}
-                  >
+                </li>
+                <li>
+                  <button onClick={() => this.setActiveTab("alumnos")} className={activeTab === "alumnos" ? "active" : ""}>
                     Ver Alumnos
                   </button>
-                )}
-              </div>
-            </div>
+                </li>
+              </>
+            )}
+          </ul>
+        </nav>
 
-            {/* Contenedor de pestañas */}
-            <div className="col-12 col-md-9">
-              <div
-                className="tab-content p-4"
-                id="v-pills-tabContent"
-                style={{
-                  backgroundColor: '#ffffff',
-                  borderRadius: '0.5rem',
-                  boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-                  overflow: 'hidden',
-                }}
-              >
-                <div
-                  className="tab-pane fade show active"
-                  id="v-pills-profile"
-                  role="tabpanel"
-                  aria-labelledby="v-pills-profile-tab"
-                >
-                  <UpdateUser />
-                </div>
-
-                {userRole === "ALUMNO" && (
-                  <div className="tab-pane fade" id="v-pills-charlasuser" role="tabpanel">
-                    <CharlasUser />
-                  </div>
-                )}
-
-                {userRole === "PROFESOR" && (
-                  <div className="tab-pane fade" id="v-pills-alumnoscursoprofesor" role="tabpanel">
-                    <AlumnosProfesorCurso />
-                  </div>
-                )}
-
-                {userRole === "PROFESOR" && (
-                  <div className="tab-pane fade" id="v-pills-estadoCharla" role="tabpanel">
-                    <UpdateEstadoCharlaAlumnosProfesor />
-                  </div>
-                )}
-
-                {/* 🔹 Contenedor de la pestaña "Crear Curso" */}
-                {userRole === "PROFESOR" && (
-                  <div className="tab-pane fade" id="v-pills-crear-curso" role="tabpanel">
-                    <CrearCurso />
-                  </div>
-                )}
-
-                {/* 🔹 Contenedor de la pestaña "Gestión de Rondas" */}
-                {userRole === "PROFESOR" && (
-                  <div className="tab-pane fade" id="v-pills-gestionrondas" role="tabpanel">
-                    <GestionRondas />
-                  </div>
-                )}
-
-                {userRole === "ADMINISTRADOR" && (
-                  <div className="tab-pane fade" id="v-pills-profesores" role="tabpanel">
-                    <Profesores />
-                  </div>
-                )}
-
-                {userRole === "ADMINISTRADOR" && (
-                  <div className="tab-pane fade" id="v-pills-alumnos" role="tabpanel">
-                    <Alumnos />
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-      </>
+        {/* Contenedor de contenido */}
+        <main className="content">
+          {activeTab === "profile" && <UpdateUser />}
+          {activeTab === "charlasuser" && userRole === "ALUMNO" && <CharlasUser />}
+          {activeTab === "alumnosCurso" && userRole === "PROFESOR" && <AlumnosProfesorCurso />}
+          {activeTab === "estadoCharla" && userRole === "PROFESOR" && <UpdateEstadoCharlaAlumnosProfesor />}
+          {activeTab === "crearCurso" && userRole === "PROFESOR" && <CrearCurso />}
+          {activeTab === "gestionRondas" && userRole === "PROFESOR" && <GestionRondas />}
+          {activeTab === "profesores" && userRole === "ADMINISTRADOR" && <Profesores />}
+          {activeTab === "alumnos" && userRole === "ADMINISTRADOR" && <Alumnos />}
+        </main>
+      </div>
     );
   }
 }
