@@ -40,9 +40,6 @@ class CharlaDetailsComponent extends Component {
         getVotoUsuarioRonda(charla.idRonda)
       ]);
 
-      console.log('Votes response:', votesResponse);
-      console.log('User vote response:', userVoteResponse);
-
       // Handle both cases: empty response or vote object
       const hasExistingVote = userVoteResponse && userVoteResponse.idVoto;
       
@@ -143,7 +140,7 @@ class CharlaDetailsComponent extends Component {
               )}
             </span>
           </button>
-          <button onClick={this.handleModal}>Ver Recursos</button> {/* Botón para abrir el modal */}
+          <button onClick={this.handleModal} className={styles.buttonResources}>Ver Recursos</button> {/* Botón para abrir el modal */}
           
           {isModalOpen && (
             <div className="modal fade show d-block" tabIndex="-1" style={{ display: 'block' }}>
@@ -167,16 +164,5 @@ class CharlaDetailsComponent extends Component {
     );
   }
 }
-
-CharlaDetailsComponent.propTypes = {
-  charla: PropTypes.shape({
-    idCharla: PropTypes.number.isRequired,
-    idRonda: PropTypes.number.isRequired,
-    descripcion: PropTypes.string.isRequired,
-    tiempo: PropTypes.string.isRequired,
-    fechaPropuesta: PropTypes.string.isRequired,
-    idEstadoCharla: PropTypes.string.isRequired,
-  }).isRequired
-};
 
 export default CharlaDetailsComponent;

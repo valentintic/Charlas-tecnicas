@@ -7,7 +7,7 @@ import 'slick-carousel/slick/slick-theme.css';
 
 
 createRoot(document.getElementById('root')).render(
-  // <StrictMode>
+  <StrictMode>
     <Router/>,
-  // </StrictMode>,
+  </StrictMode>,
 )
