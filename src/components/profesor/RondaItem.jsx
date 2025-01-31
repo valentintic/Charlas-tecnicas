@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { getCharlasCursoIdRonda } from '../../services/CharlasApi';  
 import { updateRondaProfesorAsync, deleteRondaProfesorAsync } from '../../services/ProfesorService';  
 import CharlaCard from './CharlaCard'; 
-import styles from './RondaItem.module.css'; 
+// import styles from './RondaItem.module.css'; 
+import './RondaItem.module.css'
 
 const RondaItem = ({ ronda, onDelete }) => {
   const [charlas, setCharlas] = useState([]);
@@ -69,13 +70,13 @@ const RondaItem = ({ ronda, onDelete }) => {
   };
 
   return (
-    <div className={styles.rondaItem}>
-      <div className={styles.rondaHeader}>
-        <div className={styles.rondaInfo}>
+    <div className="rondaItem">
+      <div className="rondaHeader">
+        <div className="rondaInfo">
           <h3>{ronda.nombre}</h3>
           <p>{formatDate(ronda.fechaPresentacion)} - {ronda.descripcionModulo}</p>
         </div>
-        <div className={styles.arrow}>▼</div>
+        <div className="arrow">▼</div>
         <button className="edit-button" onClick={handleEditClick}>
           {isEditing ? 'Cancelar' : 'Editar'}
         </button>
@@ -135,7 +136,7 @@ const RondaItem = ({ ronda, onDelete }) => {
         </form>
       ) : (
         showCharlas && (
-          <div className={styles.charlasContainer}>
+          <div className="charlasContainer">
             {charlas.length > 0 ? (
               charlas.map((charla) => <CharlaCard key={charla.idCharla} charla={charla} />)
             ) : (
