@@ -7,7 +7,8 @@ import AlumnosProfesorCurso from './AlumnosProfesorCurso';
 import UpdateEstadoCharlaAlumnosProfesor from './UpdateEstadoCharlaAlumnosProfesor';
 import GestionRondas from './../rondas/GestionRondas';
 import CrearCurso from './../profesor/CrearCurso';
-import RondasCursoProfesor from './../profesor/RondasCursoProfesor'; 
+import RondasCursoProfesor from './../profesor/RondasCursoProfesor';
+import CursosProfesor from './../profesor/CursosProfesor'; // Importamos el nuevo componente de CursosProfesor
 
 export default class UserProfileComponent extends Component {
   state = {
@@ -99,7 +100,24 @@ export default class UserProfileComponent extends Component {
                   </button>
                 )}
 
-                {/* 🔹 Nueva opción: Crear Curso (Solo para Profesores) */}
+                {/* Nueva opción: Cursos del Profesor */}
+                {userRole === "PROFESOR" && (
+                  <button
+                    className="nav-link text-start mb-2"
+                    id="v-pills-cursosprofesor-tab"
+                    data-bs-toggle="pill"
+                    data-bs-target="#v-pills-cursosprofesor"
+                    type="button"
+                    role="tab"
+                    aria-controls="v-pills-cursosprofesor"
+                    aria-selected="false"
+                    style={{ borderRadius: '0.5rem', fontWeight: '500' }}
+                  >
+                    Cursos del Profesor
+                  </button>
+                )}
+
+                {/* Mostrar "Crear Curso" solo para Profesores */}
                 {userRole === "PROFESOR" && (
                   <button
                     className="nav-link text-start mb-2"
@@ -130,23 +148,6 @@ export default class UserProfileComponent extends Component {
                     style={{ borderRadius: '0.5rem', fontWeight: '500' }}
                   >
                     Rondas del Curso
-                  </button>
-                )}
-
-                {/* 🔹 Nueva opción: Gestión de Rondas (Solo para Profesores) */}
-                {userRole === "PROFESOR" && (
-                  <button
-                    className="nav-link text-start mb-2"
-                    id="v-pills-gestionrondas-tab"
-                    data-bs-toggle="pill"
-                    data-bs-target="#v-pills-gestionrondas"
-                    type="button"
-                    role="tab"
-                    aria-controls="v-pills-gestionrondas"
-                    aria-selected="false"
-                    style={{ borderRadius: '0.5rem', fontWeight: '500' }}
-                  >
-                    Crear Ronda
                   </button>
                 )}
 
@@ -214,8 +215,14 @@ export default class UserProfileComponent extends Component {
                 )}
 
                 {userRole === "PROFESOR" && (
+                  <div className="tab-pane fade" id="v-pills-cursosprofesor" role="tabpanel">
+                    <CursosProfesor />
+                  </div>
+                )}
+
+                {userRole === "PROFESOR" && (
                   <div className="tab-pane fade" id="v-pills-charlas-curso" role="tabpanel">
-                    <RondasCursoProfesor /> 
+                    <RondasCursoProfesor />
                   </div>
                 )}
 
@@ -231,14 +238,14 @@ export default class UserProfileComponent extends Component {
                   </div>
                 )}
 
-                {/* 🔹 Contenedor de la pestaña "Crear Curso" */}
+                {/* Contenedor de la pestaña "Crear Curso" */}
                 {userRole === "PROFESOR" && (
                   <div className="tab-pane fade" id="v-pills-crear-curso" role="tabpanel">
                     <CrearCurso />
                   </div>
                 )}
 
-                {/* 🔹 Contenedor de la pestaña "Gestión de Rondas" */}
+                {/* Contenedor de la pestaña "Gestión de Rondas" */}
                 {userRole === "PROFESOR" && (
                   <div className="tab-pane fade" id="v-pills-gestionrondas" role="tabpanel">
                     <GestionRondas />
