@@ -1,7 +1,8 @@
-import  { useState } from 'react';
-import { postCreateCursoProfesorAsync } from './../../services/ProfesorService'; 
+import { useState } from 'react';
+import { postCreateCursoProfesorAsync } from './../../services/ProfesorService';
 
 const CrearCurso = () => {
+  const [idCurso, setIdCurso] = useState('');
   const [nombre, setNombre] = useState('');
   const [fechaInicio, setFechaInicio] = useState('');
   const [fechaFin, setFechaFin] = useState('');
@@ -12,31 +13,44 @@ const CrearCurso = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // Verificar que todos los campos estén completos
-    if (!nombre || !fechaInicio || !fechaFin) {
+    // Validación de campos requeridos
+    if (!idCurso || !nombre || !fechaInicio || !fechaFin) {
       setError('Todos los campos son requeridos');
       return;
     }
 
+    // Validar que el ID sea un número de 4 dígitos
+    if (!/^\d{4}$/.test(idCurso)) {
+      setError('El ID del curso debe ser un número de 4 dígitos');
+      return;
+    }
+
+    // Crear objeto con la estructura esperada
     const curso = {
+      idCurso: parseInt(idCurso), // Convertir el ID a un número
       nombre,
-      fechaInicio,
-      fechaFin,
-      activo,
+      fechaInicio: new Date(fechaInicio).toISOString(),
+      fechaFin: new Date(fechaFin).toISOString(),
+      activo
     };
 
+    console.log('Enviando curso:', curso); // ✅ Verificar en consola antes de enviar
+
     try {
-      const response = await postCreateCursoProfesorAsync(curso); // Llamada al servicio
+      const response = await postCreateCursoProfesorAsync(curso);
+      console.log('Respuesta del servidor:', response); // ✅ Verificar respuesta de la API
 
       if (response) {
         setSuccess('Curso creado exitosamente');
         setError(null);
+        setIdCurso('');
         setNombre('');
         setFechaInicio('');
         setFechaFin('');
         setActivo(true);
       }
     } catch (err) {
+      console.error('Error en la petición:', err); // ✅ Verificar error en consola
       setError('Hubo un error al crear el curso');
       setSuccess(null);
     }
@@ -50,11 +64,22 @@ const CrearCurso = () => {
 
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
-          <label htmlFor="nombre" className="form-label">Nombre del Curso</label>
+          <label className="form-label">ID del Curso</label>
           <input
             type="text"
             className="form-control"
-            id="nombre"
+            value={idCurso}
+            onChange={(e) => setIdCurso(e.target.value)}
+            required
+            maxLength={4}
+          />
+        </div>
+
+        <div className="mb-3">
+          <label className="form-label">Nombre del Curso</label>
+          <input
+            type="text"
+            className="form-control"
             value={nombre}
             onChange={(e) => setNombre(e.target.value)}
             required
@@ -62,11 +87,10 @@ const CrearCurso = () => {
         </div>
 
         <div className="mb-3">
-          <label htmlFor="fechaInicio" className="form-label">Fecha de Inicio</label>
+          <label className="form-label">Fecha de Inicio</label>
           <input
-            type="date"
+            type="datetime-local"
             className="form-control"
-            id="fechaInicio"
             value={fechaInicio}
             onChange={(e) => setFechaInicio(e.target.value)}
             required
@@ -74,11 +98,10 @@ const CrearCurso = () => {
         </div>
 
         <div className="mb-3">
-          <label htmlFor="fechaFin" className="form-label">Fecha de Fin</label>
+          <label className="form-label">Fecha de Fin</label>
           <input
-            type="date"
+            type="datetime-local"
             className="form-control"
-            id="fechaFin"
             value={fechaFin}
             onChange={(e) => setFechaFin(e.target.value)}
             required
@@ -86,15 +109,14 @@ const CrearCurso = () => {
         </div>
 
         <div className="mb-3">
-          <label htmlFor="activo" className="form-label">Activo</label>
+          <label className="form-label">Activo</label>
           <select
-            id="activo"
             className="form-select"
             value={activo}
             onChange={(e) => setActivo(e.target.value === 'true')}
           >
-            <option value="true">Activo</option>
-            <option value="false">Inactivo</option>
+            <option value="true">Sí</option>
+            <option value="false">No</option>
           </select>
         </div>
 
