@@ -1,184 +1,352 @@
 /* Contenedor de la lista de comentarios */
 .comentariosListContainer {
-    margin-top: 30px; /* Aumentar margen superior */
-    width: 100%; /* Aseguramos que el contenedor ocupe todo el ancho disponible */
-  }
-  
-  /* Encabezado de los comentarios */
-  .comentariosHeader {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  .comentariosHeader h2 {
-    font-size: 20px;
-    font-weight: 600;
-    color: #333;
-  }
-  
-  /* Estilos del botón "Mostrar/Ocultar comentarios" */
-  .btnToggle {
-    appearance: none;
-    background-color: #FFFFFF;
-    border-width: 0;
-    box-sizing: border-box;
-    color: #000000;
-    cursor: pointer;
-    display: inline-block;
-    font-family: Clarkson, Helvetica, sans-serif;
-    font-size: 14px;
-    font-weight: 500;
-    letter-spacing: 0;
-    line-height: 1em;
-    margin: 0;
-    opacity: 1;
-    outline: 0;
-    padding: 1.5em 2.2em;
-    position: relative;
-    text-align: center;
-    text-decoration: none;
-    text-rendering: geometricprecision;
-    text-transform: uppercase;
-    transition: opacity 300ms cubic-bezier(.694, 0, 0.335, 1),
-                background-color 100ms cubic-bezier(.694, 0, 0.335, 1),
-                color 100ms cubic-bezier(.694, 0, 0.335, 1);
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: manipulation;
-    vertical-align: baseline;
-    white-space: nowrap;
-  }
-  
-  .btnToggle:before {
-    animation: opacityFallbackOut .5s step-end forwards;
-    backface-visibility: hidden;
-    background-color: #EBEBEB;
-    clip-path: polygon(-1% 0, 0 0, -25% 100%, -1% 100%);
-    content: "";
-    height: 100%;
-    left: 0;
-    position: absolute;
-    top: 0;
-    transform: translateZ(0);
-    transition: clip-path .5s cubic-bezier(.165, 0.84, 0.44, 1),
-                -webkit-clip-path .5s cubic-bezier(.165, 0.84, 0.44, 1);
-    width: 100%;
-  }
-  
-  .btnToggle:hover:before {
-    animation: opacityFallbackIn 0s step-start forwards;
-    clip-path: polygon(0 0, 101% 0, 101% 101%, 0 101%);
-  }
-  
-  .btnToggle:after {
-    background-color: #FFFFFF;
-  }
-  
-  .btnToggle span {
-    z-index: 1;
-    position: relative;
-  }
-  
-  /* Estilos de los comentarios */
-  .comentariosList {
-    background-color: #ffffff;
-    border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    width: 100%;
-  }
-  
-  /* Cada comentario individual */
-  .comentarioItem {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 15px;
-    margin-bottom: 15px;
-    background-color: #f8f9fa;
-    border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  
-  /* Hover para los comentarios */
-  .comentarioItem:hover {
-    transform: scale(1.02);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  }
-  
-  /* Encabezado de cada comentario (nombre + fecha) */
-  .comentarioHeader {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    margin-bottom: 10px;
-    width: 100%;
-  }
-  
-  /* Avatar */
-  .avatar {
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid #dee2e6;
-    transition: border-color 0.3s ease;
-  }
-  
-  /* Hover para el avatar */
-  .avatar:hover {
-    border-color: #007bff;
-  }
-  
-  /* Nombre del usuario */
-  .comentarioItem h6 {
-    font-size: 16px;
-    font-weight: 600;
-    color: #495057;
-    margin-bottom: 5px;
-    display: inline-block;
-  }
-  
-  /* Fecha del comentario */
-  .comentarioItem small {
-    margin-left: 10px;
-    font-size: 12px;
-    color: #868e96;
-  }
-  
-  /* Contenido del comentario */
-  .comentarioItem p {
-    font-size: 15px;
-    color: #495057;
-    line-height: 1.6;
-    margin-top: 10px;
-    width: 100%;
-  }
-  
-  /* Botón de "Cargar más comentarios" */
-  .btnCargarMas {
-    background-color: #007bff;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 25px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    margin-top: 20px;
-    display: block;
-    width: 100%;
-  }
-  
-  .btnCargarMas:hover {
-    background-color: #0056b3;
-    transform: scale(1.05);
-  }
-  
-  .btnCargarMas:active {
-    transform: scale(1);
-  }
-  
+  margin-top: 30px; /* Aumentar margen superior */
+  width: 100%; /* Aseguramos que el contenedor ocupe todo el ancho disponible */
+}
+
+/* Encabezado de los comentarios */
+.comentariosHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.comentariosHeader h2 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+}
+
+/* Estilos del botón "Mostrar/Ocultar comentarios" */
+.btnToggle {
+  appearance: none;
+  background-color: #FFFFFF;
+  border-width: 0;
+  box-sizing: border-box;
+  color: #000000;
+  cursor: pointer;
+  display: inline-block;
+  font-family: Clarkson, Helvetica, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 1em;
+  margin: 0;
+  opacity: 1;
+  outline: 0;
+  padding: 1.5em 2.2em;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  text-rendering: geometricprecision;
+  text-transform: uppercase;
+  transition: opacity 300ms cubic-bezier(.694, 0, 0.335, 1),
+              background-color 100ms cubic-bezier(.694, 0, 0.335, 1),
+              color 100ms cubic-bezier(.694, 0, 0.335, 1);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+
+.btnToggle:before {
+  animation: opacityFallbackOut .5s step-end forwards;
+  backface-visibility: hidden;
+  background-color: #EBEBEB;
+  clip-path: polygon(-1% 0, 0 0, -25% 100%, -1% 100%);
+  content: "";
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  transform: translateZ(0);
+  transition: clip-path .5s cubic-bezier(.165, 0.84, 0.44, 1),
+              -webkit-clip-path .5s cubic-bezier(.165, 0.84, 0.44, 1);
+  width: 100%;
+}
+
+.btnToggle:hover:before {
+  animation: opacityFallbackIn 0s step-start forwards;
+  clip-path: polygon(0 0, 101% 0, 101% 101%, 0 101%);
+}
+
+.btnToggle:after {
+  background-color: #FFFFFF;
+}
+
+.btnToggle span {
+  z-index: 1;
+  position: relative;
+}
+
+/* Estilos de los comentarios */
+.comentariosList {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  width: 100%;
+}
+
+/* Cada comentario individual */
+.comentarioItem {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 15px;
+  margin-bottom: 15px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.comentarioInfo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width:50vh;
+}
+
+/* Hover para los comentarios */
+.comentarioItem:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Encabezado de cada comentario (nombre + fecha) */
+.comentarioHeader {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+/* Avatar */
+.avatar {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #dee2e6;
+  transition: border-color 0.3s ease;
+}
+
+/* Hover para el avatar */
+.avatar:hover {
+  border-color: #007bff;
+}
+
+/* Nombre del usuario */
+.comentarioItem h6 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #495057;
+  margin-bottom: 5px;
+  display: inline-block;
+}
+
+/* Fecha del comentario */
+.comentarioItem small {
+  margin-left: 10px;
+  font-size: 12px;
+  color: #868e96;
+}
+
+/* Contenido del comentario */
+.comentarioItem p {
+  font-size: 15px;
+  color: #495057;
+  line-height: 1.6;
+  margin-top: 10px;
+  width: 100%;
+}
+
+/* Botón de "Cargar más comentarios" */
+.btnCargarMas {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 25px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin-top: 20px;
+  display: block;
+  width: 100%;
+}
+
+.btnCargarMas:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+.btnCargarMas:active {
+  transform: scale(1);
+}
+
+/* Estilo general para los botones de acción (editar, eliminar, guardar, cancelar) */
+.btnComentario {
+  font-family: 'Helvetica', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  padding: 8px 16px;
+  border-radius: 25px;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.3s ease, transform 0.2s ease, color 0.2s ease;
+  outline: none;
+}
+
+/* Estilo para el botón de "Editar" */
+.btnEditar {
+  background-color: #28a745;
+  color: #ffffff;
+}
+
+.btnEditar:hover {
+  background-color: #218838;
+  transform: scale(1.05);
+}
+
+.btnEditar:active {
+  transform: scale(1);
+}
+
+/* Estilo para el botón de "Eliminar" */
+.btnEliminar {
+  background-color: #dc3545;
+  color: #ffffff;
+}
+
+.btnEliminar:hover {
+  background-color: #c82333;
+  transform: scale(1.05);
+}
+
+.btnEliminar:active {
+  transform: scale(1);
+}
+
+/* Estilo para el botón de "Guardar" */
+.btnGuardar {
+  background-color: #007bff;
+  color: #ffffff;
+}
+
+.btnGuardar:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+.btnGuardar:active {
+  transform: scale(1);
+}
+
+/* Estilo para el botón de "Cancelar" */
+.btnCancelar {
+  background-color: #6c757d;
+  color: #ffffff;
+}
+
+.btnCancelar:hover {
+  background-color: #5a6268;
+  transform: scale(1.05);
+}
+
+.btnCancelar:active {
+  transform: scale(1);
+}
+
+/* Estilo del contenedor de los botones dentro de cada comentario */
+.comentarioAcciones {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+  align-items: center;
+}
+
+/* Alineación para los botones dentro del modo de edición */
+.comentarioEdit {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.inputEditar {
+  padding: 8px 12px;
+  border: 1px solid #dee2e6;
+  border-radius: 25px;
+  font-size: 14px;
+  width: 200px;
+}
+
+.inputEditar:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* Estilos para los tres puntos del menú de acción */
+.comentarioAcciones {
+  position: relative;
+}
+
+/* Estilos para los tres puntos del menú de acción */
+.comentarioAcciones {
+  position: relative;
+}
+
+.tresPuntos {
+  font-size: 20px;
+  cursor: pointer;
+  color: #000000;
+  transition: color 0.3s ease;
+  margin-left: 40vh;
+  rotate: 90deg;
+}
+
+.tresPuntos:hover {
+  color: #007bff; /* Cambia el color al pasar el ratón */
+}
+
+/* Menú de opciones (editar, borrar) */
+.menuOpciones {
+  position: absolute;
+  top: 25px;
+  right: 0;
+  background-color: #343a40; /* Fondo más oscuro */
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  display: none;
+  flex-direction: column;
+  padding: 5px 10px;
+  z-index: 1;
+}
+
+/* Cuando el menú debe ser visible */
+.menuOpciones.show {
+  display: flex; /* Cambia display a flex cuando se debe mostrar */
+}
+
+.menuOpciones button {
+  background: none;
+  border: none;
+  color: #ffffff; /* Texto blanco */
+  font-size: 14px;
+  padding: 8px 0;
+  text-align: left;
+  width: 100%;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.menuOpciones button:hover {
+  background-color: #495057; /* Fondo más oscuro al pasar el ratón */
+}
+

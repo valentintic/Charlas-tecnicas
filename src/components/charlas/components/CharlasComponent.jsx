@@ -135,10 +135,22 @@ const CharlasComponent = ({ idRonda }) => {
                 );
               })}
             </Slider>
-            <div className="d-flex justify-content-between">
-              <button onClick={handlePrevious}>Anterior</button>
-              <button onClick={handleNext}>Siguiente</button>
-            </div>
+            <div className={styles.buttonContainer}>
+      <button className={styles.button3d } onClick={handlePrevious}>
+        <div className={styles.buttonTop}>
+          <span className="material-icons">❮</span>
+        </div>
+        <div className={styles.buttonBottom} />
+        <div className={styles.buttonBase} />
+      </button>
+      <button className={styles.button3d} onClick={handleNext}>
+        <div className={styles.buttonTop}>
+          <span className="material-icons">❯</span>
+        </div>
+        <div className={styles.buttonBottom} />
+        <div className={styles.buttonBase} />
+      </button>
+    </div>
           </div>
 
           {charlas[centeredIndex] && (
